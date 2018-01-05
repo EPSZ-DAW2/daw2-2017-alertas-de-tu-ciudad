@@ -1,0 +1,453 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Proyecto en Grupo - 2. Requisitos Iniciales</title>
+</head>
+<body>
+<div class="bloque" style="font-family:arial;font-size:1.25em;text-align:justify;border:1.5mm solid #508050;margin:0.25em;padding:1em;">
+
+<div class="titulo titulo1" style="margin:5mm;font-size:2.0em;font-weight:bold">Proyecto en Grupo</div>
+<div class="titulo titulo2" style="margin:5mm;font-size:1.5em;font-weight:bold">2. Requisitos Iniciales.</div>
+
+<br/>
+&nbsp;&nbsp;&nbsp;Se desea diseñar una aplicación web para la <strong>Publicación y Gestión de Alertas, Avisos, Sucesos, Eventos que ocurren en tu Ciudad o cercanías.</strong>.
+<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;La aplicación será un portal web en el que principalmente se podrán ver, buscar y consultar las Alertas que se activen en el sistema por cualquiera de los usuarios registrados o dados de alta en el sistema.
+<br/>
+&nbsp;&nbsp;&nbsp;Las búsquedas se deberán poder realizar mediante uno o varios filtros donde el resultado serán las alertas que cumplan el/los filtros. Los posibles filtros serán por etiquetas de alertas, clasificación de categorías, por fechas, por lugares, por estado, etc. El resultado se mostrará como una lista resumida de alertas, ordenada por fecha de forma predeterminada y paginada si son muchas.
+Podrá haber alertas que aún no sean visibles porque no están activadas o se han puesto invisibles por cualquier causa. 
+<br/>
+&nbsp;&nbsp;&nbsp;Se podrá elegir una alerta para visualizar su ficha en detalle, con todos los datos (públicos) que contenga: título, descripción, fecha/hora de aparición, duración (si se conoce), etiquetas, categoría, ubicación o lugar donde ocurre, imágen o imágenes de la alerta, etc.
+<br/>
+&nbsp;&nbsp;&nbsp;La aplicación además permitirá a los usuarios registrados crear nuevas alertas, introducir comentarios a las alertas o respuestas a comentarios, mantener su propia ficha de registro, entre otras funciones.
+<br/>
+<br/>
+
+
+<hr/>
+<div class="titulo titulo3" style="margin:5mm;font-size:1.0em;font-weight:bold">Requerimientos en general:</div>
+<div style="text-align:justify;margin:0em">
+<ul type="none" style="padding-left:1.25em">
+  <li>- Categorias de Alertas/Avisos/Sucesos/Eventos.</li>
+  <li>- Etiquetas.</li>
+  <li>- </li>
+  <li>- Titulo, Descripción, Horario(Inicio-Fin).</li>
+  <li>- Ubicacion del lugar (localización, gps, punto manual): <br/>
+  <span style="padding-left:1.75em; display:inline-block">
+  Posible Continente, Pais, Región, Provincia, Municipio, Localidad, 
+  Población, Zona, ..., Dirección, Latitud, Longitud, Altura
+  </span>
+  </li>
+  <li>- Usuario publicador, FechaHora publicación, Estado??</li>
+  <li>- Reporte de Usuarios -> Parte de Moderación.</li>
+  <li>- Temporizador de control de actividad según el aviso/evento. (Caducidad x FH modificacion/ultimo cambio.</li>
+  <li>- Galería de Fotos / Imagenes.</li>
+  <li>- Comentarios (Usuarios Registrados)...</li>
+  <li>- Comentarios Privados?</li>
+  <li>- Comentarios: Bloquear, Corregir, Cerrar Hilo, ...</li>
+  <li>- Valoraciones...</li>
+  <li>- Conexión Redes Sociales...</li>
+  <li>- </li>
+  <li>- Mapa / Vista de Alertas...</li>
+  <li>- Vista de Gestión...</li>
+  <li>- Registro de Usuarios</li>
+  <li>- Login/Logout de Usuarios.</li>
+  <li>- Usuarios: Invitado, Normal, Moderador, Administrador, Sistema.</li>
+  <li>-</li> 
+  <li> </li>
+  <li>- Mantenimiento:</li>
+		<li>- Copias de Seguridad (BD+Ficheros) y Restauración.</li>
+		<li>- Envío de Correos.</li>
+		<li>- Borrado de Datos "Caducados".</li>
+  <li>- Gestión Incidencias: Fallos del Sitio, etc... </li>
+</ul>
+</div>
+
+
+<hr/>
+<div class="titulo titulo3" style="margin:5mm;font-size:1.0em;font-weight:bold">Requerimientos por secciones o grupos de información:</div>
+<div style="text-align:justify;margin:0em">
+<ul>
+  <li><strong>Mantenimiento de Alertas (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Administrar</li>
+      <li>- Nueva (N,M,A)</li>
+      <li>- Modificar (N*,M,A)</li>
+      <li>- Consultar (N,M,A)</li>
+      <li>- Eliminar (N*,M,A) (si no hay vinculos)</li>
+      <li>- Etiquetas (Ver Mantenimiento de Etiquetas Interno)</li>
+      <li>- Categorias (Ver Mantenimiento de Categorias Interno)</li>
+      <li>- Ubicación (Ver Mantenimiento de Ubicaciones Interno)</li>
+      <li>- Imagenes (Ver Mantenimiento de Imagenes Interno y Externo)</li>
+      <li>- Comentarios (Ver Mantenimiento de Comentarios Interno)</li>
+      <li>- Cierre, Finalización, Desactivación de Alerta (N*,N@,M,A)</li>
+      <li>- Caducidad de Alerta (M,A) por Tiempo de Último Uso/Modificación/Cambio.</li>
+      <li>- Bloquear Hilo de Comentarios (N*,M,A) (invisible?)</li>
+      <li>- Cerrar Hilo de Comentarios (N*,M,A)</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Alertas (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Nueva (N)</li>
+      <li>- Modificar/Corregir (N*)</li>
+      <li>- Consulta (Vista de la Ficha de la Alerta)</li>
+      <li>- Comentarios vinculados (Ver Mantenimiento Comentarios Externo)</li>
+      <li>- Ubicación (Ver Mantenimiento de Ubicaciones Externo)</li>
+      <li>- Cierre, Finalización, Desactivación de Alerta (N*,N@,M,A)</li>
+      <li>- Denunciar Alerta (Incidencia para que sea gestionada) (N,M,A)</li>
+      <li>- Ver resultados de busquedas por Fichas / Lista, Paginados, Ordenados, ..., con acceso a la Ficha detalle.</li>
+      <li>- Ver resultados de busquedas por Mapa de Ubicación, ..., con acceso a la Ficha detalle.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Etiquetas (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Administrar</li>
+      <li>- Nueva</li>
+      <li>- Modificar/Corregir</li>
+      <li>- Consultar</li>
+      <li>- Eliminar</li>
+      <li>- Ver Categorias donde aparece</li>
+      <li>- Ver Alertas donde aparece</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Etiquetas (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Buscar Alertas x Etiquetas de una entrada de texto o similar.</li>
+      <li>- Proponer nuevas etiquetas o cambios a las existentes (Incidencia...)</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Categorias (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Administrar</li>
+      <li>- Nueva</li>
+      <li>- Modificar</li>
+      <li>- Consultar</li>
+      <li>- Eliminar</li>
+      <li>- Asociar, Quitar Etiquetas</li>
+      <li>- Enlazar Categorias con Subcategorias.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Categorias (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Vista de Categorías por árbol como un menú o similar</li>
+      <li>- Enlace a la búsqueda de Alertas x Categorias según la seleccionada.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Ubicaciones (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Administrar</li>
+      <li>- Nueva</li>
+      <li>- Modificar</li>
+      <li>- Consultar</li>
+      <li>- Eliminar</li>
+      <li>- Enlazar Ubicaciones dependientes entre sí</li>
+      <li>- Revisar Ubicaciones "libres" en Alertas: todas, nuevas, por fechas, no revisadas o similar.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Ubicaciones (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Vista de Ubicaciones por selectores dependientes, o por buscador activo, o similar.</li>
+      <li>- Enlace a la búsqueda de Alertas según ubicación seleccionada.</li>
+      <li>- Vista de selección de ubicación por Mapa.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Imagenes (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Nueva (subir imagen + crear registro + almacenar fichero)</li>
+      <li>- Modificar/Sustituir (subir imagen / subir nueva + almacenar fichero)</li>
+      <li>- Consultar (ver lista de imagenes, nombres de fichero, ocupación en disco, ...)</li>
+      <li>- Eliminar (eliminar fichero + borrar registro)</li>
+      <li>- Revisar Imagenes: todas, nuevas, por fechas, no revisadas o similar.</li>
+      <li>*** Diseñar Algoritmo de gestión de carpetas/rutas de almacenamiento para evitar 
+          almacenar demasiados archivos en la misma carpeta que afecte al rendimiento
+          del sistema de ficheros subyacente. Ej: "Id" clave descomponerlo bajo un factor
+          de ocupación y tendremos varios "subId" que marcarán la ruta para las carpetas
+          donde almacenar el archivo, o crear un "Imagen Id" mediante un UUID y usarlo
+          como base para descomponerlo en diferentes subcarpetas dependiendo de un 
+          hash asociado.
+      </li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Imagenes (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Pieza para ver Imagen y/o Imágenes en la ficha de la Alerta.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Comentarios (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Nuevo</li>
+      <li>- Modificar (Corregir)</li>
+      <li>- Consultar</li>
+      <li>- Eliminar</li>
+      <li>- Bloquear Hilo (hacerlo invisible o no?)</li>
+      <li>- Cerrar Hilo</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Comentarios (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Verlos dentro de cada Ficha de Alerta:</li>
+      <li>&nbsp;&nbsp;&nbsp;a). Ver por Fecha/Hora y Paginados.</li>
+      <li>&nbsp;&nbsp;&nbsp;b). Ver por Arbol hasta 3/4 niveles de profundidad y ampliar bajo petición.</li>
+      <li>- Agregar Comentario a Alerta (N,M,A)</li>
+      <li>- Responder Comentario (Agregar Comentario a Comentario) (N,M,A)</li>
+      <li>- Denunciar Comentario (Incidencia para que sea gestionada) (N,M,A)</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Usuarios (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Nuevo</li>
+      <li>- Modificar: Corregir su ficha de registro.</li>
+      <li>- Consultar</li>
+      <li>- Eliminar: Si no tiene dependencias.</li>
+      <li>- Revisar Registro de Usuarios: todos, nuevos, por fechas, no revisados o similar.</li>
+      <li>- Bloquear Usuario: manual, automatico x N fallos de acceso.</li>
+      <li>- Revisar / Responder Incidencias de usuarios.</li>
+      <li>- Cambiar Perfil</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Usuarios (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Registro: Crear Nuevo sin confirmar y envío de correo para confirmarlo.</li>
+      <li>- Confirmar: Modificar estado de confirmación del usuario registrado como nuevo.</li>
+      <li>- Login: Acceder a la aplicación, sólo si está confirmado y no bloqueado.</li>
+      <li>- Logout: Salir de la aplicación.</li>
+      <li>- Modificar: Modificar/Corregir sus propia ficha de datos, login?, contraseña.</li>
+      <li>- Eliminar: Crear una Incidencia solicitando la Baja.</li>
+      <li>- Crear Incidencia: Crear una Incidencia con un mensaje de aviso, notificación, etc.</li>
+      <li>- Ver Incidencias: Mostrar las incidencias del usuario y su estado.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Incidencias (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Nueva</li>
+      <li>- Modificar</li>
+      <li>- Consultar</li>
+      <li>- Eliminar</li>
+      <li>- Revisar / Responder Incidencia: todas, nuevas, por fechas, no revisadas o similar.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Incidencias (Externo):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Denunciar Alerta (Incidencia para que sea gestionada)</li>
+      <li>- Denunciar Comentario (Incidencia para que sea gestionada)</li>
+      <li>- Solicitar Baja de Usuario.</li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Mantenimiento de Procesos (Interno):</strong>
+    <ul type="none" style="padding-left:0.25em">
+      <li>- Mantenimiento de Configuración del Sistema.</li>
+      <li>- Mantenimiento de Logs del Sistema.</li>
+      <li>- Copias de Seguridad, Restauración.</li>
+      <li>- Control de Alertas No terminadas (Caducadas, etc).</li>
+      <li>- Control de Usuarios No confirmados.</li>
+      <li>- Control de Usuarios Bloqueados.</li>
+      <li>- Control de Incidencias No procesadas.</li>
+      <li>- ...</li>
+    </ul>
+  </li>
+  <br/>
+  
+</ul>
+</div>
+
+<hr/>
+<div class="titulo titulo3" style="margin:5mm;font-size:1.0em;font-weight:bold">Requisitos de Información / Datos:</div>
+<div style="text-align:justify;margin:0em">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*** Información y Datos que debe almacenar y manejar el sistema para proporcionar las funcionalidades indicadas en los requisitos.
+<ul>
+  <li><strong>Alerta: </strong>Elemento con &rarr; 
+  título, descripción, 
+  fecha/hora inicio, duración estimada, 
+  Lugar, detalles, notas, url externa (dirección web opcional), 
+  Imagen principal, [Imágenes adicionales,] 
+  Etiquetas, Categoría, 
+  Estados de alerta, 
+  Registro de usuario, 
+  notas administrador, 
+  Comentarios.
+  </li>
+  <br/>
+  
+  <li><strong>Lugar: </strong>Son las posibles ubicaciones. Sustituto de &rarr; dirección, notas del lugar, Área.
+  </li>
+  <br/>
+  
+  <li><strong>Área: </strong>Alguna de las formas de tener ubicaciones relacionadas:
+  <br/>
+    <ul type="decimal">
+      <li>Sustituto de &rarr; código de clase de área, [País | Estado | Provincia | Poblacion | Zona | ...].
+      <br/>
+      *** Se deben fijar desde el diseño clases de datos relacionadas entre sí de forma jerarquizada. En esta opción, se deben &quot;identificar&quot; las diferentes clases por un código de clase (número o letra) para la implementación en la base de datos, como por ejemplo: 1=Pais, 2=Estado, 3=Provincia, 4=Poblacion, 5=Zona, ...
+      <ul>
+        <li><strong>País: </strong>nombre, código internacional de país, código idioma (si se considera útil para la identificación automática del idioma y localización)</li>
+        <li><strong>Estado: </strong>nombre, País. *** Considerar el Estado como Comunidad Autónoma, Región o similar.</li>
+        <li><strong>Provincia: </strong>nombre, Estado</li>
+        <li><strong>Población: </strong>nombre, Provincia</li>
+        <li><strong>Zona: </strong>nombre, Población</li>
+        <li>...</li>
+      </ul>
+      </li>
+      <li>Elemento con &rarr; código de clase de área (por ejemplo: 
+      0=Planeta, 1=Continente, 2=Pais, 3=Estado, 4=Region, 5=Provincia, 
+      6=Municipio, 7=Localidad, 8=Barrio, 9=Zona), nombre, Área padre.
+      <br/>
+      *** Agrupar las posibles áreas en un conjunto en el que la jerarquía se realiza por auto-relaciones, y donde un elemento de clase N sólo puede estar relacionado con un elemento padre de clase <strong>&lt;N</strong>, o lo que es lo mismo, o N-1, o N-2, ..., o 1, o 0 (CERO).
+      <br/>
+      *** En este caso, los códigos de clase se pueden fijar desde un primer momento y tener la lista disponible desde código o como una enumeración en la base de datos.
+      </li>
+    </ul>
+  </li>
+  <br/>
+    
+  <li><strong>Imagen: </strong>Sustituto de &rarr; nombre (identificador de archivo externo en carpeta predefinida -ruta escribible por el servidor web-) o campo binario con la imagen subida, revisada (lógico), Registro de Usuario, notas administrador.
+  </li>
+  <br/>
+  
+  <li><strong>Imágenes: </strong>Elemento con &rarr; Imagen, Actividad. *** Relaciona una imagen con una actividad con lo que se pueden tener múltiples imágenes por actividad.
+  </li>
+  <br/>
+  
+  <li><strong>Etiquetas de Alerta: </strong>Sustituto de relación que vincula una etiqueta con una alerta, puede ser una de la opciones:
+    <ul type="decimal">
+      <li>Elemento con &rarr; Etiqueta, Alerta. *** Relaciona ambas clases de objeto. En este caso debe definirse:
+        <ul>
+          <li><strong>Etiqueta: </strong>Elemento con &rarr; nombre. 
+          *** Un conjunto de palabras clave utilizadas para identificar y clasificar de diferentes maneras las alertas.
+          </li>
+        </ul>
+      </li>
+      <li>Sustituto de &rarr; etiquetas_id. *** Una lista de identificadores de Etiqueta con los que se relaciona la alerta.
+      </li>
+      <li>Sustituto de &rarr; etiquetas_nombre. *** Una lista de datos &quot;nombre&quot; de las propias etiquetas con las que se relaciona la alerta.
+      </li>
+    </ul>
+    *** En el caso de usar listas serían cadenas de datos separados por comas, teniendo especial cuidado en que la coma no aparezca en el propio contenido de los datos.
+    <br/>
+    *** Para gestionar adecuadamente las etiquetas de nueva creación propuestas por los usuarios, se generará una incidencia para los moderadores o administradores que indique la etiqueta creada, la fecha/hora del momento y el usuario que lo ha realizado para que tengan constancia de ello y se pueda revisar / actuar en consecuencia.
+  </li>
+  <br/>
+  
+  <li><strong>Categoría: </strong>Por una parte, desde el punto de vista de la alerta, es un sustituto de relación que vincula a la alerta con una clasificación de ellas, dadas por el conjunto de Categorías configuradas por los administradores del sistema. Por otra parte, desde el punto de vista de las propias Categorías, es un elemento de un conjunto jerarquizado de agrupación/categoría de etiquetas elaborado por los administradores del portal, el cual sería un elemento con &rarr; nombre, descripción, Categoría padre. Para identificar la propia categoría y posteriormente incluir en ella las etiquetas relacionadas:
+    <ul>
+      <li><strong>Etiquetas de Categoría: </strong>Elemento de relación entre una Categoría y una serie de etiquetas, con &rarr; Categoría, Etiqueta.
+      </li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Categorías: </strong>Conjunto de categorías dentro del sistema. Es una serie de elementos de tipo &rarr; Categoría.
+  </li>  
+  <br/>
+
+  <li><strong>Estados de Alerta: </strong>Sustituto de &rarr; activada (lógico), visible (lógico), terminada (0:No, 1:Realizada, 2:Suspendida, 3:Cancelada por inadecuada), fecha/hora de terminación, motivo de terminación, número denuncias, fecha/hora de la primera denuncia, bloqueada (0:No, 1:Si,bloqueada por denuncias, 2:Si,bloqueada por administrador, 3:Si,bloqueada por moderador), Usuario bloqueador (o NULO si no hay o lo hizo el sistema automáticamente), fecha/hora del bloqueo, motivo del bloqueo.
+  </li>
+  <br/>
+  
+  <li><strong>Comentarios: </strong>Sustituto de relación que vincula una alerta con una serie de comentarios realizados por los usuarios del sistema. Es un elemento con &rarr; Alerta, Comentario.
+  </li>  
+  <br/>
+
+  <li><strong>Comentario: </strong>Sustituto de &rarr;
+  Registro de usuario, texto, Comentario padre, cerrado (lógico), número denuncias, fecha/hora de la primera denuncia, bloqueado (0:No, 1:Si, por denuncias, 2:Si, por administrador, 3:Si, por moderador), Usuario bloqueador, fecha/hora del bloqueo, motivo del bloqueo. 
+  </li>  
+  <br/>
+  
+  <li><strong>Registro de usuario: </strong>Sustituto de &rarr; 
+    fecha/hora de creación, Usuario creador, fecha/hora de modificación, Usuario modificador.
+    <br/>
+    *** Sirve tanto para relacionar algún elemento de información con los usuarios que lo han creado y/o modificado, como para conocer el momento de cuando lo han realizado.
+  </li>
+  <br/>
+  
+  <li><strong>Usuario: </strong>Elemento con &rarr; email, password, nick, nombre, apellidos, fecha_nacimiento (opcional), dirección (opcional), Área de localización (se recomienda obligatoria), rol (N:Normal, M:Moderador, A:Administrador), fecha/hora de registro, registro confirmado, ultimo acceso, intentos acceso, bloqueado (0:No, 1:Si, por fallos de acceso, 2:Si, por administrador, 3:Si, por moderador), Usuario bloqueador, fecha/hora del bloqueo, motivo del bloqueo, Áreas de moderación, Comentarios, Alertas, Incidencias.
+    <ul>
+      <li><strong>Áreas de moderación: </strong>Sustituto de relación que vincula un usuario con un área de influencia para actuar como moderador dentro de ella. Se utiliza a la hora de aplicar/validar los permisos de acceso a las opciones de moderación por áreas. Es un elemento con &rarr; Usuario, Área.
+      </li>
+      <li><strong>Comentarios, Alertas: </strong>Datos/Tablas relacionadas ya comentadas más arriba.
+      </li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Incidencias: </strong>Sustituto de relación que vincula un usuario con una notificación dentro del sistema, y opcionalmente con un usuario destino, Alerta, Comentario. Es una serie de elementos de tipo &rarr; Incidencia.
+  </li>  
+  <br/>
+
+  <li><strong>Incidencia: </strong>Elemento con &rarr; 
+  fecha/hora, 
+  código de clase de aviso (A:Aviso, N:Notificación, D:Denuncia, C:Consulta, M:Mensaje Genérico, ...), texto,
+  Usuario destino (NULO si es para un moderador o administrador y no se conoce su usuario o aún no ha sido aceptada la incidencia por uno de ellos),
+  Usuario origen (NULO si es generada por el sistema),
+  Alerta (NULO si no está relacionada con una alerta),
+  Comentario (NULO si no está relacionada con un comentario),
+  fecha/hora de lectura (NULO si no se ha leído o se ha desmarcado como leído),
+  fecha/hora de borrado (NULO si no se ha borrado),
+  fecha/hora de aceptación (NULO si no se ha aceptado para su gestión por un moderador o administrador, no usado en otros usuarios).
+  <br/>
+  *** Una incidencia pasa a estar &quot;leída&quot; si el usuario destino la abre estando a NULO la fecha/hora de lectura. Si el usuario lo desea, puede cambiarlo a &quot;no leída&quot;; en este caso se establace a NULO el dato.
+  <br/>
+  *** Una incidencia pasa a estar &quot;borrada&quot; si el usuario destino la marca como tal, o se realiza el proceso de pre-borrado automático según los días que han transcurrido desde su lectura. No podrá pasar a borrada si la incidencia no está aceptada en caso de ser para un moderador o administrador. En este estado la incidencia se eliminará definitivamente del sistema cuando se realice el proceso de borrado automático y hayan transcurrido los días configurados para ello. Mientras una incidencia no se borre definitivamente, el usuario podrá cambiar su estado a &quot;no borrada&quot;; en este caso se establace a NULO el dato de la fecha/hora de borrado.
+  <br/>
+  *** Una incidencia pasa a estar &quot;aceptada&quot; si el usuario destino es un moderador o administrador que la marca para gestionarla. En el caso de que el usuario destino sea NULO, cualquier moderador o administrador de la zona de influencia de la incidencia podrá aceptarla, momento en el que se completará el dato con el usuario que la ha aceptado. Si una incidencia no ha sido aceptada, no podrá ser marcada como borrada.
+  </li>
+  <br/>
+
+  <li><strong>Configuraciones: </strong>Será un elemento con &rarr; variable, valor. Concretamente un conjunto de información que servirá para establecer datos más o menos fijos (invariables en el tiempo) que se utilizan en la aplicación durante su ejecución. Por ejemplo...
+    <ul type="disc">
+      <li><strong>numero_alertas_portada:</strong> el número máximo de alertas más relevantes para los bloques de la página principal, </li>
+      <li><strong>numero_lineas_pagina:</strong> el número máximo de líneas por página de datos en las diferentes gestiones, </li>
+      <li><strong>numero_denuncias_alerta:</strong> el número mínimo de denuncias para una alerta antes de ser bloqueada, </li>
+      <li><strong>numero_denuncias_comentario:</strong> el número mínimo de denuncias para un comentario antes de ser bloqueado, </li>
+      <li><strong>numero_intentos_usuario:</strong> el número mínimo de intentos de acceso de un usuario antes de ser bloqueado, </li>
+      <li><strong>dias_incidencias_leidas:</strong> el intervalo de tiempo en días desde que una incidencia se marca como leida hasta que se marca como borrada, </li>
+      <li><strong>dias_incidencias_borradas:</strong> el intervalo de tiempo en días desde que una incidencia se marca como borrada hasta que se elimina definitivamente de la base de datos. </li>
+      <li>... </li>
+    </ul>
+  </li>
+  <br/>
+  
+  <li><strong>Logs: </strong>Elemento con &rarr; fecha/hora, clase del nivel de log (E:Error, A:Aviso, I:Información, D:Depuración), modulo aplicación, texto.
+  </li>
+  <br/>
+  
+</ul>
+</div>
+
+
+</div>
+
+</body>
+</html>

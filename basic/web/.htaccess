@@ -1,0 +1,6 @@
+RewriteEngine on
+# Si la peticion es de un directorio o de un fichero que existe, lo devolvemos directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Si no, enviamos la petición a index.php
+RewriteRule . index.php
