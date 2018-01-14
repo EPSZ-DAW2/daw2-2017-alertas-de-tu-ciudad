@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UsuarioIncidencia;
+use app\models\CategoriasEtiquetas;
 
 /**
- * UsuarioIncidenciaSearch represents the model behind the search form about `app\models\UsuarioIncidencia`.
+ * CategoriasEtiquetasSearch represents the model behind the search form about `app\models\CategoriasEtiquetas`.
  */
-class UsuarioIncidenciaSearch extends UsuarioIncidencia
+class CategoriasEtiquetasSearch extends CategoriasEtiquetas
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class UsuarioIncidenciaSearch extends UsuarioIncidencia
     public function rules()
     {
         return [
-            [['id', 'destino_usuario_id', 'origen_usuario_id', 'alerta_id', 'comentario_id'], 'integer'],
-            [['crea_fecha', 'clase_incidencia_id', 'texto', 'fecha_lectura', 'fecha_borrado', 'fecha_aceptado'], 'safe'],
+            [['id', 'categoria_id', 'etiqueta_id'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class UsuarioIncidenciaSearch extends UsuarioIncidencia
      */
     public function search($params)
     {
-        $query = UsuarioIncidencia::find();
+        $query = CategoriasEtiquetas::find();
 
         // add conditions that should always apply here
 
@@ -60,18 +59,9 @@ class UsuarioIncidenciaSearch extends UsuarioIncidencia
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'Fecha de creación' => $this->crea_fecha,
-            'destino_usuario_id' => $this->destino_usuario_id,
-            'origen_usuario_id' => $this->origen_usuario_id,
-            'alerta_id' => $this->alerta_id,
-            'comentario_id' => $this->comentario_id,
-            'fecha_lectura' => $this->fecha_lectura,
-            'fecha_borrado' => $this->fecha_borrado,
-            'fecha_aceptado' => $this->fecha_aceptado,
+            'categoria_id' => $this->categoria_id,
+            'etiqueta_id' => $this->etiqueta_id,
         ]);
-
-        $query->andFilterWhere(['like', 'clase_incidencia_id', $this->clase_incidencia_id])
-            ->andFilterWhere(['like', 'texto', $this->texto]);
 
         return $dataProvider;
     }
