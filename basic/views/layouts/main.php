@@ -45,7 +45,7 @@ AppAsset::register($this);
 				/*
 				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
             Yii::$app->user->isAdmin ? (
-                ['label' => 'Etiquetas', 'url' => ['/views/etiquetas']]
+                ['label' => 'Etiquetas', 'url' => ['/etiquetas/index']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
