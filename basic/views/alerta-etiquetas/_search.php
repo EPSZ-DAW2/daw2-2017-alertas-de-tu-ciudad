@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\EtiquetasSearch */
+/* @var $model app\models\AlertaEtiquetasSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="etiquetas-search">
+<div class="alerta-etiquetas-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,7 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'nombre') ?>
+    <?= $form->field($model, 'alerta_id') ?>
+
+    <?= $form->field($model, 'etiqueta_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

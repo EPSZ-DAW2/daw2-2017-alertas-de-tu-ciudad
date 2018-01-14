@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Etiquetas */
+/* @var $model app\models\AlertaEtiquetas */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Etiquetas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Alerta Etiquetas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="etiquetas-view">
+<div class="alerta-etiquetas-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'nombre',
+            'alerta_id',
+            'etiqueta_id',
         ],
     ]) ?>
 
