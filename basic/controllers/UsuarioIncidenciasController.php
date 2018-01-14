@@ -51,10 +51,11 @@ class UsuarioIncidenciasController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$yo=Yii::$app->user->identity->id;
 	  // $dataProvider= new SqlDataProvider(['sql' => 'SELECT * FROM usuario_incidencias']);
-	   $dataProvider->query->andWhere("(clase_incidencia_id='N' or 
+	   /*$dataProvider->query->andWhere("(clase_incidencia_id='N' or 
 	   (clase_incidencia_id='M' and (destino_usuario_id=.'$yo'. or origen_usuario_id=.'$yo'.)) or 
 	   (clase_incidencia_id='C' and origen_usuario_id=.'$yo'. ) or 
-	   (clase_incidencia_id='A' and destino_usuario_id=.'$yo'. ) )");
+	   (clase_incidencia_id='A' and destino_usuario_id=.'$yo'. ) )");*/
+	   
 		$dataProvider->pagination = ['pageSize' => $paginacion];
 		
 		//modificar para que solo coja unos y dependiendo el rol coger unos parametros un otros

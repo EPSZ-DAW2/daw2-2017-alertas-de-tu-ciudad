@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Etiquetas;
-use app\models\EtiquetasSearch;
+use app\models\AlertaEtiquetas;
+use app\models\AlertaEtiquetasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * EtiquetasController implements the CRUD actions for Etiquetas model.
+ * AlertaEtiquetasController implements the CRUD actions for AlertaEtiquetas model.
  */
-class EtiquetasController extends Controller
+class AlertaEtiquetasController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Lists all Etiquetas models.
+     * Lists all AlertaEtiquetas models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new EtiquetasSearch();
+        $searchModel = new AlertaEtiquetasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Displays a single Etiquetas model.
+     * Displays a single AlertaEtiquetas model.
      * @param string $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Creates a new Etiquetas model.
+     * Creates a new AlertaEtiquetas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Etiquetas();
+        $model = new AlertaEtiquetas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Updates an existing Etiquetas model.
+     * Updates an existing AlertaEtiquetas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -94,7 +94,7 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Deletes an existing Etiquetas model.
+     * Deletes an existing AlertaEtiquetas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -107,15 +107,15 @@ class EtiquetasController extends Controller
     }
 
     /**
-     * Finds the Etiquetas model based on its primary key value.
+     * Finds the AlertaEtiquetas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Etiquetas the loaded model
+     * @return AlertaEtiquetas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Etiquetas::findOne($id)) !== null) {
+        if (($model = AlertaEtiquetas::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
