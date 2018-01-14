@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+//if (Yii::$app->user->isAdmin()) {
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategoriasEtiquetasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

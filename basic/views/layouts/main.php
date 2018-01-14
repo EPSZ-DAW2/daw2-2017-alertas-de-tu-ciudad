@@ -39,9 +39,21 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-				['label' => 'Etiquetas', 'url' => ['/etiquetas/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+				
+				/*
+				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
+            Yii::$app->user->isAdmin ? (
+                ['label' => 'Etiquetas', 'url' => ['/views/etiquetas']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::endForm()
+                . '</li>'
+            ),
+				*/
+				
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -70,7 +82,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Daw2 Alertas <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
