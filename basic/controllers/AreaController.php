@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\CategoriasEtiquetas;
-use app\models\CategoriasEtiquetasSearch;
-use app\models\CategoriasSearch;
+use app\models\Area;
+use app\models\AreaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CategoriasEtiquetasController implements the CRUD actions for CategoriasEtiquetas model.
+ * AreaController implements the CRUD actions for Area model.
  */
-class CategoriasEtiquetasController extends Controller
+class AreaController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +30,12 @@ class CategoriasEtiquetasController extends Controller
     }
 
     /**
-     * Lists all CategoriasEtiquetas models.
+     * Lists all Area models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CategoriasEtiquetasSearch();
+        $searchModel = new AreaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,9 +45,10 @@ class CategoriasEtiquetasController extends Controller
     }
 
     /**
-     * Displays a single CategoriasEtiquetas model.
+     * Displays a single Area model.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
@@ -58,28 +58,29 @@ class CategoriasEtiquetasController extends Controller
     }
 
     /**
-     * Creates a new CategoriasEtiquetas model.
+     * Creates a new Area model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CategoriasEtiquetas();
+        $model = new Area();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Updates an existing CategoriasEtiquetas model.
+     * Updates an existing Area model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
@@ -87,18 +88,19 @@ class CategoriasEtiquetasController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Deletes an existing CategoriasEtiquetas model.
+     * Deletes an existing Area model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
@@ -108,38 +110,18 @@ class CategoriasEtiquetasController extends Controller
     }
 
     /**
-     * Finds the CategoriasEtiquetas model based on its primary key value.
+     * Finds the Area model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return CategoriasEtiquetas the loaded model
+     * @return Area the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CategoriasEtiquetas::findOne($id)) !== null) {
+        if (($model = Area::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-	 
-	  /**
-     * Displays a single CategoriasEtiquetas model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionCatego($id)
-    {
-		 $searchModel = new CategoriasEtiquetasSearch(['etiqueta_id' => $id]);
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		 
-		 
-        return $this->render('catego', [
-            'model' => $this->findModel($id),
-				'datos' => 'prueba',
-				'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-	
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\CategoriasEtiquetas */
+/* @var $model app\models\Area */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Categorias Etiquetas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Areas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="categorias-etiquetas-view">
+<div class="area-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -23,16 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-		  
-		  <?= Html::a('Ver categorias donde aparece', ['catego', 'id' => $model->etiqueta_id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'categoria_id',
-            'etiqueta_id',
+            'clase_area_id',
+            'nombre',
+            'area_id',
         ],
     ]) ?>
 
