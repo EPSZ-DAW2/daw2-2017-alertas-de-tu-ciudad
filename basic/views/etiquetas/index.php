@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+//if (Yii::$app->user->isAdmin) {
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EtiquetasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -31,3 +33,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+<?php //}//if comprobación Admin?>
