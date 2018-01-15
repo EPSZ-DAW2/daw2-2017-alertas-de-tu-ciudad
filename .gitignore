@@ -6,3 +6,5 @@ protected/data/*.db
 themes/classic/views/
 vendor/*
 !vendor/README.md
+basic/web/uploads/*
+!basic/web/uploads/.htaccess
