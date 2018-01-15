@@ -5,9 +5,4 @@ protected/runtime/*
 protected/data/*.db
 themes/classic/views/
 vendor/*
-<<<<<<< HEAD
 !vendor/README.md
-basic/runtime/*
-=======
-!vendor/README.md
->>>>>>> ubicaciones
