@@ -20,6 +20,8 @@ use Yii;
  */
 class AlertaImagen extends \yii\db\ActiveRecord
 {
+    
+    
     /**
      * @inheritdoc
      */
@@ -69,4 +71,11 @@ class AlertaImagen extends \yii\db\ActiveRecord
     {
         return new AlertaImagenQuery(get_called_class());
     }
+    
+    public static function Obtener_Imagen_UUID()
+    {
+        $post = Yii::$app->db->createCommand('SELECT UUID()')->query();
+        return implode($post->read());
+    }
+    
 }
