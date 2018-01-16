@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'alerta_id',
             'crea_usuario_id',
-            'crea_fecha',
+            //'crea_fecha',
             'modi_usuario_id',
             // 'modi_fecha',
             // 'texto:ntext',
-            // 'comentario_id',
+             'comentario_id',
             // 'cerrado',
             // 'num_denuncias',
             // 'fecha_denuncia1',
@@ -43,4 +43,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <h1>Comentarios Prueba</h1>
 <?php Pjax::end(); ?></div>

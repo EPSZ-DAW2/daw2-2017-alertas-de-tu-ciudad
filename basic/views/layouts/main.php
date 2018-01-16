@@ -39,7 +39,7 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
 			/*Acceso a Incidencias
-			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],*/
+			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
 				
 				/*
 				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
