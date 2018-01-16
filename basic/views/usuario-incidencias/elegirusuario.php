@@ -1,4 +1,8 @@
 <?php
+/*
+En esta vista aparecerá una tabla con los usuarios, y en cada uno de ellos aparecerá un
+botón con la posibilidad de enviar un mensaje a dicho usuario.
+*/
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -45,11 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
            [
             'class' => 'yii\grid\ActionColumn',
-            'template' => ' {enviamensaje} {avisa}',  // the default buttons + your custom button
+            'template' => '  {avisa}',  // the default buttons + your custom button
             'buttons' => [
-                'enviamensaje' => function($url, $model) {     // render your custom button
-                    return Html::a(Yii::t('app', 'Enviar mensaje'), ['createmensaje', 'id'=>$model->id], ['class' => 'btn btn-success']) ;
-                },
+                
 				'avisa' => function($url, $model) {     // render your custom button
                     return Html::a(Yii::t('app', 'Avisar'), ['createaviso', 'id'=>$model->id], ['class' => 'btn btn-success']) ;
                 }

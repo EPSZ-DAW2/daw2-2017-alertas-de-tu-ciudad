@@ -1,8 +1,8 @@
 <?php
 /*
-Vista que verá cualquier tipo de usuario registrado. Y comprobará si el usuario registrado 
-es administrador, si es así entonces le aparecerá un botón a mayores para acceder al apartado 
-de 'Incidencias, como administrador' que le llevara a la vista 'indexadmin'.
+Vista que accederá unicamente el Administrador una vez que pulse el botón de 'Incidencias, como 
+administrador' en la vista index. En esta vista podrá volver a la vista anterior, avisar a un usuario,
+o notificar, pulsando en los diferentes botones para poder ir a la escritura de la acción. 
 */
 
 use yii\helpers\Html;
@@ -11,8 +11,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsuarioIncidenciaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = Yii::t('app', 'Incidencias');
+$this->title = Yii::t('app', 'Incidencias, vista de administración');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -22,11 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-      	<?= Html::a(Yii::t('app', 'Hacer una  consulta'), ['createconsulta'], ['class' => 'btn btn-success']) ?>
-		<?php if(isset($admin) && $admin==true){
-			echo Html::a(Yii::t('app', 'Incidencias como administrador'), ['indexadmin'], ['class' => 'btn btn-success']);
-			}
-		?>
+        <?= Html::a(Yii::t('app', 'Volver'), ['index'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'avisar a un usuario'), ['elegirusuario'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Notificar'), ['createnotificacion'], ['class' => 'btn btn-success']) ?>
+
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -40,15 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'texto:ntext',
             'destino_usuario_id',
              'origen_usuario_id',
-           //  'alerta_id',
-           //  'comentario_id',
+            //	'alerta_id',
+            // 'comentario_id',
              'fecha_lectura',
              'fecha_borrado',
              'fecha_aceptado',
 
-            ['class' => 'yii\grid\ActionColumn',
-			'template' => '  {view}',
-			]
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
