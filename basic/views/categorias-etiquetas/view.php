@@ -23,8 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-		  
-		  <?= Html::a('Ver categorias donde aparece', ['catego', 'id' => $model->etiqueta_id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

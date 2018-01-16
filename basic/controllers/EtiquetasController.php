@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Etiquetas;
 use app\models\EtiquetasSearch;
+use app\models\AlertaEtiquetasSearch;
+use app\models\CategoriasEtiquetasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -120,5 +122,33 @@ class EtiquetasController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+	 
+	 public function actionAlerquetas($id)
+    {
+		 $searchModel = new AlertaEtiquetasSearch(['etiqueta_id' => $id]);
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		 
+        return $this->render('alerquetas', [
+            'model' => $this->findModel($id),
+				'datos' => 'prueba',
+				'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+	 
+	 public function actionCatego($id)
+    {
+		 $searchModel = new CategoriasEtiquetasSearch(['etiqueta_id' => $id]);
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		 
+		 
+        return $this->render('catego', [
+            'model' => $this->findModel($id),
+				'datos' => 'prueba',
+				'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+	
     }
 }

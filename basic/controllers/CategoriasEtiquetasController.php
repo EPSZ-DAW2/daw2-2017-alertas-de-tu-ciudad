@@ -122,24 +122,4 @@ class CategoriasEtiquetasController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	 
-	  /**
-     * Displays a single CategoriasEtiquetas model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionCatego($id)
-    {
-		 $searchModel = new CategoriasEtiquetasSearch(['etiqueta_id' => $id]);
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		 
-		 
-        return $this->render('catego', [
-            'model' => $this->findModel($id),
-				'datos' => 'prueba',
-				'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-	
-    }
 }
