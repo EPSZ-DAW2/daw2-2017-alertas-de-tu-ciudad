@@ -1,4 +1,5 @@
 <?php
+/*Dependiendo del parámetro que se recibe va a ir a un tipo de los de la incidencia*/
 
 use yii\helpers\Html;
 

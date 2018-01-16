@@ -23,6 +23,9 @@ class UsuarioIncidencia extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
+	 *
+	 * Función tableName: devuelve el nombre de la tabla. 
+	 *
      */
     public static function tableName()
     {
@@ -31,6 +34,8 @@ class UsuarioIncidencia extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+	 * 
+	 * Función rules: mediatne un array asociativo 
      */
     public function rules()
     {
@@ -42,7 +47,14 @@ class UsuarioIncidencia extends \yii\db\ActiveRecord
             [['clase_incidencia_id'], 'string', 'max' => 1],
         ];
     }
-
+	
+	/*
+	* Función getClases: con ella se asignará, mediante un array asociativo, a cada clave valor 
+	*					 el nombre al que se asociará. 
+	**/
+	public function getClases(){
+		return ['A'=>'Aviso', 'N'=>'Notificación', 'D'=>'Denuncia', 'C'=>'Consulta', 'M'=>'Mensaje'];
+	}
     /**
      * @inheritdoc
      */
