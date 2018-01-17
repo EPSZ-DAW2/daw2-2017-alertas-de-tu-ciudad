@@ -4,7 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'name'=> 'Daw2 Alertas de tu ciudad',
+    'name' => 'Daw2 Alertas de tu ciudad',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     //'vendorPath' => dirname( dirname(__DIR__)).DIRECTORY_SEPARATOR.'vendor',

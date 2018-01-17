@@ -38,7 +38,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            //Acceso a Categorias
+            //Acceso a Categorias 
             ['label' => 'Categorias', 'url' => ['/categorias']],
 			//Acceso a Incidencias
 			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
