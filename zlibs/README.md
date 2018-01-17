@@ -1,3 +1,3 @@
 # Librerías de ejecución de Yii2.
 Librerías de ejecución de Yii2.
-Se debe descomprimir y mover a esta carpeta los archivos originales.
+Copia comprimida de las librerias utilizadas en la aplicación.
