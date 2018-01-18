@@ -29,7 +29,7 @@ class Categorias extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
-            [['categoria_id'], 'integer'],
+            [['categoria_id'],'integer'],
             [['nombre'], 'string', 'max' => 25],
         ];
     }

@@ -83,12 +83,14 @@ class CategoriasController extends Controller
     public function actionCreate()
     {
         $model = new Categorias();
+        $searchModel = new CategoriasSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'searchModel' =>$searchModel, 'dataProvider'=>$dataProvider
             ]);
         }
     }
@@ -102,12 +104,14 @@ class CategoriasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $searchModel = new CategoriasSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'dataProvider' =>$dataProvider
             ]);
         }
     }
@@ -132,7 +136,7 @@ class CategoriasController extends Controller
      * @return Categorias the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected static function findModel($id)
     {
         if (($model = Categorias::findOne($id)) !== null) {
             return $model;

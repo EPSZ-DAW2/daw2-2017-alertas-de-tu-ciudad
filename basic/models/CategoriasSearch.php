@@ -56,7 +56,7 @@ class CategoriasSearch extends Categorias
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        //echo 'adios';
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

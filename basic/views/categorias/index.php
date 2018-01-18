@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- PARA DEBUG -->
     <?php
+
         if (Yii::$app->user->isGuest)
             echo '<h3 style="text-align:center;background-color:black;color:white">Eres invitado</h3>';
         else
@@ -27,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create Categorias'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    
+<?php Pjax::begin();?>    
+
     <?=        
         GridView::widget([
         'dataProvider' => $dataProvider,
