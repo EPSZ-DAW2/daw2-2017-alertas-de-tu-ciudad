@@ -42,6 +42,9 @@ AppAsset::register($this);
             ['label' => 'Categorias', 'url' => ['/categorias']],
 			//Acceso a Incidencias
 			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
+			//Acceso a los comentarios de las alertas
+			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+
 				
 				/*
 				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
