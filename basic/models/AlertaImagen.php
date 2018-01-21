@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use yii\helpers\Url;
 /**
  * This is the model class for table "alerta_imagenes".
  *
@@ -20,7 +20,8 @@ use Yii;
  */
 class AlertaImagen extends \yii\db\ActiveRecord
 {
-    
+    public static $extensiones_permitidas = array("gif", "jpg", "jpeg", "png");
+    private $virtual_ruta = "";
     
     /**
      * @inheritdoc
@@ -63,6 +64,57 @@ class AlertaImagen extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Crea la ruta completa de la imagen asociada al modelo a través
+     * de su UUID.
+     * Una vez generada la ruta la guardara en una variable privada para futuras referencias.
+     * @return devuelve la ruta completa de la imagen o nulo, si no se pudo localizar.
+     */
+    public function obtenerRutaFisica()
+    {
+        if(!empty($virtual_ruta))
+            return $virtual_ruta;
+
+        $UUID = $this->imagen_id;   
+       
+        if(empty($UUID))
+            return null;
+
+        //separamos la UUID por las barras.
+        $hashes = explode("-", $UUID);
+        $ruta_completa = "";
+        
+        //Modificamos el orden de los hashes
+        for($h=count($hashes)-1; $h >= 0; $h--)
+        {
+            $ruta_completa .= "/$hashes[$h]";
+        }
+        
+        //agregamos la carpeta de uploads.
+        $ruta_completa = '/uploads'.$ruta_completa;
+                
+        $imagenExiste = false;
+        //buscamos la extensión que puede tener la imagen
+        foreach($this::$extensiones_permitidas as $ext)
+        {
+            //probamos con los diferentes tipos, hasta dar con la extensión oportuna.
+            if(file_exists(str_replace("/","\\",getcwd().$ruta_completa.'.'.$ext)))
+            { 
+                $ruta_completa = $ruta_completa.'.'.$ext;
+                $imagenExiste = true;
+                break;
+            }
+        } 
+        
+        if(!$imagenExiste)
+            return null;
+        
+        // Agregamos la base que nos proporciona Yii a la url.
+        $ruta_completa = Url::base(true).$ruta_completa;
+
+        return $ruta_completa;
+    }
+    
     /**
      * @inheritdoc
      * @return AlertaImagenQuery the active query used by this AR class.

@@ -31,3 +31,23 @@ function previsualizacion_img(input_file)
 		else {  return false; }
 	});
 }
+
+function ver_img(ruta_imagen) 
+{	
+   //$('#previsualizador').html(''); 
+   
+   //Creamos un div, cuya clase sea imagen_miniatura
+    var div = document.createElement('li');
+    div.className = 'imagen_miniatura';
+   
+   //Agregamos el código referente a la imagen como html.
+   div.innerHTML ='<a href=""><img class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
+ 
+	//Insertamos este nuevo div, en el previsualizador.
+   document.getElementById('previsualizador').appendChild(div);
+
+}
+
+
+
+

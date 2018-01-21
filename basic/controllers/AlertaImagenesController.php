@@ -90,7 +90,7 @@ class AlertaImagenesController extends Controller
        {        
             //Esto se podría cambiar por una variable en la configuración.
             $carpeta_subida_imagenes = "uploads";
-            $extensiones_permitidas = array("gif", "jpg", "jpeg", "png");
+            $extensiones_permitidas = $model::$extensiones_permitidas;
                 
             //Numero total de imagenes subidas.
             //En el caso de que el input file este vacio, nos dirá que hay 1.
