@@ -1,6 +1,5 @@
 function previsualizacion_img(input_file) 
 {
-	//var id = 1, last_id = last_cid = '';
 	$.each(input_file.files, function(itr, file)
 	{
 		if (file.name.length>0) 
@@ -22,9 +21,9 @@ function previsualizacion_img(input_file)
 			   reader.onload = function(e) 
 			   {
 				   $('#previsualizador').append(
-				   '<div id="id_'+itr+'" class="imagen_miniatura"> \
-				   <img class="imagen_style" class="img-thu" src="' + e.target.result + '" \
-				   title="'+ escape(file.name) +'" /><br /></div>');
+				   '<li id="id_'+itr+'" class="imagen_miniatura"><a href=""> \
+				   <img class="imagen_style" src="' + e.target.result + '" \
+				   title="'+ escape(file.name) +'" /></a><br /></li>');
 			   }
 			   reader.readAsDataURL(file);
 		   }

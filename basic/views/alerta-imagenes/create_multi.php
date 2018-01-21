@@ -25,8 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
     </div>
     
-    <div style="width:auto; overflow:hidden; margin-top:70px; " align="center" id="previsualizador"></div>
-
+    <div style="margin-top: 70px; margin-bottom: 30px;">
+         <ul id="previsualizador" class="ul_imagen"></ul>
+    </div>
+    
     <div class="form-group" style="text-align: center;">
         <?= Html::submitButton('Subir todas las imagenes', ['class' => 'btn btn-success']) ?>
     </div>

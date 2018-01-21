@@ -133,37 +133,81 @@ a.desc:after {
 }
 
 .imagen_miniatura {
-	max-width:160px;
-	border: solid 1px #cbcbcb;
-	background-color: #FFF;
-	box-shadow: 0 0px 10px #528be1;
-	-moz-box-shadow: 0 0px 10px #528be1;
-	-webkit-box-shadow: 0 0px 10px #528be1;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	text-align:center;
-	padding:10px;
-	padding-bottom:3px;
-	font-family:Verdana, Geneva, sans-serif;
-	font-size:13px;
-	line-height:25px;
-	float:left;
-	margin-right:20px; 
-	margin-bottom:20px;
-	word-wrap: break-word;
-	height: 95px;
+	margin-bottom: 15px;
+	width: 25%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+	box-sizing: border-box;
+	list-style: none;
+	color: #EEE;
+	font-size: 14px;
+	line-height: 1.42857143;	
 }
 .imagen_miniatura:hover{ text-decoration:underline; color:#039;}
 
+.imagen_miniatura a
+{ 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 3px solid #000;
+	border-radius: 3px;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	float: left;
+	color: #ce4844;
+	text-decoration: none;
+	box-sizing: border-box;
+	list-style: none;
+}
+
 .imagen_style{ 
-	max-width: 128px;
-	max-height: 72px;
-	width:auto;
-	height:auto;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px; 
-	border:2px solid;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: -webkit-transform 0.15s ease 0s;
+	-moz-transition: -moz-transform 0.15s ease 0s;
+	-o-transition: -o-transform 0.15s ease 0s;
+	transition: transform 0.15s ease 0s;
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	width: 100%;
+	display: block;
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #ce4844;
+	list-style: none;
+	font-size: 14px;
+	line-height: 1.42857143;
+	min-width: 256px;
+	max-width: 256px;
+	min-height: 165px;
+	max-height: 165px;
+	
 	}
 .imagen_style img { width:100px; height:100px; border:0px solid;}
+
+.ul_imagen{
+	border: 1px solid #bdbec3;
+	padding-top: 15px;
+	clear: both;
+	content: " ";
+	display: table;
+	margin-bottom: 0;
+	margin-left: -15px;
+	margin-right: -15px;
+	padding-left: 0;
+	list-style: none;
+	box-sizing: border-box;
+	color: #EEE;
+}
+
