@@ -79,4 +79,24 @@ class AlertaComentariosSearch extends AlertaComentarios
 
         return $dataProvider;
     }
+
+    public function ordenarComentariosFechaDesc(){
+
+        $query = AlertaComentarios::find();
+        // add conditions that should always apply here
+        $query->orderBy("modi_fecha desc");
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+
+
+        return $dataProvider;
+    }
 }

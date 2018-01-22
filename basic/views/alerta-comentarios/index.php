@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create Alerta Comentarios'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    <?=
+        GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'crea_usuario_id',
             //'crea_fecha',
             'modi_usuario_id',
-            // 'modi_fecha',
+             'modi_fecha',
             // 'texto:ntext',
              'comentario_id',
             // 'cerrado',
@@ -44,4 +45,30 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <h1>Comentarios Prueba</h1>
+    <?=
+    GridView::widget([
+        'dataProvider' => $dataProvider2,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'alerta_id',
+            'crea_usuario_id',
+            //'crea_fecha',
+            'modi_usuario_id',
+            'modi_fecha',
+            // 'texto:ntext',
+            'comentario_id',
+            // 'cerrado',
+            // 'num_denuncias',
+            // 'fecha_denuncia1',
+            // 'bloqueado',
+            // 'bloqueo_usuario_id',
+            // 'bloqueo_fecha',
+            // 'bloqueo_notas:ntext',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 <?php Pjax::end(); ?></div>
