@@ -2,7 +2,14 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\jui\AutoComplete;
 use yii\widgets\Pjax;
+use app\models\Categorias;
+use app\models\CategoriasSearch;
+
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategoriasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,9 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <!-- PARA DEBUG -->
+    
     <?php
-
+        // PARA DEBUG
         if (Yii::$app->user->isGuest)
             echo '<h3 style="text-align:center;background-color:black;color:white">Eres invitado</h3>';
         else
@@ -36,13 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'nombre',
+            ['attribute'=>'nombre',
+                'filter' => AutoComplete::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'nombre',
+                    'clientOptions' => [
+                    'source' => Categorias::find()->select(['nombre AS value'])->orderBy('nombre')->asArray()->all(),
+                    ],
+                ]),
+            ],
             'descripcion:ntext',
             'categoria_id',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+        ]);  
+    ?>
 <?php Pjax::end(); ?></div>

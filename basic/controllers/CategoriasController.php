@@ -53,9 +53,10 @@ class CategoriasController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    {   
         $searchModel = new CategoriasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->get());
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -136,7 +137,7 @@ class CategoriasController extends Controller
      * @return Categorias the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected static function findModel($id)
+    protected function findModel($id)
     {
         if (($model = Categorias::findOne($id)) !== null) {
             return $model;
@@ -144,4 +145,6 @@ class CategoriasController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    
 }

@@ -55,4 +55,6 @@ class Categorias extends \yii\db\ActiveRecord
     {
         return new CategoriasQuery(get_called_class());
     }
+
+    
 }
