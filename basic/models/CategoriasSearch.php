@@ -129,8 +129,8 @@ class CategoriasSearch extends Categorias
         foreach ($mod as $key => $value) {
             $temp=$temp+array($value['id']=>$spc.$value['nombre']);
         // echo '<p>'.$value['id'].$spc.$value['nombre'].$value['categoria_id'].'</p>';
-            $ret=$ret+$temp+self::arbolCategoriasArray($value['id'],$tab);
-            
+            $ret=$ret+$temp+self::arbolCategoriasArray($value['id'],$tab);            
+
         }
         return $ret;
     }
