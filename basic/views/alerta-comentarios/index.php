@@ -47,34 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <h1>Comentarios Prueba</h1>
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider2,
-       // 'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'alerta_id',
-            'crea_usuario_id',
-            //'crea_fecha',
-            'modi_usuario_id',
-            'modi_fecha',
-            // 'texto:ntext',
-            'comentario_id',
-            // 'cerrado',
-            // 'num_denuncias',
-            // 'fecha_denuncia1',
-            // 'bloqueado',
-            // 'bloqueo_usuario_id',
-            // 'bloqueo_fecha',
-            // 'bloqueo_notas:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]);
-
-        ?>
         <?php
             $comentariosOrdenadosFecha = $dataProvider2->getModels();
             //obtenemos la paginacion
@@ -83,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             if ($pagination === false) {
 
             } else {
+
                 // El total de las páginas obtenidas son
                 $pagination->totalCount = $dataProvider2->getTotalCount();
                 //El limite de las páginas es
@@ -90,7 +64,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 for ($count = 0; $count < $limit; ++$count) {
                     //Renderizamos cada comentario de la página
-                   echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'datos' =>$comentariosOrdenadosFecha]);
+                    $dataComentario = $comentariosOrdenadosFecha[$count];
+
+                   echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
                 }
                 echo LinkPager::widget([
                     'pagination' => $pagination,

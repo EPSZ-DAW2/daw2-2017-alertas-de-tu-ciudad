@@ -92,7 +92,6 @@ class AlertaComentariosSearch extends AlertaComentarios
             'sort'=>[
                 'defaultOrder' => [
                     'modi_fecha' => SORT_DESC,
-
                 ]
             ]
         ]);
@@ -102,8 +101,6 @@ class AlertaComentariosSearch extends AlertaComentarios
             // $query->where('0=1');
             return $dataProvider;
         }
-
-
 
         return $dataProvider;
     }
