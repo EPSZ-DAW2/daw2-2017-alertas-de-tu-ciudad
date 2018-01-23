@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use app\models\Categorias;
 use app\models\CategoriasSearch;
+use app\models\AlertaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -71,8 +72,11 @@ class CategoriasController extends Controller
      */
     public function actionView($id)
     {
+		$searchModel = new AlertaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id),'searchModel' =>$searchModel, 'dataProvider'=>$dataProvider
         ]);
     }
 
