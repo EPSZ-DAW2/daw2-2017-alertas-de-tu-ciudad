@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AlertaComentariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -48,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider2,
-        'filterModel' => $searchModel,
+       // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -73,9 +75,32 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
 
         ?>
+        <?php
+            $comentariosOrdenadosFecha = $dataProvider2->getModels();
+            //obtenemos la paginacion
+            $pagination = $dataProvider2->getPagination();
+
+            if ($pagination === false) {
+
+            } else {
+                // El total de las páginas obtenidas son
+                $pagination->totalCount = $dataProvider2->getTotalCount();
+                //El limite de las páginas es
+                $limit = sizeof($comentariosOrdenadosFecha);
+
+                for ($count = 0; $count < $limit; ++$count) {
+                    //Renderizamos cada comentario de la página
+                   echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'datos' =>$comentariosOrdenadosFecha]);
+                }
+                echo LinkPager::widget([
+                    'pagination' => $pagination,
+                ]);
+            }
+
+        ?>
 
 
-    ?>
 <?php
-var_dump($comentariosOrdenadosFecha);
-Pjax::end(); ?></div>
+    Pjax::end();
+?>
+</div>

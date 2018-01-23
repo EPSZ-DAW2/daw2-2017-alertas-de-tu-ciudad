@@ -1,11 +1,24 @@
+<?php
 
-<!DOCTYPE html><html class=''>
-<head>
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+
+/* @var $this yii\web\View */
+/* @var $model app\models\AlertaComentarios */
+
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Comentarios'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
+?>
+
+
 
     <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
-    <style class="cp-pen-styles">html, body {
+    <style class="cp-pen-styles">
+    html, body {
         background-color: #f0f2fa;
         font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
         color: #555f77;
@@ -63,6 +76,7 @@
         width: 2.25rem;
         border-radius: 50%;
         background-size: contain;
+
     }
 
     .comment-block {
@@ -110,29 +124,36 @@
     .comment-actions li:hover {
         color: #0095ff;
     }
-    </style></head><body>
-<div class="comments">
+    </style>
 
+
+<div class="comments">
 
     <div class="comment-wrap">
         <div class="photo">
-            <div class="avatar" style="background-image: url('dummy.jpg')"></div>
-        </div>
-        <div class="comment-block">
-            <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis totam.</p>
-            <div class="bottom-comment">
-                <div class="comment-date">Fecha y hora</div>
-                <ul class="comment-actions">
-                    <li class="complain"><span class=" 	glyphicon glyphicon-share-alt"></span>
-                        Responder</li>
-                    <li class="complain"><span class="glyphicon glyphicon-warning-sign"></span></span>
-                        Denunciar</li>
-                </ul>
+            <div class="avatar">
+                
             </div>
         </div>
+        <div class="comment-block">
+            <p class="comment-text"> </p>
+                <div class="bottom-comment">
+                    <div class="comment-date">Fecha y hora </div>
+                    <ul class="comment-actions">
+                        <li class="complain">
+                            <span class="glyphicon glyphicon-share-alt"></span>
+                            Responder
+                        </li>
+                        <li class="complain">
+                            <span class="glyphicon glyphicon-warning-sign"></span>
+                            Denunciar
+                        </li>
+                    </ul>
+                </div>
+
+        </div>
     </div>
-</div>
 
 </div>
 
-</body></html>
+
