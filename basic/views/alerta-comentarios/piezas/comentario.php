@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
     <div class="photo">
         <div class="avatar" style="background-image:url('<?= Yii::$app->request->baseUrl ?>/img/dummy.jpg')";>
-
         </div>
     </div>
     <div class="comment-block">
