@@ -9,6 +9,8 @@ use Yii;
  *
  * @property string $id
  * @property string $nombre
+ *
+ * @property CategoriasEtiquetas[] $categoriasEtiquetas
  */
 class Etiquetas extends \yii\db\ActiveRecord
 {
@@ -27,6 +29,7 @@ class Etiquetas extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'string', 'max' => 40],
+				[['nombre'], 'unique'],
         ];
     }
 
@@ -39,5 +42,22 @@ class Etiquetas extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'nombre' => Yii::t('app', 'Nombre'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoriasEtiquetas()
+    {
+        return $this->hasMany(CategoriasEtiquetas::className(), ['etiqueta_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return EtiquetasQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new EtiquetasQuery(get_called_class());
     }
 }
