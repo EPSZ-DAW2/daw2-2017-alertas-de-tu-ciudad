@@ -33,12 +33,6 @@ class CategoriasEtiquetas extends \yii\db\ActiveRecord
             [['categoria_id', 'etiqueta_id'], 'required'],
             [['categoria_id', 'etiqueta_id'], 'integer'],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['categoria_id' => 'id']],
-            [['nombre_categoria'], 'string', 'max' => 25],
-            [['nombre_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['nombre_categoria' => 'nombre']],
-            [['etiqueta_id'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['etiqueta_id' => 'id']],
-            [['nombre_etiqueta'], 'string', 'max' => 40],
-            [['nombre_etiqueta'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['nombre_etiqueta' => 'nombre']],
-
         ];
     }
 
