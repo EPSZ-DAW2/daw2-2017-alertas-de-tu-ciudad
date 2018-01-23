@@ -21,7 +21,7 @@ function previsualizacion_img(input_file)
 			   reader.onload = function(e) 
 			   {
 				   $('#previsualizador').append(
-				   '<li id="id_'+itr+'" class="imagen_miniatura"><a href=""> \
+				   '<li id="id_'+itr+'" class="imagen_miniatura"><a href="javascript:void(0)" onclick="ver_imagen(this);"> \
 				   <img class="imagen_style" src="' + e.target.result + '" \
 				   title="'+ escape(file.name) +'" /></a><br /></li>');
 			   }
@@ -32,7 +32,7 @@ function previsualizacion_img(input_file)
 	});
 }
 
-function ver_img(ruta_imagen) 
+function previsualizar_imagen(ruta_imagen) 
 {	
    //$('#previsualizador').html(''); 
    
@@ -41,12 +41,37 @@ function ver_img(ruta_imagen)
     div.className = 'imagen_miniatura';
    
    //Agregamos el código referente a la imagen como html.
-   div.innerHTML ='<a href=""><img class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
+   div.innerHTML ='<a href="javascript:void(0)" onclick="ver_imagen(this);"><img class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
  
 	//Insertamos este nuevo div, en el previsualizador.
    document.getElementById('previsualizador').appendChild(div);
 
 }
+
+function ver_imagen(imagen) 
+{	
+	var div = document.createElement("div");
+		div.className = 'imagen_backdrop';
+		
+	document.body.appendChild(div);
+
+	div = document.createElement("div");
+	div.className = 'div_imagen_centrada';
+	div.innerHTML ='<div class="imagen_centrada_vertical" onclick="retirar_visor(event);"><img src="'+imagen.getElementsByTagName('img')[0].src+'"></img></div>';
+	document.body.appendChild(div);
+	
+}
+
+function retirar_visor(ev) 
+{	
+	if($(ev.target).attr('class') == "imagen_centrada_vertical")
+	{
+		$(".imagen_backdrop").remove();
+        $(".div_imagen_centrada").remove(); 
+	}
+	
+}
+
 
 
 

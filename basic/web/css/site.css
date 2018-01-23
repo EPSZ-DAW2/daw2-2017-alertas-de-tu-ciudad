@@ -211,3 +211,99 @@ a.desc:after {
 	color: #EEE;
 }
 
+
+
+
+/*Usado para crear un div que oculte todos los demás.
+Será un div en negro que ocupará toda la ventana, donde luego podremos montar la imagen.
+*/
+.imagen_backdrop
+{
+	/*Bordes para los distintos navegadores.*/
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+	opacity: 0.96;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1040;
+	background-color: #000;
+}
+
+.div_imagen_centrada
+{
+	opacity: 1;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1050;
+	text-align: left;
+}
+
+
+.imagen_centrada_vertical
+{
+	transform: translate3d(0px, 0px, 0px);
+	
+	backface-visibility: hidden;
+	position: absolute;
+	padding: 0 5px;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+}
+
+/*Necesario para forzar centrar la imagen en el eje vertical.*/
+.imagen_centrada_vertical::before
+{
+	content: "";
+	display: inline-block;
+	height: 50%;
+	width: 1px;
+	margin-right: -1px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;	
+}
+
+.imagen_centrada_vertical img
+{
+	transform: scale3d(1, 1, 1) !important;
+	opacity: 1;
+
+	/*Posiciones para los distintos navegadores.*/
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	transform-origin: 0 0;
+	
+	/*Visibilidad para los distintos navegadores.*/
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+
+	-webkit-transform: scale3d(0.5, 0.5, 0.5);
+	transform: scale3d(0.5, 0.5, 0.5);
+	
+	/*Caracteristicas de la imagen*/
+	vertical-align: middle;
+	max-width: 100%;
+	max-height: 100%;
+	width: auto !important;
+	height: auto !important;
+	border: 0;
+}
+
+
+
