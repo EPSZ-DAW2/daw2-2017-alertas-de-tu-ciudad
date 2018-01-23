@@ -7,7 +7,7 @@ use yii\jui\AutoComplete;
 /* @var $this yii\web\View */
 /* @var $model app\models\Categorias */
 
-$this->title = Yii::t('app', 'Create Categorias');
+$this->title = Yii::t('app', 'Crear Categoria');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categorias'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

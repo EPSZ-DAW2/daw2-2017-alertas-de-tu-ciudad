@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\jui\AutoComplete;
 use yii\widgets\Pjax;
 use app\models\Categorias;
@@ -33,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Categorias'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Crear Categoria'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin();?>    
 
@@ -50,6 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'nombre',
                     'clientOptions' => [
                     'source' => Categorias::find()->select(['nombre AS value'])->orderBy('nombre')->asArray()->all(),
+                    ],
+                    'options' => [
+                        'class' => 'form-control'
                     ],
                 ]),
             ],

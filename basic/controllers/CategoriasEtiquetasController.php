@@ -3,9 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\CategoriasEtiquetas;
 use app\models\CategoriasEtiquetasSearch;
-use app\models\CategoriasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +21,23 @@ class CategoriasEtiquetasController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['create','update','delete','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -47,7 +64,7 @@ class CategoriasEtiquetasController extends Controller
 
     /**
      * Displays a single CategoriasEtiquetas model.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionView($id)
@@ -78,7 +95,7 @@ class CategoriasEtiquetasController extends Controller
     /**
      * Updates an existing CategoriasEtiquetas model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -97,7 +114,7 @@ class CategoriasEtiquetasController extends Controller
     /**
      * Deletes an existing CategoriasEtiquetas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -110,7 +127,7 @@ class CategoriasEtiquetasController extends Controller
     /**
      * Finds the CategoriasEtiquetas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
+     * @param integer $id
      * @return CategoriasEtiquetas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
