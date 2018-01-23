@@ -84,9 +84,17 @@ class AlertaComentariosSearch extends AlertaComentarios
 
         $query = AlertaComentarios::find();
         // add conditions that should always apply here
-        $query->orderBy("modi_fecha desc");
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort'=>[
+                'defaultOrder' => [
+                    'modi_fecha' => SORT_DESC,
+
+                ]
+            ]
         ]);
 
         if (!$this->validate()) {

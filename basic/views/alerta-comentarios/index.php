@@ -70,5 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
-<?php Pjax::end(); ?></div>
+    ]);
+
+        ?>
+
+
+    ?>
+<?php
+var_dump($comentariosOrdenadosFecha);
+Pjax::end(); ?></div>
