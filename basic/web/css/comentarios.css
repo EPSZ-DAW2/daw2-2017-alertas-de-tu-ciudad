@@ -1,35 +1,8 @@
- html, body {
+ 		body {
             background-color: #f0f2fa;
-            font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-            color: #555f77;
             -webkit-font-smoothing: antialiased;
         }
-
-        input, textarea {
-            outline: none;
-            border: none;
-            display: block;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-            font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-            font-size: 1rem;
-            color: #555f77;
-        }
-        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-            color: #ced2db;
-        }
-        input::-moz-placeholder, textarea::-moz-placeholder {
-            color: #ced2db;
-        }
-        input:-moz-placeholder, textarea:-moz-placeholder {
-            color: #ced2db;
-        }
-        input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-            color: #ced2db;
-        }
-
-        p {
+        .comments > p {
             line-height: 1.3125rem;
         }
 
@@ -51,10 +24,10 @@
             border-radius: 50%;
             background-size: contain;
 
-
         }
-
         .comment-block {
+        	 font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+            color: #555f77;
             padding: 1rem;
             background-color: #fff;
             display: table-cell;
