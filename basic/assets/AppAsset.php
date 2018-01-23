@@ -20,7 +20,10 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css',
+        'https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic',
         'css/site.css',
+        'css/comentarios.css',
     ];
     public $js = [
     ];
