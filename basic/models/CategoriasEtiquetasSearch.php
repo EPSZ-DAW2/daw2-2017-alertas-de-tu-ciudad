@@ -129,45 +129,6 @@ class CategoriasEtiquetasSearch extends CategoriasEtiquetas
             'query' => $query,
         ]);
 
-        $dataProvider->getSort()->attributes['nombre_categoria']= [
-            'asc' => [   
-                'categoria.nombre' => SORT_ASC,
-                'etiqueta.nombre' => SORT_ASC,
-                'id' => SORT_ASC,
-                'categoria_id' => SORT_ASC,
-                'etiqueta_id' => SORT_ASC,
-                ],
-            'desc' => [
-                'categoria.nombre' => SORT_DESC,
-                'etiqueta.nombre' => SORT_DESC,
-                'id' => SORT_DESC,
-                'categoria_id' => SORT_DESC,
-                'etiqueta_id' => SORT_DESC,
-                ],
-
-            'default' => SORT_ASC,
-            //'label' => 'Nombre CAT',
-        ];
-        $dataProvider->getSort()->attributes['nombre_etiqueta']= [
-            'asc' => [   
-                'categoria.nombre' => SORT_ASC,
-                'etiqueta.nombre' => SORT_ASC,
-                'id' => SORT_ASC,
-                'categoria_id' => SORT_ASC,
-                'etiqueta_id' => SORT_ASC,
-                ],
-            'desc' => [
-                'categoria.nombre' => SORT_DESC,
-                'etiqueta.nombre' => SORT_DESC,
-                'id' => SORT_DESC,
-                'categoria_id' => SORT_DESC,
-                'etiqueta_id' => SORT_DESC,
-                ],
-
-            'default' => SORT_ASC,
-            //'label' => 'Nombre CAT',
-        ];
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -182,6 +143,7 @@ class CategoriasEtiquetasSearch extends CategoriasEtiquetas
             'categoria_id' => $this->categoria_id,
             'etiqueta_id' => $this->etiqueta_id,
         ]);
+		  
         $query->andFilterWhere(['like','categoria.nombre',$this->nombre_categoria])
             ->andFilterWhere(['like','etiqueta.nombre',$this->nombre_etiqueta])->groupBy('categoria_id');
 
