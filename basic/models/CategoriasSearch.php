@@ -134,5 +134,5 @@ class CategoriasSearch extends Categorias
         }
         return $ret;
     }
-     
+    
 }

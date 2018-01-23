@@ -7,9 +7,12 @@ use Yii;
 /**
  * This is the model class for table "categorias_etiquetas".
  *
- * @property string $id
- * @property string $categoria_id
- * @property string $etiqueta_id
+ * @property integer $id
+ * @property integer $categoria_id
+ * @property integer $etiqueta_id
+ *
+ * @property Categorias $categoria
+ * @property Etiquetas $etiqueta
  */
 class CategoriasEtiquetas extends \yii\db\ActiveRecord
 {
@@ -29,6 +32,13 @@ class CategoriasEtiquetas extends \yii\db\ActiveRecord
         return [
             [['categoria_id', 'etiqueta_id'], 'required'],
             [['categoria_id', 'etiqueta_id'], 'integer'],
+            [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['categoria_id' => 'id']],
+            [['nombre_categoria'], 'string', 'max' => 25],
+            [['nombre_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['nombre_categoria' => 'nombre']],
+            [['etiqueta_id'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['etiqueta_id' => 'id']],
+            [['nombre_etiqueta'], 'string', 'max' => 40],
+            [['nombre_etiqueta'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['nombre_etiqueta' => 'nombre']],
+
         ];
     }
 
@@ -40,7 +50,36 @@ class CategoriasEtiquetas extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'categoria_id' => Yii::t('app', 'Categoria ID'),
+            'nombre_categoria' => Yii::t('app', 'Nombre Categoria'),
             'etiqueta_id' => Yii::t('app', 'Etiqueta ID'),
+            'nombre_etiqueta' => Yii::t('app', 'Nombre Etiqueta'),
+
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoria()
+    {
+        return $this->hasOne(Categorias::className(), ['id' => 'categoria_id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEtiqueta()
+    {
+        return $this->hasOne(Etiquetas::className(), ['id' => 'etiqueta_id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return CategoriasEtiquetasQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CategoriasEtiquetasQuery(get_called_class());
     }
 }
