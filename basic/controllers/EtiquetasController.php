@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Etiquetas;
 use app\models\EtiquetasSearch;
+use yii\filters\AccessControl;
 use app\models\AlertaEtiquetasSearch;
 use app\models\CategoriasEtiquetasSearch;
 use yii\web\Controller;
@@ -19,9 +20,26 @@ class EtiquetasController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+        public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['create','update','delete','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -137,10 +155,13 @@ class EtiquetasController extends Controller
         ]);
     }
 	 
+	 /*
+		Devuelve todas las categorias en las que aparece una etiqueta agrupadas por su ID y ordenadas.
+	 */
 	 public function actionCatego($id)
     {
 		 $searchModel = new CategoriasEtiquetasSearch(['etiqueta_id' => $id]);
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       $dataProvider = $searchModel->CategoriasEt(Yii::$app->request->queryParams);
 		 
 		 
         return $this->render('catego', [

@@ -2,11 +2,15 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\CategoriasEtiquetas;
+use yii\jui\AutoComplete;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CategoriasEtiquetas */
 
-$this->title = $model->nombre;
+$source_categorias=array_merge([],array_unique(CategoriasEtiquetas::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->groupBy('categoria.id')->asArray()->all(),SORT_REGULAR));
+
+$this->title = "Categorias en las que aparece la etiqueta con id: ".$model->id.", ".$model->nombre.".";
 $this->params['breadcrumbs'][] = ['label' => 'Categorias Etiquetas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,7 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             'categoria_id',
-            'etiqueta_id',
+				['attribute' => 'nombre_categoria',
+                'label' => 'Categoria Nombre',
+                'value' => 'categoria.nombre',
+                'filter' => AutoComplete::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'nombre_categoria',
+                    'clientOptions' => [
+                    'source' => $source_categorias,
+                    ],
+                    'options' => [
+                        'class' => 'form-control'
+                    ],
+                ]),
+            ],
         ],
     ]); ?>
 

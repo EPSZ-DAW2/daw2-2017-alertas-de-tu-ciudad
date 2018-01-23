@@ -111,6 +111,84 @@ class CategoriasEtiquetasSearch extends CategoriasEtiquetas
 
         return $dataProvider;
     }
+	 
+	 /**
+     * Crea data provider agrupado por ID. Hecho para ver las categorias a las que pertenece una etiqueta.
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function CategoriasEt($params)
+    {
+        $query = CategoriasEtiquetas::find()->joinWith('categoria AS categoria')->joinWith('etiqueta AS etiqueta');
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $dataProvider->getSort()->attributes['nombre_categoria']= [
+            'asc' => [   
+                'categoria.nombre' => SORT_ASC,
+                'etiqueta.nombre' => SORT_ASC,
+                'id' => SORT_ASC,
+                'categoria_id' => SORT_ASC,
+                'etiqueta_id' => SORT_ASC,
+                ],
+            'desc' => [
+                'categoria.nombre' => SORT_DESC,
+                'etiqueta.nombre' => SORT_DESC,
+                'id' => SORT_DESC,
+                'categoria_id' => SORT_DESC,
+                'etiqueta_id' => SORT_DESC,
+                ],
+
+            'default' => SORT_ASC,
+            //'label' => 'Nombre CAT',
+        ];
+        $dataProvider->getSort()->attributes['nombre_etiqueta']= [
+            'asc' => [   
+                'categoria.nombre' => SORT_ASC,
+                'etiqueta.nombre' => SORT_ASC,
+                'id' => SORT_ASC,
+                'categoria_id' => SORT_ASC,
+                'etiqueta_id' => SORT_ASC,
+                ],
+            'desc' => [
+                'categoria.nombre' => SORT_DESC,
+                'etiqueta.nombre' => SORT_DESC,
+                'id' => SORT_DESC,
+                'categoria_id' => SORT_DESC,
+                'etiqueta_id' => SORT_DESC,
+                ],
+
+            'default' => SORT_ASC,
+            //'label' => 'Nombre CAT',
+        ];
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'categoria_id' => $this->categoria_id,
+            'etiqueta_id' => $this->etiqueta_id,
+        ]);
+        $query->andFilterWhere(['like','categoria.nombre',$this->nombre_categoria])
+            ->andFilterWhere(['like','etiqueta.nombre',$this->nombre_etiqueta])->groupBy('categoria_id');
+
+        return $dataProvider;
+    }
+	 
+	 
     public function arbolEtiquetasArray()
     {   
         $temp=array();
