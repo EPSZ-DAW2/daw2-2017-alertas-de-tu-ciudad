@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\models\Etiquetas;
+use app\models\EtiquetasSearch;
 use app\models\CategoriasEtiquetas;
 use app\models\CategoriasSearch;
 
@@ -111,11 +113,15 @@ class CategoriasEtiquetasSearch extends CategoriasEtiquetas
 
         return $dataProvider;
     }
-    public function arbolEtiquetasArray()
+
+	
+	public static function arbolEtiquetasArray()
     {   
         $temp=array();
 
         $query=Etiquetas::find();
+
+        $searchModel=new EtiquetasSearch();
         $cat=new ActiveDataProvider(['query'=>$query]);
         $mod=$cat->getModels();
         
@@ -124,4 +130,5 @@ class CategoriasEtiquetasSearch extends CategoriasEtiquetas
         }
         return $temp;
     }
+     
 }
