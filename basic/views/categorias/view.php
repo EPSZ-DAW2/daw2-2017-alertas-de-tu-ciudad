@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'categoria_id',
         ],
     ]) ?>
-	
+	<h2>Alertas enlazadas: </h2>
 	 <?=        
         GridView::widget([
         'dataProvider' => $dataProvider,

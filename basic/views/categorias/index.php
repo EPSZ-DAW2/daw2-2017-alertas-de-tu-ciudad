@@ -20,19 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    
-    <?php
-        // PARA DEBUG
-        if (Yii::$app->user->isGuest)
-            echo '<h3 style="text-align:center;background-color:black;color:white">Eres invitado</h3>';
-        else
-            echo '<h3 style="text-align:center;background-color:black;color:white">Eres admin</h3>';
-    ?>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Crear Categoria'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Categorías x Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin();?>    
 
