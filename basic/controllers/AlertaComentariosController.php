@@ -36,15 +36,15 @@ class AlertaComentariosController extends Controller
     public function actionIndex()
     {
         $searchModel = new AlertaComentariosSearch();
+        $searchModel2 = new AlertaComentariosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2 = $searchModel->ordenarComentariosFechaDesc();
-        $comentariosOrdenadosFecha = $dataProvider2->getModels();
+        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc();
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'dataProvider2' => $dataProvider2,
-            'comentariosOrdenadosFecha'=>$comentariosOrdenadosFecha,
         ]);
     }
 

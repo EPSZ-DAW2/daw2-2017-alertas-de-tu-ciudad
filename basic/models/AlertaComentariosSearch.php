@@ -87,7 +87,7 @@ class AlertaComentariosSearch extends AlertaComentarios
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 5,
             ],
             'sort'=>[
                 'defaultOrder' => [
