@@ -26,7 +26,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'comentario_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cerrado')->textInput() ?>
+    <?= $form->field($model, 'cerrado')->radioList([
+        0 => 'Cerrado',
+        1 => 'Abierto',
+    ]); ?>
 
     <?= $form->field($model, 'num_denuncias')->textInput() ?>
 

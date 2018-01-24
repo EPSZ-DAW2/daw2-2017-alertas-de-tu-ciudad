@@ -132,8 +132,9 @@ class AlertaComentariosSearch extends AlertaComentarios
                 'usuarios.nick',
                 ]
                 )
-             ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ');
-
+                ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ')
+                //Añadimos esta condicion para solo mostrar los hilos abiertos
+                ->andFilterWhere(['alerta_comentarios.cerrado' => 0]);
 
 
 
