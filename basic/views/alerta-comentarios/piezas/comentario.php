@@ -13,10 +13,10 @@ use yii\helpers\Html;
     <div class="comment-block">
         <div class="comment-name">
             <h1><?=$dataComentario->nick?></h1>
-            <h4> <b>#<?=$dataComentario->comentario_id?></b>
+            <h4> <b>#<?=$dataComentario->id?></b>
                 <?php   if(empty($dataComentario->comentario_id)){?>
                     <span class="glyphicon glyphicon-asterisk"></span>
-                    
+
                         <?php echo " Raiz ";
                         }
                         else {
@@ -36,7 +36,7 @@ use yii\helpers\Html;
             </div>
             <ul class="comment-actions">
                 <a href=""> <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li></a>
-                <a href=""><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
+                <a href="/TrabajoFinalDAW2/basic/web/usuario-incidencias/createdenuncia?id=1&tipo=comentario"><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
             </ul>
         </div>
     </div>
