@@ -30,6 +30,7 @@ class CategoriasEtiquetas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['categoria_id','etiqueta_id'],'unique', 'targetAttribute' => ['categoria_id','etiqueta_id'],'message' => 'La combinación de alerta etiqueta ya existe'],
             [['categoria_id', 'etiqueta_id'], 'required'],
             [['categoria_id', 'etiqueta_id'], 'integer'],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['categoria_id' => 'id']],
