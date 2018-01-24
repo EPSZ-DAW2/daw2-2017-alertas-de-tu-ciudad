@@ -24,7 +24,7 @@ class AlertasController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view','create','update','delete','finalizar'],
+                'only' => ['view','create','update','delete','finalizar','viewUsuario'],
                 'rules' => [
                     [
                         'actions' => ['create','update','delete','finalizar','view'],
@@ -56,12 +56,27 @@ class AlertasController extends Controller
     {
         $searchModel = new AlertaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+	
+	public function actionIndexadmin()
+    {
+        $searchModel = new AlertaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('indexAdmin', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+	
+	
 
     /**
      * Displays a single Alerta model.
@@ -74,6 +89,13 @@ class AlertasController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+	
+	public function actionViewusuario($id)
+    {
+        return $this->render('viewUsuario', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
     /**
      * Creates a new Alerta model.
@@ -83,6 +105,8 @@ class AlertasController extends Controller
     public function actionCreate()
     {
         $model = new Alerta();
+		
+		$us=Yii::$app->user->identity->id; //solo pueden crear alertas nuevas usuarios registrados
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -102,6 +126,9 @@ class AlertasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Modificar alertas nuevas usuarios registrados
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -115,10 +142,15 @@ class AlertasController extends Controller
 	public function actionFinalizar($id)
     {
         $model = $this->findModel($id);
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
+			
+			$model->terminada='1';
             return $this->render('finalizar', [
                 'model' => $model,
             ]);
@@ -139,6 +171,9 @@ class AlertasController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Borrar alertas nuevas usuarios registrados
+
 
         return $this->redirect(['index']);
     }
