@@ -25,6 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 		  <?= Html::a('Ver alertas donde aparece', ['alerquetas', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 		  <?= Html::a('Ver categorias donde aparece', ['catego', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+		  <?= Html::a(Yii::t('app', 'Añadir etiqueta a una categoría'), ['categorias-etiquetas/create'], ['class' => 'btn btn-success']) ?>
+		  <?= Html::a(Yii::t('app', 'Pedir corrección etiqueta'), ['usuario-incidencias/createconsulta'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DetailView::widget([

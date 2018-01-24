@@ -40,6 +40,8 @@ AppAsset::register($this);
             ['label' => 'Contact', 'url' => ['/site/contact']],
             //Acceso a Categorias 
             ['label' => 'Categorias', 'url' => ['/categorias']],
+			//Acceso a Etiquetas 
+            ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
 			//Acceso a Incidencias
 			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
 			//Acceso a los comentarios de las alertas
