@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaComentarios */
@@ -16,11 +17,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'crea_usuario_id')->textInput(['maxlength' => true]) ?>
     <!--DatePicker para facilitar la intro de datos a el usuario-->
-    <?= $form->field($model, 'crea_fecha')->textInput() ?>
+    <?= $form->field($model, 'crea_fecha')->widget(\yii\jui\DatePicker::className(), [
+        'language' => 'es',
+        'dateFormat' => 'dd-MM-yyyy',
+    ]) ?>
 
     <?= $form->field($model, 'modi_usuario_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'modi_fecha')->textInput() ?>
+    <?= $form->field($model, 'modi_fecha')->widget(\yii\jui\DatePicker::className(), [
+        'language' => 'es',
+        'dateFormat' => 'dd-MM-yyyy',
+    ]) ?>
 
     <?= $form->field($model, 'texto')->textarea(['rows' => 6]) ?>
 
