@@ -8,6 +8,7 @@ use app\models\AlertaImagenSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\FileHelper;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -294,9 +295,72 @@ class AlertaImagenesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+     //   $this->findModel($id)->delete();
+      //  return $this->redirect(['index']);
+        
+        //COMPROBAR QUE PUEDE BORRAR EL ARCHIVO...
+        //Yii::$app->user->getId(); //Obtener el ID del usuario conectado - Yii
+        
+         $model= AlertaImagen::findOne($id);
 
-        return $this->redirect(['index']);
+        $ruta = $model->obtenerRutaFisica();  
+        
+        //En el caso de por cualquier razón no existe la imagen relacionada.
+        //Entonces se borra solo el registro de la DB.
+        if($ruta == NULL)
+        {
+           $this->findModel($id)->delete();
+           return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        }
+        
+        $divisiones = explode("/", $ruta);
+        $c = count($divisiones);
+        
+        $ruta_relativa = "\uploads"; 
+        
+        //Obtiene la ruta relativa.
+        for($itr = $c-5; $itr <= $c-1; $itr++)
+            $ruta_relativa .= '\\'.$divisiones[$itr];
+     
+        //Transforma la ruta relativa en una completa.
+        $ruta_relativa = getcwd().$ruta_relativa;
+        
+        //Borra la imagen.
+        unlink($ruta_relativa);
+             
+        //Obtiene la base del directorio, es decir, la ruta anterior.
+        $dir = dirname($ruta_relativa);
+
+        //Va reduciendo la ruta hasta llegar a Uploads.
+        //Borra todos los directorios de carpetas hasta Uploads, siempre
+        //y cuando estas no tengan ningún archivo.
+        while(basename($dir) != "Uploads")
+        {
+            if(!$this->directorio_vacio($dir))
+                break;
+            
+            FileHelper::removeDirectory($dir);
+            $dir = dirname($dir);
+        }
+        
+        //Borra el registro de la base de datos.
+        $this->findModel($id)->delete();
+        return $this->redirect(Yii::$app->request->referrer ?: 'index');
+      //  return $this->redirect(['index']);
+    }
+    
+    function directorio_vacio($dir) 
+    {
+        if (!is_readable($dir)) return NULL;
+
+            $handle = opendir($dir);
+             while (false !== ($entry = readdir($handle))) 
+              {
+                if ($entry != "." && $entry != "..") 
+                    return false;
+
+              }
+        return true;
     }
 
     /**
