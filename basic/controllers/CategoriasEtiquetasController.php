@@ -21,6 +21,7 @@ class CategoriasEtiquetasController extends Controller
     public function behaviors()
     {
         return [
+		  /*
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['view','create','update','delete'],
@@ -43,7 +44,7 @@ class CategoriasEtiquetasController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],*/
         ];
     }
 

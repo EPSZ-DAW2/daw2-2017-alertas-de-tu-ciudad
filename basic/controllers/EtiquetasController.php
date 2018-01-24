@@ -23,6 +23,7 @@ class EtiquetasController extends Controller
         public function behaviors()
     {
         return [
+		  /*
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['view','create','update','delete'],
@@ -45,7 +46,7 @@ class EtiquetasController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],*/
         ];
     }
 
