@@ -14,7 +14,7 @@ use yii\helpers\Html;
         <div class="comment-name">
             <h1><?=$dataComentario->nick?></h1>
             <h4> <b>#<?=$dataComentario->id?></b>
-                <?php   if(empty($dataComentario->comentario_id)){?>
+                <?php   if(($dataComentario->comentario_id) == 0){ //Comentario padre/raiz?>
                     <span class="glyphicon glyphicon-asterisk"></span>
 
                         <?php echo " Raiz ";
@@ -35,7 +35,11 @@ use yii\helpers\Html;
                 ?>
             </div>
             <ul class="comment-actions">
-                <a href=""> <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li></a>
+                <?php if(!$dataComentario->bloqueado) {?>
+                    <a href=""> <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li></a>
+                <?php }else{?>
+                    <li class="complain redFont"><span class="glyphicon glyphicon-ban-circle"></span> Bloqueado</li>
+               <?php } ?>
                 <a href="/TrabajoFinalDAW2/basic/web/usuario-incidencias/createdenuncia?id=1&tipo=comentario"><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
             </ul>
         </div>

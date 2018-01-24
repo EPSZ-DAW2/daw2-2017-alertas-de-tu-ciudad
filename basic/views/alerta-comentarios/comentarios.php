@@ -20,7 +20,10 @@ use yii\widgets\LinkPager;
                 for ($count = 0; $count < $limit; ++$count) {
                     //Renderizamos cada comentario de la página
                     $dataComentario = $comentariosOrdenadosFecha[$count];
-                   echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
+
+                    //Para no visualizar los hilos cerrados
+                    if($dataComentario->cerrado == 0) //Si no estan cerrados se renderiza la vista si esta cerrado no se muestran
+                        echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
                 }
 
                 echo LinkPager::widget([
