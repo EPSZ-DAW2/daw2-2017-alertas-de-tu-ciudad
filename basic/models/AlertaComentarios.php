@@ -25,7 +25,7 @@ use Yii;
  */
 class AlertaComentarios extends \yii\db\ActiveRecord
 {
-    public $nick;
+    public $nick; //Añadimos atributo virtual para el nick del usuario en el comentario
     /**
      * @inheritdoc
      */
@@ -64,7 +64,7 @@ class AlertaComentarios extends \yii\db\ActiveRecord
                         'modi_fecha',
                         'fecha_denuncia1',
                         'bloqueo_fecha',
-                        'nick',
+                        'nick', //metemos el atributo virtual nick en el return
                     ],
                         'safe'
                 ],

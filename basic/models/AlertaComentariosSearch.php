@@ -12,7 +12,6 @@ use app\models\AlertaComentarios;
  */
 class AlertaComentariosSearch extends AlertaComentarios
 {
-    public $nick; //Añadimos el atributo virtual a esta tabla
     /**
      * @inheritdoc
      */
@@ -40,7 +39,6 @@ class AlertaComentariosSearch extends AlertaComentarios
                 'fecha_denuncia1',
                 'bloqueo_fecha',
                 'bloqueo_notas',
-                'nick', //Añadimos el atributo virtual nombre para mostrarlo en los comentarios
                 ],
 
                 'safe'

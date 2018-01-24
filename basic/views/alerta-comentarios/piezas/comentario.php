@@ -12,7 +12,7 @@ use yii\helpers\Html;
     </div>
     <div class="comment-block">
         <div class="comment-name">
-            <h1>Nombre Usuario #<?=$dataComentario->comentario_id?></h1>
+            <h1><?=$dataComentario->nick?> #<?=$dataComentario->comentario_id?></h1>
             <p class="comment-text">
                 <?= $dataComentario->texto;?>
             </p>

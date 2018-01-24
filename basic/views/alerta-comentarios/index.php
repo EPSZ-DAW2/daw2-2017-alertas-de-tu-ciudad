@@ -65,7 +65,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 for ($count = 0; $count < $limit; ++$count) {
                     //Renderizamos cada comentario de la página
                     $dataComentario = $comentariosOrdenadosFecha[$count];
-                    var_dump($dataComentario->attributes);
                    echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
                 }
                 echo LinkPager::widget([
