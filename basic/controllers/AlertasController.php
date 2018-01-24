@@ -24,7 +24,7 @@ class AlertasController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view','create','update','delete'],
+                'only' => ['view','create','update','delete','finalizar'],
                 'rules' => [
                     [
                         'actions' => ['create','update','delete','finalizar','view'],
