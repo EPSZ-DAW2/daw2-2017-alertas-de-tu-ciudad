@@ -16,7 +16,12 @@ use yii\helpers\Html;
             <p class="comment-text">
                 <?= $dataComentario->texto;?>
             </p>
-            <div class="comment-date"><?= $dataComentario->modi_fecha;?></div>
+            <div class="comment-date">
+                <?php
+                $date = new DateTime($dataComentario->modi_fecha);
+                echo date_format($date, 'H:i:s (d-m-Y)');
+                ?>
+            </div>
             <ul class="comment-actions">
                 <a href=""> <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li></a>
                 <a href=""><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
