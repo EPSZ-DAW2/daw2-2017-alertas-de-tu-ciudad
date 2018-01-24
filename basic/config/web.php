@@ -4,10 +4,9 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'name' => 'Daw2 Alertas de tu ciudad',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    //'vendorPath' => dirname( dirname(__DIR__)).DIRECTORY_SEPARATOR.'vendor',
+    'vendorPath' => dirname( dirname(__DIR__)).DIRECTORY_SEPARATOR.'vendor',
     'bootstrap' => ['log'],
     //'catchAll' => ['/site/apagado'],
     //'catchAll' => false,
@@ -24,9 +23,10 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            //'identityClass' => 'app\models\Usuarios',
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => false,
+          //  'identityClass' => 'app\models\Usuario',
+           'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
+			'enableSession' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
