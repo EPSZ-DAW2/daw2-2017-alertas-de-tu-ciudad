@@ -2,13 +2,13 @@
             background-color: #f0f2fa;
             -webkit-font-smoothing: antialiased;
         }
-        .comments > p {
-            line-height: 1.3125rem;
+        p.comment-text {
+        	padding-top: 2rem;
+            line-height: 1.7rem;
         }
 
         .comments {
             margin: 2.5rem auto 0;
-            max-width: 60.75rem;
             padding: 0 1.25rem;
         }
 
@@ -19,57 +19,62 @@
             width: 3.5rem;
         }
         .photo .avatar {
-            height: 2.25rem;
-            width: 2.25rem;
+            height: 4rem;
+            width: 4rem;
             border-radius: 50%;
+            margin:1rem;
             background-size: contain;
 
         }
         .comment-block {
-        	 font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+        	font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
             color: #555f77;
             padding: 1rem;
+            margin:1rem;
             background-color: #fff;
             display: table-cell;
             vertical-align: top;
             border-radius: 0.1875rem;
-            width:100rem;
+           
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
-        }
-        .comment-block textarea {
-            width: 100%;
-            resize: none;
         }
 
         .comment-text {
-            margin-bottom: 1.25rem;
-            margin-top: 1.25rem;
-        }
-
-        .bottom-comment {
-            color: #acb4c2;
-            font-size: 0.875rem;
+            margin:1rem;
+            font-size: 1.5rem;
+            font-weight: normal;
         }
 
         .comment-date {
-            float: left;
+        	margin:1rem;
+            margin-top: 2.5rem;
+            float:left;
+            font-size: 1.25rem;
+             color: #acb4c2;
         }
 
         .comment-name {
             float: left;
             font-weight:bold;
+             width:100rem;
         }
-
+        .comment-name > h1{
+        	font-size: 1.8rem;
+        	font-weight: bold;
+        	margin:1rem;
+        }
         .comment-actions {
+        	margin:0;
             float: right;
         }
         .comment-actions li {
             display: list-item;
             cursor: pointer;
-            margin:5px;
+            margin:0.3rem;
 
         }
         .comment-actions li.complain {
+        	list-style:none;
             padding-right: 0.75rem;
             border-right: 1px solid #e1e5eb;
         }
