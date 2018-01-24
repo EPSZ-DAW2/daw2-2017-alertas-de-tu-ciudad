@@ -48,19 +48,6 @@ AppAsset::register($this);
 			//Acceso a los comentarios de las alertas
 			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
 
-				
-				/*
-				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
-            Yii::$app->user->isAdmin ? (
-                ['label' => 'Etiquetas', 'url' => ['/etiquetas/index']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::endForm()
-                . '</li>'
-            ),
-				*/
-				
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
