@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crea_fecha',
             'modi_usuario_id',
              'modi_fecha',
-            // 'texto:ntext',
-             'comentario_id',
-            // 'cerrado',
+             //'texto:ntext',
+            // 'comentario_id',
+            //'cerrado',
             // 'num_denuncias',
             // 'fecha_denuncia1',
             // 'bloqueado',
@@ -47,34 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <h1>Comentarios Prueba</h1>
-
-        <?php
-            $comentariosOrdenadosFecha = $dataProvider2->getModels();
-            //obtenemos la paginacion
-            $pagination = $dataProvider2->getPagination();
-
-            if ($pagination === false) {
-
-            } else {
-
-                // El total de las páginas obtenidas son
-                $pagination->totalCount = $dataProvider2->getTotalCount();
-                //El limite de las páginas es
-                $limit = sizeof($comentariosOrdenadosFecha);
-
-                for ($count = 0; $count < $limit; ++$count) {
-                    //Renderizamos cada comentario de la página
-                    $dataComentario = $comentariosOrdenadosFecha[$count];
-                   echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
-                }
-                echo LinkPager::widget([
-                    'pagination' => $pagination,
-                ]);
-            }
-
-        ?>
-
-
+    <?= $this->render("comentarios.php",['searchModel'=>$searchModel, 'dataProvider2'=>$dataProvider2]); ?>
 <?php
     Pjax::end();
 ?>
