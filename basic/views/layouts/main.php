@@ -1,12 +1,15 @@
 <?php
+
 /* @var $this \yii\web\View */
 /* @var $content string */
+
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -36,43 +39,23 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-			['label' => 'Alertas', 'url' => ['/alertas']],
-            /*['label' => 'About', 'url' => ['/site/about']],*/
-            /*['label' => 'Contact', 'url' => ['/site/contact']],*/
-            //Acceso a Categorias 
-            ['label' => 'Categorias', 'url' => ['/categorias']],
-			//Acceso a Etiquetas 
-            ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
-			//Acceso a Incidencias
-			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
-			//Acceso a los comentarios de las alertas
-			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
-
-				
-				/*
-				Hecho para el control de usuarios de las etiquetas. Descomentar una vez hechos los usuarios
-            Yii::$app->user->isAdmin ? (
-                ['label' => 'Etiquetas', 'url' => ['/etiquetas/index']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::endForm()
-                . '</li>'
-            ),
-				*/
-				
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+			['label' => 'Usuarios', 'url' => ['/usuarios']],
+			['label' => 'Registro', 'url' => ['/site/register']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout (' . Yii::$app->user->identity->email . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
                 . '</li>'
             )
+			 
         ],
     ]);
     NavBar::end();
@@ -82,17 +65,15 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?php //Probar que funciona el JUI. 
-          //echo yii\jui\DatePicker::widget(['name' => 'attributeName']);
-        ?>
         <?= Alert::widget() ?>
         <?= $content ?>
+        <pre><?=  print_r (Yii::$app->user,true); ?></pre>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Daw2 Alertas <?= date('Y') ?></p>
+        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
