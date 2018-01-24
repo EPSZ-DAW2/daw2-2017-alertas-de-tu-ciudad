@@ -208,7 +208,9 @@ class UsuarioIncidenciasController extends Controller
     }
 	
 	/*
-	* Funcion Createmensaje: 
+	* Funcion Createmensaje: Función que se encarga de mandar un mensaje de usuario a usuario
+							 pasandole como parametro el id del usuario destino.
+	*						  
 	*/
 	
 	public function actionCreatemensaje($id)
@@ -247,6 +249,10 @@ class UsuarioIncidenciasController extends Controller
         }
     }
 	
+	/*
+	* Función actionCreateconsulta: función que se encargar de que un usario lance un consulta 
+	*								a cualquier moderador o administrador.
+	*/
 	public function actionCreateconsulta()
     {
 	
@@ -282,6 +288,11 @@ class UsuarioIncidenciasController extends Controller
             ]);
         }
     }
+	
+	/*
+	* Función actionCreatenotificacion: función que se encargar de que un adminsitrador o 
+	*									moderador lance una notificación para todos lo usuarios
+	*/
 	
 	public function actionCreatenotificacion()
     {
@@ -319,6 +330,12 @@ class UsuarioIncidenciasController extends Controller
         }
     }
 	
+	/*
+	* Función actionCreateaviso: función que se encargar de que un adminsitrador o 
+	*									moderador lance una aviso para  un usuarios, 
+	*									pasado por el parametro id.
+	*/
+	
 	public function actionCreateaviso($id)
     {
 	
@@ -338,6 +355,7 @@ class UsuarioIncidenciasController extends Controller
 			if($bien){
 				$model->save();
 				 return $this->redirect(['view', 'id' => $model->id]);
+				 
 			}else{
 				return $this->render('createincidencia', [
                 'model' => $model,
@@ -351,6 +369,7 @@ class UsuarioIncidenciasController extends Controller
             return $this->render('createincidencia', [
                 'model' => $model,
 				'nombrenombreaviso' => $destinatario->nick,
+				
             ]);
         }
     }
