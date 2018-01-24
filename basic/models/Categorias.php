@@ -28,6 +28,7 @@ class Categorias extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['nombre','categoria_id'],'unique', 'targetAttribute' => ['nombre','categoria_id'],'message' => 'La combinación de categorias ya existe'],
             [['descripcion'], 'string'],
             [['categoria_id'],'integer'],
             [['nombre'], 'string', 'max' => 25],
