@@ -5,8 +5,20 @@
         p.comment-text {
         	padding-top: 2rem;
             line-height: 1.7rem;
+            min-width:100rem;
+           	width: 100%;
         }
-
+        .comment-name > h1{
+        	float:left;
+        }
+         .comment-name > h4{
+        	float:right;
+        	margin-right: 1rem;
+        }
+        .comment-name >p{
+        	min-height: 2rem;
+        	float:left;
+        }
         .comments {
             margin: 2.5rem auto 0;
             padding: 0 1.25rem;
@@ -56,7 +68,7 @@
         .comment-name {
             float: left;
             font-weight:bold;
-             width:100rem;
+             
         }
         .comment-name > h1{
         	font-size: 1.8rem;

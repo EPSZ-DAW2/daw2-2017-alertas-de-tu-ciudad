@@ -12,7 +12,19 @@ use yii\helpers\Html;
     </div>
     <div class="comment-block">
         <div class="comment-name">
-            <h1><?=$dataComentario->nick?> #<?=$dataComentario->comentario_id?></h1>
+            <h1><?=$dataComentario->nick?></h1>
+            <h4> <b>#<?=$dataComentario->comentario_id?></b>
+                <?php   if(empty($dataComentario->comentario_id)){?>
+                    <span class="glyphicon glyphicon-asterisk"></span>
+                    
+                        <?php echo " Raiz ";
+                        }
+                        else {
+                        ?><span class="glyphicon glyphicon-arrow-right"></span>
+                            <?php echo "  #".$dataComentario->comentario_id;
+                        }
+                        ?>
+               </h4>
             <p class="comment-text">
                 <?= $dataComentario->texto;?>
             </p>
