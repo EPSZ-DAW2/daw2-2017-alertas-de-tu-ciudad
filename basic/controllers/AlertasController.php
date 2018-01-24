@@ -8,6 +8,7 @@ use app\models\AlertaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * AlertasController implements the CRUD actions for Alerta model.
@@ -16,10 +17,28 @@ class AlertasController extends Controller
 {
     /**
      * @inheritdoc
+	 * Controlar los usuarios que pueden crear, modificar o borrar
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['create','update','delete','finalizar','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
