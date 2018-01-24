@@ -38,9 +38,7 @@ class AlertaComentariosController extends Controller
         $searchModel = new AlertaComentariosSearch();
         $searchModel2 = new AlertaComentariosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc();
-
-
+        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc("");
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

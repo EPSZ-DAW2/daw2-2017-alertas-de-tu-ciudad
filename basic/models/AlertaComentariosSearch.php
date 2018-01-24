@@ -12,14 +12,39 @@ use app\models\AlertaComentarios;
  */
 class AlertaComentariosSearch extends AlertaComentarios
 {
+    public $nick; //Añadimos el atributo virtual a esta tabla
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'alerta_id', 'crea_usuario_id', 'modi_usuario_id', 'comentario_id', 'cerrado', 'num_denuncias', 'bloqueado', 'bloqueo_usuario_id'], 'integer'],
-            [['crea_fecha', 'modi_fecha', 'texto', 'fecha_denuncia1', 'bloqueo_fecha', 'bloqueo_notas'], 'safe'],
+            [
+                ['id',
+                'alerta_id',
+                'crea_usuario_id',
+                'modi_usuario_id',
+                'comentario_id',
+                'cerrado',
+                'num_denuncias',
+                'bloqueado',
+                'bloqueo_usuario_id',
+
+                ],
+                'integer'
+            ],
+            [
+                ['crea_fecha',
+                'modi_fecha',
+                'texto',
+                'fecha_denuncia1',
+                'bloqueo_fecha',
+                'bloqueo_notas',
+                'nick', //Añadimos el atributo virtual nombre para mostrarlo en los comentarios
+                ],
+
+                'safe'
+            ],
         ];
     }
 
@@ -80,10 +105,47 @@ class AlertaComentariosSearch extends AlertaComentarios
         return $dataProvider;
     }
 
-    public function ordenarComentariosFechaDesc(){
+    /**
+     * Función que crea devuelve un data provider con los datosOrdenados y devolviendo ademas el valor del nick(atributo virtual)
+     * para los comentarios
+     * @param $idIncidencia
+     * @return ActiveDataProvider
+     */
+    public function ordenarComentariosFechaDesc($idIncidencia){
 
-        $query = AlertaComentarios::find();
-        // add conditions that should always apply here
+        $query = AlertaComentarios::find()
+            ->select(
+                [
+                'alerta_comentarios.id',
+                'alerta_comentarios.alerta_id',
+                'alerta_comentarios.crea_usuario_id',
+                'alerta_comentarios.crea_fecha',
+                'alerta_comentarios.modi_usuario_id',
+                'alerta_comentarios.modi_fecha',
+                'alerta_comentarios.texto',
+                'alerta_comentarios.comentario_id',
+                'alerta_comentarios.cerrado',
+                'alerta_comentarios.num_denuncias',
+                'alerta_comentarios.fecha_denuncia1',
+                'alerta_comentarios.bloqueado',
+                'alerta_comentarios.bloqueo_usuario_id',
+                'alerta_comentarios.bloqueo_fecha',
+                'alerta_comentarios.bloqueo_notas',
+                'usuarios.nick',
+                ]
+                )
+             ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ');
+
+
+
+
+        //Si existe el id de Incidencia se le hace el filtro
+        if(!empty($idIncidencia)){
+            $query->andFilterWhere([
+                'alerta_id' => $idIncidencia]);
+
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -99,9 +161,9 @@ class AlertaComentariosSearch extends AlertaComentarios
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+
             return $dataProvider;
         }
-
         return $dataProvider;
     }
 }

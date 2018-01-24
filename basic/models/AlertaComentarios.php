@@ -25,6 +25,7 @@ use Yii;
  */
 class AlertaComentarios extends \yii\db\ActiveRecord
 {
+    public $nick;
     /**
      * @inheritdoc
      */
@@ -39,10 +40,40 @@ class AlertaComentarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['alerta_id', 'texto'], 'required'],
-            [['alerta_id', 'crea_usuario_id', 'modi_usuario_id', 'comentario_id', 'cerrado', 'num_denuncias', 'bloqueado', 'bloqueo_usuario_id'], 'integer'],
-            [['crea_fecha', 'modi_fecha', 'fecha_denuncia1', 'bloqueo_fecha'], 'safe'],
-            [['texto', 'bloqueo_notas'], 'string'],
+                [
+                    ['alerta_id',
+                        'texto'
+                    ],
+                    'required'],
+                [
+                    [   'alerta_id',
+                        'crea_usuario_id',
+                        'modi_usuario_id',
+                        'comentario_id',
+                        'cerrado',
+                        'num_denuncias',
+                        'bloqueado',
+                        'bloqueo_usuario_id',
+
+                    ],
+
+                    'integer'
+                ],
+                [
+                    [   'crea_fecha',
+                        'modi_fecha',
+                        'fecha_denuncia1',
+                        'bloqueo_fecha',
+                        'nick',
+                    ],
+                        'safe'
+                ],
+                [
+                    [   'texto',
+                        'bloqueo_notas',
+                    ],
+                    'string'
+                ],
         ];
     }
 
@@ -74,6 +105,7 @@ class AlertaComentarios extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return AlertaComentariosQuery the active query used by this AR class.
      */
+
     public static function find()
     {
         return new AlertaComentariosQuery(get_called_class());
