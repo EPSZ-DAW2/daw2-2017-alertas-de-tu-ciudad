@@ -36,11 +36,14 @@ $destinatario = (Yii::$app->user->identity->id == $model->destino_usuario_id);
     <?= $form->field($model, 'fecha_borrado')->textInput(['disabled'=>true]) ?>
 	<?php if($destinatario){
 		echo Html::checkbox('borrar', ($model->fecha_borrado!=null), ['label' => 'Marcar para borrarla, desmarcar para recuperarla']) ;
+		echo "<br>";
 	}
 	 if($model->fecha_aceptado==null && $model->fecha_borrado==null){
-		echo Html::checkbox('aceptar', false, ['label' => 'Acepto la gestión de la incidencia']) ;
+		echo Html::checkbox('aceptar', false, ['label' => 'Acepto la gestión de la incidencia']);
+		
 	}else{
 		echo $form->field($model, 'fecha_aceptado')->textInput(['disabled'=>true]);} ?>
+	
 	
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Modificar'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

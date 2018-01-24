@@ -30,6 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'fecha_borrado',
             'fecha_aceptado',
         ],
-    ]) ?>
+    ]);
+	
+	if($model->clase_incidencia_id == 'C'){
+		
+		echo Html::a(Yii::t('app', 'Responder Consulta'), ['createmensaje', 'id' => $model->origen_usuario_id], ['class' => 'btn btn-success']);
+	}
+	
+	?> 
 
 </div>

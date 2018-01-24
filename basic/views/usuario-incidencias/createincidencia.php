@@ -19,6 +19,9 @@ if(isset($consulta)){
 if(isset($notificacion)){
 	$this->title = Yii::t('app', 'Escriba la notificación');
 }
+if(isset($aviso)){
+	$this->title = Yii::t('app', 'Escriba el aviso');
+}
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Volver'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
