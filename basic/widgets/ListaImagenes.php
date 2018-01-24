@@ -33,13 +33,13 @@ class ListaImagenes extends Widget
 
     public function run()
     {
+        $this->view->registerCssFile(Url::base(true).'/css/imagenes.css');
         //Agregamos el div de previsualización en la vista.
         echo '<div style="margin-top: 30px; margin-bottom: 30px;">'
        . '<ul id="previsualizador" class="ul_imagen"></ul></div>';
         // Registramos en la fista el fichero de javascript donde están las funciones asociadas con las imagenes.
         // Lo haremos usando una ruta global, para evitar posibles problemas.
         $this->view->registerJSFile(Url::base(true).'/js/funciones_imagenes.js');
-        
         
        foreach($this->rutas_imagenes as $ruta)
        {

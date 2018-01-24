@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\AlertaImagen */
 
 $this->registerJsFile('@web/js/funciones_imagenes.js');
+$this->registerCssFile('@web/css/imagenes.css');
 
 $this->title = Yii::t('app', 'Adjuntar imagenes en Alerta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagenes'), 'url' => ['index']];
