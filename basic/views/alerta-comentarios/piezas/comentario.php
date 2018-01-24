@@ -15,7 +15,7 @@ use yii\helpers\Html;
             <h1><?=$dataComentario->nick?></h1>
             <h4> <b>#<?=$dataComentario->id?></b>
                 <?php   if(($dataComentario->comentario_id) == 0){ //Comentario padre/raiz?>
-                    <span class="glyphicon glyphicon-asterisk"></span>
+                        <span class="glyphicon glyphicon-asterisk"></span>
 
                         <?php echo " Raiz ";
                         }
@@ -24,7 +24,7 @@ use yii\helpers\Html;
                             <?php echo "  #".$dataComentario->comentario_id;
                         }
                         ?>
-               </h4>
+           </h4>
             <p class="comment-text">
                 <?= $dataComentario->texto;?>
             </p>
