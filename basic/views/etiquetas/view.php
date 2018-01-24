@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+		<-- añadidos botones para enlazar con categorias-etiquetas y con las consultas de incidencias para pedir cambio etiquetas-->
 		  <?= Html::a('Ver alertas donde aparece', ['alerquetas', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 		  <?= Html::a('Ver categorias donde aparece', ['catego', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 		  <?= Html::a(Yii::t('app', 'Añadir etiqueta a una categoría'), ['categorias-etiquetas/create'], ['class' => 'btn btn-success']) ?>
