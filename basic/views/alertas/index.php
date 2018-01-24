@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AlertaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Alertas';
+$this->title =  Yii::t('app','Alertas');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="alerta-index">
@@ -17,8 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Alerta', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    
+	<?php if(isset($admin) && $admin==true){
+			echo Html::a(Yii::t('app', 'Alertas-admin'), ['indexadmin'], ['class' => 'btn btn-success']);
+			}
+		?>
+		</p>
+
+   <?= GridView::widget([
+   
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -40,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'categoria_id',
             // 'activada',
             // 'visible',
-            // 'terminada',
+             'terminada',
             // 'fecha_terminacion',
             // 'notas_terminacion:ntext',
             // 'num_denuncias',
@@ -54,8 +62,15 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modi_usuario_id',
             // 'modi_fecha',
             // 'notas_admin:ntext',
+			
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
+             ['class' => 'yii\grid\ActionColumn',
+			'template' => '  {view}',
+			]
+			 ],
+		
     ]); ?>
-<?php Pjax::end(); ?></div>
+
+
+
+

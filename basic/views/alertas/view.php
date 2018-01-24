@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Alerta */
 
-$this->title = $model->id;
+$this->title = Yii::t('app','Alerta '. $model->id);
 $this->params['breadcrumbs'][] = ['label' => 'Alertas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,15 +16,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+	<?php if(isset($admin) && $admin==true){
+			echo Html::a(Yii::t('app', 'Alertas admin'), ['indexadmin'], ['class' => 'btn btn-success']);
+			}
+		?>
+	
+		<?php if(isset($admin) && $admin==true){}
+		
+			
+		
+        echo Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        echo Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
-		<?= Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        ]);
+		echo Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
     </p>
 
     <?= DetailView::widget([
@@ -41,16 +51,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'notas:ntext',
             'url:ntext',
             'imagen_id',
-            'imagen_revisada',
             'categoria_id',
+			'terminada',
+            'bloqueada',
+
+
+           /* 'imagen_revisada',
             'activada',
             'visible',
-            'terminada',
             'fecha_terminacion',
             'notas_terminacion:ntext',
             'num_denuncias',
             'fecha_denuncia1',
-            'bloqueada',
             'bloqueo_usuario_id',
             'bloqueo_fecha',
             'bloqueo_notas:ntext',
@@ -58,7 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'crea_fecha',
             'modi_usuario_id',
             'modi_fecha',
-            'notas_admin:ntext',
+            'notas_admin:ntext',*/
+			
+			
         ],
     ]) ?>
 

@@ -17,6 +17,9 @@ $this->params['breadcrumbs'][] = 'Finalizar';
 
     <h1><?= Html::encode($this->title) ?></h1>
 	
+	 <?= Html::a('Volver', ['view', 'id' => $model->id], ['class' => 'btn btn-primary']);?>
+
+	
 	<?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -29,7 +32,7 @@ $this->params['breadcrumbs'][] = 'Finalizar';
 	<?= $form->field($model, 'terminada')->textInput() ?>
 	
 	<div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Confirmar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 	 <?php ActiveForm::end(); ?>
 
