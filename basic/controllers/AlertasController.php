@@ -92,6 +92,24 @@ class AlertasController extends Controller
             ]);
         }
     }
+	
+	public function actionFinalizar($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('finalizar', [
+                'model' => $model,
+            ]);
+        }
+		
+		
+		
+    }
+	
+	
 
     /**
      * Deletes an existing Alerta model.
