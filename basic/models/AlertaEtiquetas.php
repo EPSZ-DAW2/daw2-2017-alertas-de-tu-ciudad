@@ -10,6 +10,9 @@ use Yii;
  * @property string $id
  * @property string $alerta_id
  * @property string $etiqueta_id
+ *
+ * @property Etiquetas $etiqueta
+ * @property Alertas $alertas
  */
 class AlertaEtiquetas extends \yii\db\ActiveRecord
 {
@@ -29,6 +32,7 @@ class AlertaEtiquetas extends \yii\db\ActiveRecord
         return [
             [['alerta_id', 'etiqueta_id'], 'required'],
             [['alerta_id', 'etiqueta_id'], 'integer'],
+            [['etiqueta_id'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['etiqueta_id' => 'id']],
         ];
     }
 
@@ -39,8 +43,24 @@ class AlertaEtiquetas extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'alerta_id' => Yii::t('app', 'Alerta ID'),
-            'etiqueta_id' => Yii::t('app', 'Etiqueta ID'),
+            'alerta_id' => Yii::t('app', 'Alerta'),
+            'etiqueta_id' => Yii::t('app', 'Etiqueta'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEtiqueta()
+    {
+        return $this->hasOne(Etiquetas::className(), ['id' => 'etiqueta_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAlerta()
+    {
+        return $this->hasOne(Alerta::className(), ['id' => 'alerta_id']);
     }
 }

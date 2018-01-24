@@ -10,7 +10,7 @@ use yii\jui\AutoComplete;
 
 $source_categorias=array_merge([],array_unique(CategoriasEtiquetas::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->groupBy('categoria.id')->asArray()->all(),SORT_REGULAR));
 
-$this->title = "Categorias en las que aparece la etiqueta con id: ".$model->id.", ".$model->nombre.".";
+$this->title = "Categorias en las que aparece";
 $this->params['breadcrumbs'][] = ['label' => 'Categorias Etiquetas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

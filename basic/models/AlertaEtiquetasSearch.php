@@ -12,6 +12,10 @@ use app\models\AlertaEtiquetas;
  */
 class AlertaEtiquetasSearch extends AlertaEtiquetas
 {
+	 public $titulo_alerta;
+    public $nombre_etiqueta;
+
+	
     /**
      * @inheritdoc
      */
@@ -19,6 +23,7 @@ class AlertaEtiquetasSearch extends AlertaEtiquetas
     {
         return [
             [['id', 'alerta_id', 'etiqueta_id'], 'integer'],
+				[['titulo_alerta','nombre_etiqueta'], 'safe'],
         ];
     }
 
@@ -41,12 +46,53 @@ class AlertaEtiquetasSearch extends AlertaEtiquetas
     public function search($params)
     {
         $query = AlertaEtiquetas::find();
+		  $query = AlertaEtiquetas::find()->joinWith('alerta AS alerta')->joinWith('etiqueta AS etiqueta');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+		  
+		  $dataProvider->getSort()->attributes['titulo_alerta']= [
+            'asc' => [   
+                'alerta.titulo' => SORT_ASC,
+                'etiqueta.nombre' => SORT_ASC,
+                'id' => SORT_ASC,
+                'alerta_id' => SORT_ASC,
+                'etiqueta_id' => SORT_ASC,
+                ],
+            'desc' => [
+                'alerta.titulo' => SORT_DESC,
+                'etiqueta.nombre' => SORT_DESC,
+                'id' => SORT_DESC,
+                'alerta_id' => SORT_DESC,
+                'etiqueta_id' => SORT_DESC,
+                ],
+
+            'default' => SORT_ASC,
+            //'label' => 'Nombre CAT',
+        ];
+		  
+        $dataProvider->getSort()->attributes['nombre_etiqueta']= [
+            'asc' => [   
+                'alerta.titulo' => SORT_ASC,
+                'etiqueta.nombre' => SORT_ASC,
+                'id' => SORT_ASC,
+                'alerta_id' => SORT_ASC,
+                'etiqueta_id' => SORT_ASC,
+                ],
+            'desc' => [
+                'alerta.titulo' => SORT_DESC,
+                'etiqueta.nombre' => SORT_DESC,
+                'id' => SORT_DESC,
+                'alerta_id' => SORT_DESC,
+                'etiqueta_id' => SORT_DESC,
+                ],
+
+            'default' => SORT_ASC,
+            //'label' => 'Nombre CAT',
+        ];
 
         $this->load($params);
 
@@ -62,6 +108,9 @@ class AlertaEtiquetasSearch extends AlertaEtiquetas
             'alerta_id' => $this->alerta_id,
             'etiqueta_id' => $this->etiqueta_id,
         ]);
+		  
+		  $query->andFilterWhere(['like','alerta.titulo',$this->titulo_alerta])
+            ->andFilterWhere(['like','etiqueta.nombre',$this->nombre_etiqueta]);
 
         return $dataProvider;
     }
