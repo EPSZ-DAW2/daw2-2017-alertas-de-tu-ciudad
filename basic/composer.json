@@ -18,7 +18,7 @@
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "yiisoft/yii2-jui": "^2.0",
+        "yiisoft/yii2-jui": "~2.0.0",
         "fxp/composer-asset-plugin": "~1.0"
     },
     "require-dev": {

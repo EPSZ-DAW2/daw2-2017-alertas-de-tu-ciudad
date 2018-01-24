@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'crea_usuario_id')->textInput(['maxlength' => true]) ?>
-
+    <!--DatePicker para facilitar la intro de datos a el usuario-->
     <?= $form->field($model, 'crea_fecha')->textInput() ?>
 
     <?= $form->field($model, 'modi_usuario_id')->textInput(['maxlength' => true]) ?>
@@ -27,15 +27,18 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'comentario_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'cerrado')->radioList([
-        0 => 'Cerrado',
-        1 => 'Abierto',
+        0 => 'Abierto',
+        1 => 'Cerrado',
     ]); ?>
 
     <?= $form->field($model, 'num_denuncias')->textInput() ?>
 
     <?= $form->field($model, 'fecha_denuncia1')->textInput() ?>
 
-    <?= $form->field($model, 'bloqueado')->textInput() ?>
+    <?= $form->field($model, 'bloqueado')->radioList([
+        0 => 'Abierto',
+        1 => 'Cerrado',
+    ]); ?>
 
     <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>
 
