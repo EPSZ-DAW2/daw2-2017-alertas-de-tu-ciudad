@@ -148,3 +148,8 @@
 	li.complain.redFont{
 		color:red;
 	}
+
+    #textarea-comentario{
+        /*resize: none;*/
+        min-width: 115rem;
+    }
