@@ -127,7 +127,7 @@ class AlertaImagenesController extends Controller
              //En el caso de que exista un error al intentar subir las imagenes, volvemos
              //a la view en la que estabamos, pasándole el mensaje de error oportuno.
              if($error)
-               return $this->EnviarMensajeError($code);
+               return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code),'create_multi');
 
                           
                 $model->load(Yii::$app->request->post());
@@ -180,7 +180,7 @@ class AlertaImagenesController extends Controller
                $ruta .= '/'.$hashes[0].'.'.$extension_imagen;
 
                 if(!move_uploaded_file($fichero_temporal, $ruta))
-                  return $this->EnviarMensajeError(UPLOAD_ERR_CANT_WRITE);
+                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create_multi');
                 
                 $model->save();
                 $orden = $orden + 1;//No está del todo implementado.     
@@ -201,15 +201,13 @@ class AlertaImagenesController extends Controller
     }
 
    
-    private function EnviarMensajeError($code)
+    private function EnviarMensajeError($model, $mensajeError, $return)
     {
-        $model = new AlertaImagen();
         $model->load(Yii::$app->request->post());
-        $mensajeError = $this->mensajeErrorUpload($code);
 
         Yii::$app->getSession()->setFlash('error', 'ERROR: '. $mensajeError);
 
-        return $this->render('create_multi', [
+        return $this->render($return, [
         'model' => $model,
     ]);   
     }  
@@ -275,11 +273,89 @@ class AlertaImagenesController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+    {      
+       $model = $this->findModel($id);
+          
+       //Accederemos siempre que se intente subir una imagen desde el input.
+       //Es decir, siempre que que se produzca un submit.
+       if (isset($_FILES['explorar_ficheros']))
+       {                 
+            $extensiones_permitidas = $model::$extensiones_permitidas;
+                
+            //Numero total de imagenes subidas.
+            $total = count($_FILES['explorar_ficheros']['name']);
+            
+            if($total > 2)
+                return $this->EnviarMensajeError($model, 'Debe introducir solamente una imagen.','update');
+            
+             $code = $_FILES['explorar_ficheros']['error'];
+             $imagen_subida = true;
+             
+             if($this->codigoErrorUpload($code))
+             {
+                 if($code != UPLOAD_ERR_NO_FILE)
+                    return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code), 'update'); 
+                 else 
+                     $imagen_subida = false;                  
+             }
+             
+                $model->load(Yii::$app->request->post());
+             
+                $model->modi_usuario_id = 0; //ID del usuario que modifica. Esperando a que estén listos los usuarios.
+                $model->modi_fecha = date("Y-m-d H:i:s"); ;  //Estamos creando, no modificando.
+                
+                // Esperando por los usuarios...
+                // if(Yii::$app->user->isAdmin) SI SE TRATA DE UN ADMIN.
+                // Imagen revisada = 1.
+                
+             if($imagen_subida)
+             {
+                 $ruta = $model->obtenerRutaFisica();
+                 
+                 if($ruta == null)
+                 {
+                     return $this->EnviarMensajeError($model, 'Imagen no encontrada.','update');
+                 }
+                 
+                 $fichero_temporal = $_FILES['explorar_ficheros']['tmp_name'];
+                 $nombre_imagen = basename($_FILES['explorar_ficheros']['name']);
+                 $extension_imagen = pathinfo(strtolower($nombre_imagen), PATHINFO_EXTENSION);
+                 
+                $divisiones = explode("/", $ruta);
+                $c = count($divisiones);
+
+                $ruta_relativa = "\uploads"; 
+
+                //Obtiene la ruta relativa.
+                for($itr = $c-5; $itr <= $c-1; $itr++)
+                    $ruta_relativa .= '\\'.$divisiones[$itr];
+
+                //Transforma la ruta relativa en una completa.
+                $ruta_relativa = getcwd().$ruta_relativa;
+
+                //Borra la imagen.
+                unlink($ruta_relativa);
+                
+                //confirmamos la extensión, retirando la anterior y poniendo la nueva
+                $ruta_relativa = dirname($ruta_relativa).'\\'.pathinfo($ruta_relativa, PATHINFO_FILENAME);
+                $ruta_relativa = $ruta_relativa.'.'.$extension_imagen;
+                
+                 //Subimos la nueva imagen
+                  if(!move_uploaded_file($fichero_temporal, $ruta_relativa))
+                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create_multi');                        
+            
+                  
+                 }
+             
+             $model->save();
+             
+            return $this->redirect(['index']);            
+       }
+            
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+           // return $this->redirect(['view', 'id' => $model->id]);
+            //Nunca debería llegar aquí.
         } else {
             return $this->render('update', [
                 'model' => $model,
