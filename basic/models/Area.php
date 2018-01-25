@@ -56,8 +56,11 @@ class Area extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'clase_area_id' => Yii::t('app', 'Código de clase de área'),
+            'claseArea' => Yii::t('app', 'Clase de área'),
             'nombre' => Yii::t('app', 'Nombre del área'),
             'area_id' => Yii::t('app', 'Área relacionada'),
+            'parentArea' => Yii::t('app', 'Área padre'),
+            'childAreas' => Yii::t('app', 'Áreas hijas'),
         ];
     }
 
@@ -76,5 +79,8 @@ class Area extends \yii\db\ActiveRecord
     }
     public function getChildAreas() {
         return $this->hasMany(Area::className(), ['area_id' => 'id'])->inverseOf('parentArea');
+    }
+    public function getClaseArea() {
+        return $this->clases_area[$this->clase_area_id];
     }
 }

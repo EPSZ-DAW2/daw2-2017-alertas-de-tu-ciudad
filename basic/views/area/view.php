@@ -29,10 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            ['attribute' => 'clase_area_id', 'value' => $model->clases_area[$model->clase_area_id]],
+            ['attribute' => 'claseArea'],
             'nombre',
-            ['label' => 'Área padre', 'value' => $model->parentArea->nombre,
-             'visible' => $model->id > 0],
+            ['attribute' => 'parentArea.nombre', 'label' => 'Área padre'],
         ],
     ]) ?>
 
