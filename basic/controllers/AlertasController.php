@@ -8,7 +8,7 @@ use app\models\AlertaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+use app\components\ControlAcceso;
 
 /**
  * AlertasController implements the CRUD actions for Alerta model.
@@ -17,24 +17,24 @@ class AlertasController extends Controller
 {
     /**
      * @inheritdoc
-	 * Controlar los usuarios que pueden crear, modificar o borrar
+	 * Controlar los usuarios que pueden crear, modificar, borrar,Finalizar o Bloquear alertas
      */
     public function behaviors()
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['view','create','update','delete','finalizar','viewUsuario'],
+                'class' => ControlAcceso::className(),
+                'only' => ['view','create','update','delete','finalizar','ficha', 'bloquear','denunciar'],
                 'rules' => [
                     [
-                        'actions' => ['create','update','delete','finalizar','view'],
+                        'actions' => ['create','update','delete','finalizar','view','bloquear','ficha','denunciar'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['A','M','N'],
                     ],
                     [
-                        'actions' => ['view'],
+                        'actions' => ['ficha'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['A','M','N','?'],
                     ],
                     
                 ],
@@ -65,18 +65,6 @@ class AlertasController extends Controller
         ]);
     }
 	
-	public function actionIndexadmin()
-    {
-        $searchModel = new AlertaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('indexAdmin', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-	
-	
 
     /**
      * Displays a single Alerta model.
@@ -84,19 +72,17 @@ class AlertasController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {
+	{
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 	
-	public function actionViewusuario($id)
-    {
-        return $this->render('viewUsuario', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
+	
+	
     /**
      * Creates a new Alerta model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -139,6 +125,7 @@ class AlertasController extends Controller
         }
     }
 	
+	/*Funcion para finalizar una alerta*/
 	public function actionFinalizar($id)
     {
         $model = $this->findModel($id);
@@ -155,12 +142,7 @@ class AlertasController extends Controller
                 'model' => $model,
             ]);
         }
-		
-		
-		
-    }
-	
-	
+	 }
 
     /**
      * Deletes an existing Alerta model.
@@ -176,6 +158,74 @@ class AlertasController extends Controller
 
 
         return $this->redirect(['index']);
+    }
+	
+	/*Funcion para acceder a la ficha de la alerta si eres usuario no registrado*/
+	
+	public function actionFicha($id)
+	
+    {
+			  $model = $this->findModel($id);
+		
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+			
+			//$model->bloqueada='1';
+            return $this->render('ficha', [
+                'model' => $model,
+            ]);
+        }
+		
+		
+    }
+	
+	
+	/*Funcion Bloquear alerta*/
+		public function actionBloquear($id)
+    {
+        $model = $this->findModel($id);
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+			
+			$model->bloqueada='1';
+            return $this->render('bloquear', [
+                'model' => $model,
+            ]);
+        }
+		
+		
+		
+    }
+	
+	/*Funcion para contar las denuncias de una alerta*/
+		public function actionDenunciar($id)
+    {
+        $model = $this->findModel($id);
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
+		$model->num_denuncias = $model->num_denuncias + 1;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+			if($model->num_denuncias >= 5){
+			$model->bloqueada='1';}
+            return $this->render('denunciar', [
+                'model' => $model,
+            ]);
+        }
+		
+		
+		
     }
 
     /**
