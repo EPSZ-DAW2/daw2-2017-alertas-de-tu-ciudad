@@ -50,7 +50,8 @@ AppAsset::register($this);
 			//Acceso a usuarios
 			['label' => 'Usuarios', 'url' => ['/usuarios']],
 			//Acceso a los comentarios de las alertas
-			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+            ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+            ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area']],
 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
