@@ -18,7 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
+		<?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->rol == 'A') { ?>
+        <?= Html::a('Crear Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
+		<?php }//if ?>
 		  <?= Html::a(Yii::t('app', 'Etiquetas y categorias'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']) ?>
 		  <?= Html::a(Yii::t('app', 'Etiquetas y alertas'), ['/alerta-etiquetas'], ['class' => 'btn btn-success']) ?>
     </p>

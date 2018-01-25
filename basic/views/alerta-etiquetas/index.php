@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+		<?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->rol == 'A') { ?>
         <?= Html::a('Create Alerta Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
+		<?php }//if ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
