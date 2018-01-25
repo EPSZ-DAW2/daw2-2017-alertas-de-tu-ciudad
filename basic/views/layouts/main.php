@@ -43,16 +43,20 @@ AppAsset::register($this);
             /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             //Acceso a Categorias 
             ['label' => 'Categorias', 'url' => ['/categorias']],
-			//Acceso a Etiquetas 
+            //Acceso a Etiquetas 
             ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
-			//Acceso a Incidencias
-			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
-			//Acceso a usuarios
-			['label' => 'Usuarios', 'url' => ['/usuarios']],
-			//Acceso a los comentarios de las alertas
+            //Acceso a Incidencias
+            ['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
+            //Acceso a usuarios
+            ['label' => 'Usuarios', 'url' => ['/usuarios']],
+            //Acceso a los comentarios de las alertas
             ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area']],
-
+            //Index Imagenes listas.
+            //Se modificará en un futuro para permitir únicamente el acceso
+            //a administradores/moderadores.
+            ['label' => Yii::t('app', 'Imágenes'), 'url' => ['/alerta-imagenes']],
+            
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
