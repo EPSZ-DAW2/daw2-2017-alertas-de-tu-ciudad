@@ -32,7 +32,7 @@ function previsualizacion_img(input_file)
 	});
 }
 
-function previsualizar_imagen(ruta_imagen) 
+function previsualizar_imagen(ruta_imagen, div_padre) 
 {	
    //$('#previsualizador').html(''); 
    
@@ -44,7 +44,7 @@ function previsualizar_imagen(ruta_imagen)
    div.innerHTML ='<a href="javascript:void(0)" onclick="ver_imagen(this);"><img class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
  
 	//Insertamos este nuevo div, en el previsualizador.
-   document.getElementById('previsualizador').appendChild(div);
+   document.getElementById(div_padre).appendChild(div);
 
 }
 

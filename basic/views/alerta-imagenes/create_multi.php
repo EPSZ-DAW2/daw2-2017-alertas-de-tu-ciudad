@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
          <ul id="previsualizador" class="ul_imagen"></ul>
     </div>
     
+    
     <div class="form-group" style="text-align: center;">
         <?= Html::submitButton('Subir todas las imagenes', ['class' => 'btn btn-success']) ?>
     </div>
