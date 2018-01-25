@@ -14,12 +14,25 @@ use Yii;
  */
 class Area extends \yii\db\ActiveRecord
 {
+    public $clases_area = [
+        'Planeta',
+        'Continente',
+        'País',
+        'Estado',
+        'Región',
+        'Provincia',
+        'Municipio',
+        'Localidad',
+        'Barrio',
+        'Zona'
+    ];
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'areas';
+        return '{{areas}}';
     }
 
     /**
@@ -30,7 +43,7 @@ class Area extends \yii\db\ActiveRecord
         return [
             [['clase_area_id', 'nombre'], 'required'],
             [['area_id'], 'integer'],
-            [['clase_area_id'], 'string', 'max' => 1],
+            [['clase_area_id'], 'integer', 'max' => 10],
             [['nombre'], 'string', 'max' => 50],
         ];
     }
@@ -55,5 +68,13 @@ class Area extends \yii\db\ActiveRecord
     public static function find()
     {
         return new AreaQuery(get_called_class());
+    }
+
+    public function getParentArea()
+    {
+        return $this->hasOne(Area::className(), ['id' => 'area_id']);
+    }
+    public function getChildAreas() {
+        return $this->hasMany(Area::className(), ['area_id' => 'id'])->inverseOf('parentArea');
     }
 }

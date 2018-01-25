@@ -46,7 +46,8 @@ AppAsset::register($this);
 			//Acceso a Incidencias
 			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
 			//Acceso a los comentarios de las alertas
-			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+            ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+            ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area']],
 
 				
 				/*

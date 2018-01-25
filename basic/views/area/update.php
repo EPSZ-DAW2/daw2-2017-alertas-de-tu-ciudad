@@ -6,10 +6,10 @@ use yii\helpers\Html;
 /* @var $model app\models\Area */
 
 $this->title = Yii::t('app', 'Update Area: {nameAttribute}', [
-    'nameAttribute' => $model->id,
+    'nameAttribute' => $model->nombre,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Areas'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Áreas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="area-update">
