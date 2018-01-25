@@ -23,30 +23,31 @@ class EtiquetasController extends Controller
      */
         public function behaviors()
     {
-		return [
-		    'verbs' => [
+        return [
+            'access' => [
+                'class' => ControlAcceso::className(),
+                'only' => ['view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['create','update','delete','view'],
+                        'allow' => true,
+                        'roles' => ['A'],
+                    ],
+                    [
+                        'actions' => ['view','catego','alerquetas'],
+                        'allow' => true,
+                        'roles' => ['A','M','N','?'],
+                    ],
+                    
+                ],
+            ],
+            'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => ControlAcceso::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-						'actions' => ['view','update'],
-                        'roles' => ['N'],
-                    ],
-                    [
-						'allow' => true,
-                        'actions' => ['index','view','create','update','delete','bloquear'],
-                        'roles' => ['N','A','M'],
-                    ],
-                    
-                ],
-            ],
-		];
+        ];
     }
 
     /**

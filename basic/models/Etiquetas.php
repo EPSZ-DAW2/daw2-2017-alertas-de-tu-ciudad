@@ -29,7 +29,7 @@ class Etiquetas extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'string', 'max' => 40],
-				[['nombre'], 'unique'],
+				[['nombre'], 'unique', 'message' => 'La etiqueta ya existe'],
         ];
     }
 
