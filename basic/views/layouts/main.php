@@ -45,6 +45,8 @@ AppAsset::register($this);
             ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
 			//Acceso a Incidencias
 			['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
+			//Acceso a usuarios
+			['label' => 'Usuarios', 'url' => ['/usuarios']],
 			//Acceso a los comentarios de las alertas
 			['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
 
