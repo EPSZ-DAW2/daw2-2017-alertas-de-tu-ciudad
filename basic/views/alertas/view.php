@@ -34,7 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
 		echo Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
-    </p>
+		<?= Html::a(Yii::t('app', 'Añadir etiqueta a la alerta'), ['alerta-etiquetas/create'], ['class' => 'btn btn-success']) ?>
+	</p>
 
     <?= DetailView::widget([
         'model' => $model,
