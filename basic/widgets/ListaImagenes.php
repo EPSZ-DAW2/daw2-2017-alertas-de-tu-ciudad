@@ -45,7 +45,7 @@ class ListaImagenes extends Widget
        {
            //Ejecutamos la función asociada al fichero JS registrado anteriormente.
            //Pasándole como dato la ruta de la imagen
-           $this->view->registerJS('previsualizar_imagen("'.$ruta.'");', 4);
+           $this->view->registerJS('previsualizar_imagen("'.$ruta.'","previsualizador");', 4);
        }
        
     }

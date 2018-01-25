@@ -6,6 +6,7 @@
 */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\widgets\ImagenUnica; 
 
 $this->registerJsFile('@web/js/funciones_imagenes.js');
 $this->registerCssFile('@web/css/imagenes.css');
@@ -39,12 +40,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         
     <div align="center" style="width:302px;">
         <input accept="image/*" style="display:none" type="file" name="explorar_ficheros" id="explorar_ficheros" onchange="previsualizacion_img(this)" />
-        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
+        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Nueva imagen</div>
     </div>
     
     <div style="margin-top: 70px; margin-bottom: 30px;">
          <ul id="previsualizador" class="ul_imagen"></ul>
     </div>
+        
+   <?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>     
         
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Modificar la imagen'), ['class' => 'btn btn-primary']) ?>

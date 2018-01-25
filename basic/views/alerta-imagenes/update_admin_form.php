@@ -30,5 +30,3 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'crea_fecha')->textInput() ?>
 
     <?= $form->field($model, 'notas_admin')->textarea(['rows' => 6]) ?>
-
-</div>
