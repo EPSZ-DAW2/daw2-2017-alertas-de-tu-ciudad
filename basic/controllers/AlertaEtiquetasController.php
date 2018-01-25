@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\AlertaEtiquetas;
 use app\models\AlertaEtiquetasSearch;
+use app\components\ControlAcceso;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,7 +21,6 @@ class AlertaEtiquetasController extends Controller
     public function behaviors()
     {
         return [
-      /*  return [
 		    'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -43,7 +43,6 @@ class AlertaEtiquetasController extends Controller
                     
                 ],
             ],
-        ]; */
         ];
     }
 

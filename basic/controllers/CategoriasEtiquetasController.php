@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use app\models\CategoriasEtiquetas;
 use app\models\CategoriasEtiquetasSearch;
+use app\components\ControlAcceso;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,7 +22,6 @@ class CategoriasEtiquetasController extends Controller
     public function behaviors()
     {
         return [
-      /*  return [
 		    'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -44,7 +44,6 @@ class CategoriasEtiquetasController extends Controller
                     
                 ],
             ],
-        ]; */
         ];
     }
 

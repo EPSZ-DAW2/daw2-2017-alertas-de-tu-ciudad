@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Etiquetas;
 use app\models\EtiquetasSearch;
+use app\components\ControlAcceso;
 use yii\filters\AccessControl;
 use app\models\AlertaEtiquetasSearch;
 use app\models\CategoriasEtiquetasSearch;
@@ -23,7 +24,6 @@ class EtiquetasController extends Controller
         public function behaviors()
     {
 		return [
-      /*  return [
 		    'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -46,7 +46,6 @@ class EtiquetasController extends Controller
                     
                 ],
             ],
-        ]; */
 		];
     }
 
