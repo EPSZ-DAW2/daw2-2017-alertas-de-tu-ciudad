@@ -2,16 +2,17 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Alertas de tu ciudad';
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <img src="<?=Yii::$app->request->baseUrl.'/img/pin_logo_c.png'?>" alt="Logo" height="auto" width="40%">
+        <h1>Alertas de tu ciudad</h1>
+        
+        <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com" style="margin-right: 0.5%;">Yii Framework</a><a class="btn btn-lg btn-success" href="https://github.com/EPSZ-DAW2/daw2-2017-alertas-de-tu-ciudad" style="margin-left: 0.5%;">GitHub</a></p>
     </div>
 
     <div class="body-content">
