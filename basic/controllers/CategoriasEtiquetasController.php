@@ -26,12 +26,17 @@ class CategoriasEtiquetasController extends Controller
                 'only' => ['view','create','update','delete'],
                 'rules' => [
                     [
-                        'actions' => ['create','update','delete','view'],
+                        'actions' => ['update','delete'],
                         'allow' => true,
                         'roles' => ['A'],
                     ],
+					[
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['A','M','N'],
+                    ],
                     [
-                        'actions' => ['view',],
+                        'actions' => ['view','catego','alerquetas'],
                         'allow' => true,
                         'roles' => ['A','M','N','?'],
                     ],
