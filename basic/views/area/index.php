@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AreaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Areas');
+$this->title = Yii::t('app', 'Áreas');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="area-index">
@@ -21,15 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'clase_area_id',
+            'claseArea',
             'nombre',
             // 'area_id',
-            ['label' => 'Área padre', 'value' => 'parentArea.nombre'],
+            'parentArea.nombre:text:Área padre',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
