@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\DetailView;
+use app\models\Alerta;
+use app\models\AlertaSearch;
+
 
 
 /* @var $this yii\web\View */
@@ -17,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Alerta', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nueva Alerta', ['create'], ['class' => 'btn btn-success']) ?>
     
 	<?php if(isset($admin) && $admin==true){
 			echo Html::a(Yii::t('app', 'Alertas-admin'), ['indexadmin'], ['class' => 'btn btn-success']);
@@ -53,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'notas_terminacion:ntext',
             // 'num_denuncias',
             // 'fecha_denuncia1',
-            // 'bloqueada',
+             'bloqueada',
             // 'bloqueo_usuario_id',
             // 'bloqueo_fecha',
             // 'bloqueo_notas:ntext',
@@ -63,11 +67,47 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modi_fecha',
             // 'notas_admin:ntext',
 			
-
+			//Enlace a ficha de alerta para usuarios no registrados
              ['class' => 'yii\grid\ActionColumn',
-			'template' => '  {view}',
-			]
+			'template' => '  {ficha}',
+				'buttons' => [
+					'ficha' => function ($url) {
+						return Html::a(
+							'Ficha',
+							$url, 
+							[
+								'title' => 'Ficha',
+								
+							]
+						);
+					},
+				],
+			
+			],
+			
+			//Enlace a ficha y bloqueo de alerta para usuarios registrados
+			[
+			'class' => 'yii\grid\ActionColumn', 
+			 'template' => '{view} {bloquear}',
+				'buttons' => [
+					'bloquear' => function ($url) {
+						return Html::a(
+							'<span class="glyphicon glyphicon-ban-circle"></span>',
+							$url, 
+							[
+								'title' => 'Bloquear',
+								
+							]
+						);
+					},
+				],
+			],
+			
+			
+			
 			 ],
+			 
+			 
 		
     ]); ?>
 

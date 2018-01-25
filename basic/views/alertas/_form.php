@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\AlertaSearch;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Alerta */
@@ -34,15 +36,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imagen_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'imagen_revisada')->textInput() ?>
+    <?= $form->field($model, 'imagen_revisada')->checkBox() ?>
 
-    <?= $form->field($model, 'categoria_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'categoria_id')->textInput(['maxlength' => true]) ?> 
 
-    <?= $form->field($model, 'activada')->textInput() ?>
+    <?= $form->field($model, 'activada')->checkBox() ?>
 
-    <?= $form->field($model, 'visible')->textInput() ?>
+    <?= $form->field($model, 'visible')->checkBox() ?>
 
-    <?= $form->field($model, 'terminada')->textInput() ?>
+    <?= $form->field($model, 'terminada')->checkBox() ?>
 
     <?= $form->field($model, 'fecha_terminacion')->textInput() ?>
 
@@ -52,7 +54,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fecha_denuncia1')->textInput() ?>
 
-    <?= $form->field($model, 'bloqueada')->textInput() ?>
+    <?= $form->field($model, 'bloqueada')->checkBox() ?>
 
     <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>
 
