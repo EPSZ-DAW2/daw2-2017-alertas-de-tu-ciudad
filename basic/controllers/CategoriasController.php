@@ -29,14 +29,14 @@ class CategoriasController extends Controller
                 'only' => ['view','create','update','delete'],
                 'rules' => [
                     [
-                        'actions' => ['create','update','delete','view'],
+                        'actions' => ['create','update','delete'],
                         'allow' => true,
                         'roles' => ['A'],
                     ],
                     [
                         'actions' => ['view'],
                         'allow' => true,
-                        'roles' => ['A','M','N'],
+                        'roles' => ['A','M','N','?'],
                     ],
                     
                 ],

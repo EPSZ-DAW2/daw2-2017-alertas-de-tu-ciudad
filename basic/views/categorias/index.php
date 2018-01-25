@@ -24,7 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Crear Categoria'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('app', 'Categorías x Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']) ?>
+        <?php 
+        if ( isset(Yii::$app->user->identity->rol)){
+            if(Yii::$app->user->identity->rol === 'A'){
+                $template='{view} {update} {delete}';
+            }else if(Yii::$app->user->identity->rol === 'M'){
+                $template='{view}';
+            }
+            echo Html::a(Yii::t('app', 'Categorías-Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']);
+        }else{
+            $template='{view}';
+        }?>
     </p>
 <?php Pjax::begin();?>    
 
@@ -49,7 +59,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'descripcion:ntext',
             'categoria_id',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => $template,
+            ],
         ],
         ]);  
     ?>

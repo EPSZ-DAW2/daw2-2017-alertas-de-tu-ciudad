@@ -23,24 +23,17 @@ class CategoriasEtiquetasController extends Controller
         return [
             'access' => [
                 'class' => ControlAcceso::className(),
-                'only' => ['view','create','update','delete'],
                 'rules' => [
+                    [
+                        'actions' => ['index','view'],
+                        'allow' => true,
+                        'roles' => ['A','M'],
+                    ],
                     [
                         'actions' => ['update','delete'],
                         'allow' => true,
                         'roles' => ['A'],
                     ],
-					[
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['A','M','N'],
-                    ],
-                    [
-                        'actions' => ['view','catego','alerquetas'],
-                        'allow' => true,
-                        'roles' => ['A','M','N','?'],
-                    ],
-                    
                 ],
             ],
             'verbs' => [

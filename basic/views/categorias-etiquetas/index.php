@@ -11,7 +11,6 @@ use app\models\CategoriasEtiquetas;
 
 $this->title = Yii::t('app', 'Categorias Etiquetas');
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="categorias-etiquetas-index">
 
@@ -19,9 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-		<?php if (!Yii::$app->user->isGuest) { ?>
-        <?= Html::a(Yii::t('app', 'Crear Categoria-Etiqueta'), ['create'], ['class' => 'btn btn-success']) ?>
-		<?php }//if ?>
+	<?php 
+        if ( isset(Yii::$app->user->identity->rol) && Yii::$app->user->identity->rol === 'A') {
+            $template='{view} {update} {delete}';
+            echo Html::a(Yii::t('app', 'Crear Categoria-Etiqueta'), ['create'], ['class' => 'btn btn-success']);
+        }else{
+            $template='{view}';
+        }
+    ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -63,7 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template'=> $template],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
