@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Area */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Areas'), 'url' => ['index']];
+$this->title = $model->nombre;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Áreas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="area-view">
@@ -29,9 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'clase_area_id',
+            ['attribute' => 'clase_area_id', 'value' => $model->clases_area[$model->clase_area_id]],
             'nombre',
-            'area_id',
+            ['label' => 'Área padre', 'value' => $model->parentArea->nombre,
+             'visible' => $model->id > 0],
         ],
     ]) ?>
 
