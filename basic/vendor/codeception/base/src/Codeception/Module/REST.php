@@ -1,6 +1,7 @@
 <?php
 namespace Codeception\Module;
 
+use Codeception\Exception\ConfigurationException;
 use Codeception\Exception\ModuleException;
 use Codeception\Lib\Interfaces\ConflictsWithModule;
 use Codeception\Module as CodeceptionModule;
@@ -57,7 +58,8 @@ use Codeception\Util\Soap as XmlUtils;
 class REST extends CodeceptionModule implements DependsOnModule, PartedModule, API, ConflictsWithModule
 {
     protected $config = [
-        'url' => ''
+        'url' => '',
+        'aws' => ''
     ];
 
     protected $dependencyMessage = <<<EOF
@@ -285,6 +287,9 @@ EOF;
      */
     public function amDigestAuthenticated($username, $password)
     {
+        if ($this->isFunctional) {
+            throw new ModuleException(__METHOD__, 'Not supported by functional modules');
+        }
         $this->client->setAuth($username, $password, 'digest');
     }
 
@@ -321,15 +326,60 @@ EOF;
     public function amNTLMAuthenticated($username, $password)
     {
         if ($this->isFunctional) {
-            throw new ModuleException(__METHOD__, 'Out of scope for functional modules.');
+            throw new ModuleException(__METHOD__, 'Not supported by functional modules');
         }
         if (!defined('\GuzzleHttp\Client::VERSION')) {
-            throw new ModuleException(__METHOD__, 'Out of scope if not using a Guzzle client.');
+            throw new ModuleException(__METHOD__, 'Not supported if not using a Guzzle client');
         }
         if (version_compare(\GuzzleHttp\Client::VERSION, '6.2.1', 'lt')) {
-            throw new ModuleException(__METHOD__, 'Guzzle '.\GuzzleHttp\Client::VERSION.' found. Requires Guzzle >=6.3.0 for NTLM auth option.');
+            throw new ModuleException(__METHOD__, 'Guzzle '.\GuzzleHttp\Client::VERSION.' found. Requires Guzzle >=6.3.0 for NTLM auth option');
         }
         $this->client->setAuth($username, $password, 'ntlm');
+    }
+
+    /**
+     * Allows to send REST request using AWS Authorization
+     * Only works with PhpBrowser
+     * Example
+     * Config -
+     *
+     * modules:
+     *      enabled:
+     *          - REST:
+     *              aws:
+     *                  key: accessKey
+     *                  secret: accessSecret
+     *                  service: awsService
+     *                  region: awsRegion
+     *
+     * ```php
+     * <?php
+     * $I->amAWSAuthenticated();
+     * ?>
+     * ```
+     * @param array $additionalAWSConfig
+     * @throws ModuleException
+     */
+    public function amAWSAuthenticated($additionalAWSConfig = [])
+    {
+        if (method_exists($this->client, 'setAwsAuth')) {
+            $config = array_merge($this->config['aws'], $additionalAWSConfig);
+
+            if (!isset($config['key'])) {
+                throw new ConfigurationException('AWS Key is not set');
+            }
+            if (!isset($config['secret'])) {
+                throw new ConfigurationException('AWS Secret is not set');
+            }
+            if (!isset($config['service'])) {
+                throw new ConfigurationException('AWS Service is not set');
+            }
+            if (!isset($config['region'])) {
+                throw new ConfigurationException('AWS Region is not set');
+            }
+
+            $this->client->setAwsAuth($config);
+        }
     }
 
     /**

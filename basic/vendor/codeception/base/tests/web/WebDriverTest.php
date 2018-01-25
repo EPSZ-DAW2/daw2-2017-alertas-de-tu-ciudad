@@ -101,6 +101,28 @@ class WebDriverTest extends TestsForBrowsers
         $this->module->cancelPopup();
     }
 
+    public function testDontSeeInPopup()
+    {
+        $this->notForPhantomJS();
+        $this->module->amOnPage('/form/popup');
+        $this->module->click('Alert');
+        $this->module->dontSeeInPopup('Different text');
+        $this->module->cancelPopup();
+    }
+
+    public function testFailedDontSeeInPopup()
+    {
+        $this->notForPhantomJS();
+        $this->setExpectedException(
+            'PHPUnit_Framework_AssertionFailedError',
+            'Failed asserting that \'Really?\' does not contain "Really?"'
+        );
+        $this->module->amOnPage('/form/popup');
+        $this->module->click('Alert');
+        $this->module->dontSeeInPopup('Really?');
+        $this->module->cancelPopup();
+    }
+
     public function testScreenshot()
     {
         $this->module->amOnPage('/');
@@ -812,6 +834,13 @@ class WebDriverTest extends TestsForBrowsers
         $this->module->seeCurrentUrlEquals('/form/anchor#a');
     }
 
+    public function testSubmitHashButtonForm()
+    {
+        $this->module->amOnPage('/form/anchor');
+        $this->module->click('Hash Button Form');
+        $this->module->seeCurrentUrlEquals('/form/anchor#a');
+    }
+
     public function testJSErrorLoggingPositive()
     {
         // arrange
@@ -848,7 +877,7 @@ class WebDriverTest extends TestsForBrowsers
         // assert
         /* @var $steps Step[]  */
         $steps = $cept->getScenario()->getSteps();
-        $this->assertEquals(0, count($steps));
+        $this->assertCount(0, $steps);
     }
 
     public function testMoveMouseOver()
