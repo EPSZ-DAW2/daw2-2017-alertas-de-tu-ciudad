@@ -47,12 +47,37 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+           /* if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
-            }
+            }*/
+			if (!$user)
+				$this->addError($attribute, 'Usuario no confirmado, usuario bloqueado o usuario no registrado');
+				//break;
+			else if (!$user->validatePassword($this->password)) 
+			{
+				//$this->inc_NumAccesos($user);
+				$this->addError($attribute, 'Contraseña o usuario incorrecto');
+				
+			}
         }
     }
-
+/*
+	public function inc_NumAccesos($user)
+	{
+		/*if(Usuario::findOne($this->_user)){
+			printf("Hecho");
+		}
+        $model = Usuario::findOne($user);
+		$model->num_accesos= $model->num_accesos + 1;
+		if($model->num_accesos >= 5){
+			$model->bloqueado= 1;
+			$model->num_accesos=5;
+		}
+        if ($model->save()) {
+			$this->addError( 'Modelo no guardado, num_Acessos');
+        }		
+	}
+*/
     /**
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
@@ -72,10 +97,23 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-        if ($this->_user === false) {
+        /*if ($this->_user === false) {
             $this->_user = Usuario::findByUsername($this->email);
         }
 
+        return $this->_user;*/
+		if ($this->_user === false) {
+            $this->_user = Usuario::findByUsername($this->email);
+			if($this->_user!=NULL)
+			{
+				$model= Usuario::findOne($this->_user);
+				if ($model->confirmado== 0 || $model->bloqueado!=0)
+					$this->_user= NULL;
+			}
+			
+        }
+
         return $this->_user;
+		
     }
 }

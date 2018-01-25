@@ -118,7 +118,10 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	
 	public static function findByUsername($email)
 	{
-		return self::findOne(['email'=>$email]);
+		if(self::findOne(['email'=>$email])==NULL)
+			return self::findOne(['nick'=>$email]);
+		else
+			return self::findOne(['email'=>$email]);
 	}
 	
 	public function validatePassword ($password)
@@ -129,6 +132,8 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	public static function findIdentityByAccessToken($token, $type = null){
 		throw new \yii\base\NotSupportedException();//I don't implement this method because I don't have any access token column in my database
 	}
+	
+	
 
     /**
      * @inheritdoc
