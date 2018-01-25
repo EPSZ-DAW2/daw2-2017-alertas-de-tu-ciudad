@@ -8,9 +8,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\widgets\ImagenUnica; 
 
-$this->registerJsFile('@web/js/funciones_imagenes.js');
-$this->registerCssFile('@web/css/imagenes.css');
-
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
 

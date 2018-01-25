@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\widgets\ImagenUnica; 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
@@ -40,5 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'notas_admin:ntext',
         ],
     ]) ?>
-
+    
+    <div align="center" style="margin-top: 70px; margin-bottom: 30px;">
+         <ul id="previsualizador" class="ul_imagen"></ul>
+    </div>
+    
+    <?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>  
+    
 </div>
