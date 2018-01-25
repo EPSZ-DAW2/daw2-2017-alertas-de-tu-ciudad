@@ -1,1 +1,2 @@
+USE `daw2_alertas`;
 ALTER TABLE `areas` CHANGE `clase_area_id` `clase_area_id` INT(1) UNSIGNED NOT NULL COMMENT 'Código de clase de area: 0=Planeta, 1=Continente, 2=Pais, 3=Estado, 4=Region, 5=Provincia, 6=Municipio, 7=Localidad, 8=Barrio, 9=Zona, ...';
