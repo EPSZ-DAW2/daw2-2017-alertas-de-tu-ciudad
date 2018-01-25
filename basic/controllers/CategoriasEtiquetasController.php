@@ -21,30 +21,30 @@ class CategoriasEtiquetasController extends Controller
     public function behaviors()
     {
         return [
-		  /*
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['view','create','update','delete'],
-                'rules' => [
-                    [
-                        'actions' => ['create','update','delete','view'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['view'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    
-                ],
-            ],
-            'verbs' => [
+      /*  return [
+		    'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],*/
+            ],
+            'access' => [
+                'class' => ControlAcceso::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+						'actions' => ['view','update'],
+                        'roles' => ['N'],
+                    ],
+                    [
+						'allow' => true,
+                        'actions' => ['index','view','create','update','delete','bloquear'],
+                        'roles' => ['N','A','M'],
+                    ],
+                    
+                ],
+            ],
+        ]; */
         ];
     }
 
