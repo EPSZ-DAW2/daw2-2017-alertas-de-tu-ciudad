@@ -14,6 +14,8 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
+    <?='<link rel="mask-icon" href="'.Yii::$app->request->baseUrl.'/img/pin_logo.png" color="#293dff">'?>
+    <?='<link rel="icon" href="'.Yii::$app->request->baseUrl.'/img/pin_logo_c.png"'?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
