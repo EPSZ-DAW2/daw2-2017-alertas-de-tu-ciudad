@@ -1,0 +1,14 @@
+Subimos una carpeta components, en ella hay dos archivos que se utilizarán para el control de acceso por roles.
+NO LOS TOQUEN, si no entienden algo preguntan.
+
+En sus controladores dentro de la función behaviors, tienen que añadir algo parecido a lo de abajo:
+
+'access' => [
+	'class' => ControlAcceso::className(),
+	'rules' =>[ [
+		'allow'=>true,
+		'actions'=>['view','update'],
+		'roles'=>['N'],
+		],....
+
+Pueden ver bien el ejemplo en UsuariosController.php
