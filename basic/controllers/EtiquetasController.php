@@ -22,6 +22,7 @@ class EtiquetasController extends Controller
      */
         public function behaviors()
     {
+		return [
       /*  return [
 		    'verbs' => [
                 'class' => VerbFilter::className(),
@@ -46,6 +47,7 @@ class EtiquetasController extends Controller
                 ],
             ],
         ]; */
+		];
     }
 
     /**
