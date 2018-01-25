@@ -31,13 +31,13 @@ class UsuariosController extends Controller
                // 'only' => ['index','view','create','update','delete','bloquear'],
                 'rules' =>[ [
 					'allow'=>true,
-					'actions'=>['view','update'],
+					'actions'=>['index','view'],
 					'roles'=>['N'],
 				],
 				[
 					'allow'=>true,
 					'actions'=>['index','view','create','update','delete','bloquear'],
-					'roles'=>['N','A','M'],
+					'roles'=>['A','M'],
 				],
 				],
             ],
@@ -143,19 +143,36 @@ class UsuariosController extends Controller
 			printf("Hecho");
 		}
         $model = $this->findModel($id);
-		
+		$model2= $this->findModel($_SESSION["__id"]);
 		if($model->bloqueado==0){
-			//if(rol=='M'){
-				$model->bloqueado=3;
-			//}else if(rol=='A'){
-			//	$model->bloquedo=2;
-			//}
+			if($model2->rol=='M'){
+				if($model2->id!=$model->id && $model->rol!='A')//El moderador no se puede bloquear a sí mismo ni a un administrador
+				{
+					$dia=getdate();
+					$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+					$model->bloqueo_fecha=$fecha;
+					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
+					$model->bloqueado=3;
+				}
+			}else if($model2->rol=='A'){ 
+				if($model2->id!=$model->id)//El administrador no se puede bloquear a sí mismo
+				{
+					$dia=getdate();
+					$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+					$model->bloqueo_fecha=$fecha;
+					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
+					$model->bloqueado=2;
+				}
+			}
 		}else{
+			$model->bloqueo_usuario_id=0;
+			$model->bloqueo_fecha=NULL;
+			$model->bloqueo_notas=NULL;
 			$model->bloqueado=0;
 		}
 		
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
