@@ -123,4 +123,39 @@ class AlertaComentariosController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /*
+     * Función que crea un nuevo comentario pasadole un id de la alerta
+     */
+    public function actionCrearComentario()
+    {
+        /*
+         * 'id' => Yii::t('app', 'ID'),
+            'alerta_id' => Yii::t('app', 'Alerta ID'),
+            'crea_usuario_id' => Yii::t('app', 'Crea Usuario ID'),
+            'crea_fecha' => Yii::t('app', 'Crea Fecha'),
+            'modi_usuario_id' => Yii::t('app', 'Modi Usuario ID'),
+            'modi_fecha' => Yii::t('app', 'Modi Fecha'),
+            'texto' => Yii::t('app', 'Texto'),
+            'comentario_id' => Yii::t('app', 'Comentario ID'),
+            'cerrado' => Yii::t('app', 'Cerrado'),
+            'num_denuncias' => Yii::t('app', 'Num Denuncias'),
+            'fecha_denuncia1' => Yii::t('app', 'Fecha Denuncia1'),
+            'bloqueado' => Yii::t('app', 'Bloqueado'),
+            'bloqueo_usuario_id' => Yii::t('app', 'Bloqueo Usuario ID'),
+            'bloqueo_fecha' => Yii::t('app', 'Bloqueo Fecha'),
+            'bloqueo_notas' => Yii::t('app', 'Bloqueo Notas'),
+         */
+
+        $model = new AlertaComentarios();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
 }

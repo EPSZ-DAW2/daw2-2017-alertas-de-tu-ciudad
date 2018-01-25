@@ -1,35 +1,38 @@
 
 <?php
 use yii\widgets\LinkPager;
+use app\models\AlertaComentarios;
 ?>
 
 <?php
-            $comentariosOrdenadosFecha = $dataProvider2->getModels();
-            /*obtenemos la paginacion*/
-            $pagination = $dataProvider2->getPagination();
+$comentariosOrdenadosFecha = $dataProvider2->getModels();
+/*obtenemos la paginacion*/
+$pagination = $dataProvider2->getPagination();
 
-            if ($pagination === false) {
+if ($pagination === false) {
 
-            } else {
+} else {
 
-                // El total de las páginas obtenidas son
-                $pagination->totalCount = $dataProvider2->getTotalCount();
-                //El limite de las páginas es
-                $limit = sizeof($comentariosOrdenadosFecha);
-                //Renderiza la pieza del formulario para nuevos comentarios
-                echo $this->render('piezas/form_comentario.php');
+    // El total de las páginas obtenidas son
+    $pagination->totalCount = $dataProvider2->getTotalCount();
+    //El limite de las páginas es
+    $limit = sizeof($comentariosOrdenadosFecha);
 
-                for ($count = 0; $count < $limit; ++$count) {
-                    //Renderizamos cada comentario de la página
-                    $dataComentario = $comentariosOrdenadosFecha[$count];
+    $nuevoComentario = new AlertaComentarios();
+    //Renderiza la pieza del formulario para nuevos comentarios
+    echo $this->render('piezas/form_comentario.php',['model'=> $nuevoComentario]);
 
-                    echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
-                }
+    for ($count = 0; $count < $limit; ++$count) {
+        //Renderizamos cada comentario de la página
+        $dataComentario = $comentariosOrdenadosFecha[$count];
 
-                echo LinkPager::widget([
-                    'pagination' => $pagination,
-                ]);
-            }
+        echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
+    }
+
+    echo LinkPager::widget([
+        'pagination' => $pagination,
+    ]);
+}
 
 
 ?>

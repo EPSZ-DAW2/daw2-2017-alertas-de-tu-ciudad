@@ -58,8 +58,8 @@ use kartik\datetime\DateTimePicker;
     ]);?>
 
     <?= $form->field($model, 'bloqueado')->radioList([
-        0 => 'Abierto',
-        1 => 'Cerrado',
+        0 => 'Desbloqueado',
+        1 => 'Bloqueado',
     ]); ?>
 
     <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>

@@ -46,6 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+
+
     <h1>Comentarios Prueba</h1>
     <?= $this->render("comentarios.php",['searchModel'=>$searchModel, 'dataProvider2'=>$dataProvider2]); ?>
 <?php
