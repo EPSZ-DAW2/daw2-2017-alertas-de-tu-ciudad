@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'nombre',
                     'clientOptions' => [
-                    'source' => Categorias::find()->select(['nombre AS value'])->orderBy('nombre')->asArray()->all(),
+                    'source' => array_merge([],array_unique(Categorias::find()->select(['nombre AS value'])->orderBy('nombre')->asArray()->all(),SORT_REGULAR)),
                     ],
                     'options' => [
                         'class' => 'form-control'

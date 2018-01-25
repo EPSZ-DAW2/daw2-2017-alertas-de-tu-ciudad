@@ -52,7 +52,7 @@ class CategoriasSearch extends Categorias
             'query' => $query,
             // 'pagination' => false,
             'pagination'=>[
-            'pageSize' =>10,
+            'pageSize' =>30,
             ],
         ]);
 
@@ -72,7 +72,6 @@ class CategoriasSearch extends Categorias
             $query->andWhere([
                 'categoria_id' => $this->categoria_id,
             ]);
-
         }else{
             // Si la categoria_id no es NULA
             $query->andFilterWhere([
@@ -80,7 +79,8 @@ class CategoriasSearch extends Categorias
                'categoria_id' => $this->categoria_id,
             ]);
         }
-
+        
+       
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 

@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "Categorias".
  *
@@ -31,7 +32,9 @@ class Categorias extends \yii\db\ActiveRecord
             [['nombre','categoria_id'],'unique', 'targetAttribute' => ['nombre','categoria_id'],'message' => 'La combinación de categorias ya existe'],
             [['descripcion'], 'string'],
             [['categoria_id'],'integer'],
-            [['nombre'], 'string', 'max' => 25],
+            [['nombre'],'unique','message' => 'La categoria ya existe'],
+            [['nombre'],'string', 'max' => 25 ],
+            [['nombre'],'required','message' => 'Introduzca un nombre'],
         ];
     }
 

@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use app\models\CategoriasEtiquetas;
 use app\models\CategoriasEtiquetasSearch;
 use app\components\ControlAcceso;

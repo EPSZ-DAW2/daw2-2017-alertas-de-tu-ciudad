@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
+use app\components\ControlAcceso;
 use app\models\Categorias;
 use app\models\CategoriasSearch;
 use app\models\AlertaSearch;
@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\rbac\Rule;
+use app\models\Usuario;
 
 /**
  * CategoriasController implements the CRUD actions for Categorias model.
@@ -24,18 +25,18 @@ class CategoriasController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => ControlAcceso::className(),
                 'only' => ['view','create','update','delete'],
                 'rules' => [
                     [
                         'actions' => ['create','update','delete','view'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['A'],
                     ],
                     [
                         'actions' => ['view'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['A','M','N'],
                     ],
                     
                 ],

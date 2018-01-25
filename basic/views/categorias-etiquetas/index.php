@@ -12,8 +12,6 @@ use app\models\CategoriasEtiquetas;
 $this->title = Yii::t('app', 'Categorias Etiquetas');
 $this->params['breadcrumbs'][] = $this->title;
 
-$source_etiquetas=array_merge(array(),array_unique(CategoriasEtiquetas::find()->joinWith('etiqueta AS etiqueta',false)->select(['etiqueta.nombre AS value'])->orderBy('etiqueta.nombre')->asArray()->all(),SORT_REGULAR));
-$source_categorias=array_merge([],array_unique(CategoriasEtiquetas::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->orderBy('categoria.nombre')->asArray()->all(),SORT_REGULAR));
 ?>
 <div class="categorias-etiquetas-index">
 
@@ -38,7 +36,7 @@ $source_categorias=array_merge([],array_unique(CategoriasEtiquetas::find()->join
                     'model' => $searchModel,
                     'attribute' => 'nombre_categoria',
                     'clientOptions' => [
-                    'source' => $source_categorias,
+                    'source' => array_merge([],array_unique(CategoriasEtiquetas::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->orderBy('categoria.nombre')->asArray()->all(),SORT_REGULAR)),
                     ],
                     'options' => [
                         'class' => 'form-control'
@@ -53,7 +51,7 @@ $source_categorias=array_merge([],array_unique(CategoriasEtiquetas::find()->join
                     'model' => $searchModel,
                     'attribute' => 'nombre_etiqueta',
                     'clientOptions' => [
-                    'source' => $source_etiquetas,
+                    'source' => array_merge(array(),array_unique(CategoriasEtiquetas::find()->joinWith('etiqueta AS etiqueta',false)->select(['etiqueta.nombre AS value'])->orderBy('etiqueta.nombre')->asArray()->all(),SORT_REGULAR)),
                     ],
                     'options' => [
                         'class' => 'form-control'
