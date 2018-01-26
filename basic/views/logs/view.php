@@ -30,7 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'crea_fecha',
-            'clase_log_id',
+            //'clase_log_id',
+			[
+				'label' => 'Clase',
+				'value' => function ($model) {
+					return $model::getNombreClase($model->clase_log_id);
+				}
+			],
             'modulo',
             'texto:ntext',
         ],

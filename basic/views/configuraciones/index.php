@@ -13,10 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="configuraciones-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+   
     <p>
-        <?= Html::a('Create Configuraciones', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nueva variable de configuración', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -29,6 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn',
 			'template' => '{update} {delete} ',
+			'buttons' => [
+				'delete' => function($url, $model){
+					return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->variable], [
+						'class' => '',
+						'data' => [
+							'confirm' => 'Seguro ? No podrás deshacer.',
+							'method' => 'post',
+						],
+					]);
+				}
+				]
 			],
         ],
     ]); ?>

@@ -16,7 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Logs', ['create'], ['class' => 'btn btn-success']) ?>
+		 <?= Html::a('Ver todos los logs', ['index'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Ver sólo errores', ['index?LogsSearch[clase_log_id]=E'], ['class' => 'btn btn-success']) ?>
+		 <?= Html::a('Ver logs de avisos', ['index?LogsSearch[clase_log_id]=A'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,10 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Clase',
 				'value' => function ($model) {
 					return $model::getNombreClase($model->clase_log_id);
-			}
-     ],
-            'modulo',
-            'texto:ntext',
+				}
+			],
+           // 'modulo',
+          //  'texto:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

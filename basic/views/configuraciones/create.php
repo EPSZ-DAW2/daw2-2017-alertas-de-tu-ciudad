@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Configuraciones */
 
-$this->title = 'Create Configuraciones';
+$this->title = 'Nueva variable de configuración';
 $this->params['breadcrumbs'][] = ['label' => 'Configuraciones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

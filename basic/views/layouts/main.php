@@ -56,14 +56,16 @@ AppAsset::register($this);
             //Se modificará en un futuro para permitir únicamente el acceso
             //a administradores/moderadores.
             ['label' => Yii::t('app', 'Imágenes'), 'url' => ['/alerta-imagenes']],
-            
+			['label' => Yii::t('app', 'Config'), 'url' => ['/configuraciones'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],
+            ['label' => Yii::t('app', 'Logs'), 'url' => ['/logs'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],
+
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->email . ')',
+                    'Logout (' . Yii::$app->user->identity->nick . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
