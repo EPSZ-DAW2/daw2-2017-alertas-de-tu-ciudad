@@ -73,6 +73,7 @@ $config = [
     ],
     ],
     'params' => $params,
+    'name' => 'Alertas de tu ciudad'
 ];
 
 if (YII_ENV_DEV) {
