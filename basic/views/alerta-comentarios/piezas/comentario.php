@@ -21,7 +21,7 @@ use yii\helpers\Html;
                         }
                         else {
                         ?><span class="glyphicon glyphicon-arrow-right"></span>
-                            <?php echo "  #".$dataComentario->comentario_id;
+                            <?php echo "#".$dataComentario->comentario_id;
                         }
                         ?>
            </h4>
@@ -36,7 +36,7 @@ use yii\helpers\Html;
             </div>
             <ul class="comment-actions">
                 <?php if(!$dataComentario->bloqueado) {?>
-                    <a href="?idComentarioPadre=<?=$dataComentario->comentario_id?>#Comentar">
+                    <a href="?idComentarioPadre=<?=$dataComentario->id?>#Comentar">
                         <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
                     </a>
                 <?php }else{?>

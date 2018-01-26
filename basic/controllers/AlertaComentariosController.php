@@ -42,7 +42,7 @@ class AlertaComentariosController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'dataProvider2' => $dataProvider2,
+            'dataProvider2' => $dataProvider2
         ]);
     }
 
