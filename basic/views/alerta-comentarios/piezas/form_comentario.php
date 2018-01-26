@@ -12,9 +12,10 @@ use kartik\datetime\DateTimePicker;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="alerta-comentarios-form col-md-10 col-md-offset-1">
+<div class="alerta-comentarios-form">
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'id')->textInput(['type'=>'hidden'])->label('')  ?>
+    <div class="form_oculto">
+    <?= $form->field($model, 'id')->textInput(['type'=>'hidden','style'=>'display:none'])->label('')  ?>
     <!--El id de comentario será minimo 0 cuando es un comentario raiz-->
     <!-- <?= $form->field($model, 'comentario_id')->textInput(['type'=>'hidden'])->label('') ?>
     <!-- El id de la alerta será minimo 1-->
@@ -28,9 +29,6 @@ use kartik\datetime\DateTimePicker;
     <?= $form->field($model, 'crea_fecha')->textInput(['type' => 'hidden'])->label('') ?>
 
     <?=$form->field($model, 'modi_fecha')->textInput(['type' => 'hidden'])->label('') ?>
-
-    <?= $form->field($model, 'texto')->textArea([])->label('Nuevo Comentario') ?>
-
 
     <?= $form->field($model, 'cerrado')->textInput(['type' => 'hidden'])->label('') ?>
 
@@ -46,9 +44,10 @@ use kartik\datetime\DateTimePicker;
     <?= $form->field($model, 'bloqueo_fecha')->textInput([ 'type'=>'hidden'])->label('') ?>
 
     <?= $form->field($model, 'bloqueo_notas')->textInput(['type'=>'hidden'])->label('') ?>
-
+    </div >
+    <?= $form->field($model, 'texto')->textArea(['rows'=>'5'])->label('Nuevo Comentario') ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Comentar!'), ['class' =>  'btn btn-success btn-right']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
