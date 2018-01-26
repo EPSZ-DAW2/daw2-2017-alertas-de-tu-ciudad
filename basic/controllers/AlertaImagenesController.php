@@ -31,16 +31,16 @@ class AlertaImagenesController extends Controller
             
             'access' => [
             'class' => ControlAcceso::className(),
-            'only' => ['index','view','create','update','delete','create_multi'],
+            'only' => ['index','view','create','update','delete'],
             'rules' =>[ 
                 [
                 'allow'=>true,
-                'actions'=>['create','create_multi','update', 'delete'],
+                'actions'=>['create','update', 'delete'],
                 'roles'=>['N'],
                 ],
                 [
                 'allow'=>true,
-                'actions'=>['index','view','create','create_multi','update','delete'],
+                'actions'=>['index','view','create','update','delete'],
                 'roles'=>['A','M'],
                 ],
             ],
@@ -74,24 +74,6 @@ class AlertaImagenesController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
-    /**
-     * Creates a new AlertaImagen model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-          $model = new AlertaImagen();
-          
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
     
     /***
      * Acción encargada de controlar la vista de subida de varias imagenes.
@@ -99,7 +81,7 @@ class AlertaImagenesController extends Controller
      * Debe ir e una función a parte, pues no será lo mismo crear un único registro para
      * una única imagen que para varias al mismo tiempo.
      */
-    public function actionCreate_multi()
+    public function actionCreate()
     { 
        $model = new AlertaImagen();
           
@@ -145,7 +127,7 @@ class AlertaImagenesController extends Controller
              //En el caso de que exista un error al intentar subir las imagenes, volvemos
              //a la view en la que estabamos, pasándole el mensaje de error oportuno.
              if($error)
-               return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code),'create_multi');
+               return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code),'create');
 
                           
                 $model->load(Yii::$app->request->post());
@@ -198,21 +180,21 @@ class AlertaImagenesController extends Controller
                $ruta .= '/'.$hashes[0].'.'.$extension_imagen;
 
                 if(!move_uploaded_file($fichero_temporal, $ruta))
-                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create_multi');
+                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create');
                 
                 $model->save();
                 $orden = $orden + 1;//No está del todo implementado.     
  
              }
              
-           return $this->redirect(['index']);
+           return $this->redirect(Yii::$app->request->referrer ?: 'index');
        }
 
        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //Nunca debería llegar
         } else {
-            return $this->render('create_multi', [
+            return $this->render('create', [
                 'model' => $model,
             ]);
         }
@@ -367,7 +349,7 @@ class AlertaImagenesController extends Controller
              
              $model->save();
              
-            return $this->redirect(['index']);            
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');          
        }
             
 

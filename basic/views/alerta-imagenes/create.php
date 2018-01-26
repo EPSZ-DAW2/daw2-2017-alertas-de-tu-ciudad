@@ -1,13 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use app\widgets\ListaImagenes;
-use app\models\AlertaImagen;
-use yii\helpers\FileHelper;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
 
-$this->title = Yii::t('app', 'Adjuntar imagen en Alerta');
+$this->registerJsFile('@web/js/funciones_imagenes.js');
+$this->registerCssFile('@web/css/imagenes.css');
+
+$this->title = Yii::t('app', 'Adjuntar imagenes en Alerta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagenes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,43 +17,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-   <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); // IMPORTANTE! ?>
+
+    <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
+       
+    <div align="center" style="width:302px;">
+        <input style="display:none" type="file" name="explorar_ficheros[]" id="explorar_ficheros" onchange="previsualizacion_img(this)" multiple="multiple" />
+        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
+    </div>
     
-    <?= ListaImagenes::widget(['id_alerta' => '54', 'view' => $this]) ?>
- 
-
-    <?php 
+    <div style="margin-top: 70px; margin-bottom: 30px;">
+         <ul id="previsualizador" class="ul_imagen"></ul>
+    </div>
     
-        function directorio_vacio($dir) 
-    {
-        if (!is_readable($dir)) return NULL;
-
-            $handle = opendir($dir);
-             while (false !== ($entry = readdir($handle))) 
-              {
-                if ($entry != "." && $entry != "..") 
-                    return false;
-
-              }
-        return true;
-    }
-
     
-    ?>
+    <div class="form-group" style="text-align: center;">
+        <?= Html::submitButton('Subir todas las imagenes', ['class' => 'btn btn-success']) ?>
+    </div>
+        <?php ActiveForm::end(); ?>
 
-        <?php 
 
-      
-
-        
-  //  echo 'USER ID: '. Yii::$app->user->getId();
-//echo $model->obtenerRutaFisica(); 
-    
-   //$this->registerJS(Url::base(true).'/js/funciones_imagenes.js','ver_img("aaaa");', 4);
-  // $this->registerJS('ver_img("aaaa");', 4);
-     // $this->registerScriptFile(Url::base(true).'/js/funciones_imagenes.js', 'ver_img("aaaa");', 4);
-    ?>
 
 </div>

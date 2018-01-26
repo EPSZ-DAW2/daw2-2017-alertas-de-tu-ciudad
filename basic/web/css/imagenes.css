@@ -19,7 +19,6 @@
 
 .imagen_miniatura {
 	margin-bottom: 15px;
-	width: 25%;
 	float: left;
 	position: relative;
 	min-height: 1px;
@@ -73,8 +72,8 @@
 	list-style: none;
 	font-size: 14px;
 	line-height: 1.42857143;
-	min-width: 256px;
-	max-width: 256px;
+	min-width: 254px;
+	max-width: 254px;
 	min-height: 165px;
 	max-height: 165px;
 	
