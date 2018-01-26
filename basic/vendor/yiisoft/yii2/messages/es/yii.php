@@ -28,6 +28,8 @@ return [
     '(not set)' => '(no definido)',
     'An internal server error occurred.' => 'Hubo un error interno del servidor.',
     'Are you sure you want to delete this item?' => '¿Está seguro de eliminar este elemento?',
+    'Categories' => 'Categorias',
+    'Create' => 'Crear',
     'Delete' => 'Eliminar',
     'Error' => 'Error',
     'File upload failed.' => 'Falló la subida del archivo.',
