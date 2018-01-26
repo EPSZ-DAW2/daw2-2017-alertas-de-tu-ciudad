@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = $model->id;
+$this->title = $model->nick;
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -49,7 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 	<p>
-		<?= Html::a(Yii::t('app', 'Crear una consulta'), ['usuario-incidencias/createconsulta'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'Ver mis consultas'), ['usuario-incidencias/index', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+		
 	</p>
 </div>
