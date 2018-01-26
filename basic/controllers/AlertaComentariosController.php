@@ -127,35 +127,41 @@ class AlertaComentariosController extends Controller
     /*
      * Función que crea un nuevo comentario pasadole un id de la alerta
      */
-    public function actionCrearComentario()
+    public function actionComentar()
     {
-        /*
-         * 'id' => Yii::t('app', 'ID'),
-            'alerta_id' => Yii::t('app', 'Alerta ID'),
-            'crea_usuario_id' => Yii::t('app', 'Crea Usuario ID'),
-            'crea_fecha' => Yii::t('app', 'Crea Fecha'),
-            'modi_usuario_id' => Yii::t('app', 'Modi Usuario ID'),
-            'modi_fecha' => Yii::t('app', 'Modi Fecha'),
-            'texto' => Yii::t('app', 'Texto'),
-            'comentario_id' => Yii::t('app', 'Comentario ID'),
-            'cerrado' => Yii::t('app', 'Cerrado'),
-            'num_denuncias' => Yii::t('app', 'Num Denuncias'),
-            'fecha_denuncia1' => Yii::t('app', 'Fecha Denuncia1'),
-            'bloqueado' => Yii::t('app', 'Bloqueado'),
-            'bloqueo_usuario_id' => Yii::t('app', 'Bloqueo Usuario ID'),
-            'bloqueo_fecha' => Yii::t('app', 'Bloqueo Fecha'),
-            'bloqueo_notas' => Yii::t('app', 'Bloqueo Notas'),
-         */
+        //COMENTARIOS RELLENAR LA INFORMACION DEL USUARIO QUE VA A COMENTAR
+        $nuevoComentario = new AlertaComentarios();
+        $nuevoComentario->load(Yii::$app->request->post());
 
-        $model = new AlertaComentarios();
+        //$nuevoComentario->id = 1;
+        $nuevoComentario->alerta_id = 1; //Se obtiene de la variable que indique en que alerta estamos
+        $nuevoComentario->crea_usuario_id = 3;//Se obtiene de sesion
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        //Establecemos la zona horaria
+        date_default_timezone_set('Europe/Amsterdam');
+        //Obtenemos la hora y fecha actual
+        $dateTimeNow = date('Y/m/d h:i:s', time());
+
+        $nuevoComentario->crea_fecha = $dateTimeNow;
+        // $nuevoComentario->modi_usuario_id = //Se obtiene de sesion
+        // $nuevoComentario->modi_fecha =
+        //$nuevoComentario->texto = Se obtiene del forumlario
+        // $nuevoComentario->comentario_id  = //Cuando le das a responder que pase una variable por get de hacia quien va la respuesta
+        $nuevoComentario->cerrado = 0;
+        $nuevoComentario->num_denuncias = 0;
+        $nuevoComentario->fecha_denuncia1 = null;
+        $nuevoComentario->bloqueado = 0;
+        $nuevoComentario->bloqueo_usuario_id = null;
+        $nuevoComentario->bloqueo_fecha = null;
+        $nuevoComentario->bloqueo_notas = null;
+
+
+
+        $nuevoComentario->save();
+
+        return $this->redirect(['index']);
+
     }
+
 
 }

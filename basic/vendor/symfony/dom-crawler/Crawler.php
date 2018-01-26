@@ -59,7 +59,7 @@ class Crawler implements \Countable, \IteratorAggregate
      * @param string $uri      The current URI
      * @param string $baseHref The base href value
      */
-    public function __construct($node = null, string $uri = null, string $baseHref = null)
+    public function __construct($node = null, $uri = null, $baseHref = null)
     {
         $this->uri = $uri;
         $this->baseHref = $baseHref ?: $uri;
@@ -958,8 +958,12 @@ class Crawler implements \Countable, \IteratorAggregate
      *
      * The returned XPath will match elements matching the XPath inside the current crawler
      * when running in the context of a node of the crawler.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
-    private function relativize(string $xpath): string
+    private function relativize($xpath)
     {
         $expressions = array();
 
@@ -1091,9 +1095,14 @@ class Crawler implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param \DOMDocument $document
+     * @param array        $prefixes
+     *
+     * @return \DOMXPath
+     *
      * @throws \InvalidArgumentException
      */
-    private function createDOMXPath(\DOMDocument $document, array $prefixes = array()): \DOMXPath
+    private function createDOMXPath(\DOMDocument $document, array $prefixes = array())
     {
         $domxpath = new \DOMXPath($document);
 
@@ -1108,9 +1117,14 @@ class Crawler implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param \DOMXPath $domxpath
+     * @param string    $prefix
+     *
+     * @return string
+     *
      * @throws \InvalidArgumentException
      */
-    private function discoverNamespace(\DOMXPath $domxpath, string $prefix): ?string
+    private function discoverNamespace(\DOMXPath $domxpath, $prefix)
     {
         if (isset($this->namespaces[$prefix])) {
             return $this->namespaces[$prefix];
@@ -1122,11 +1136,14 @@ class Crawler implements \Countable, \IteratorAggregate
         if ($node = $namespaces->item(0)) {
             return $node->nodeValue;
         }
-
-        return null;
     }
 
-    private function findNamespacePrefixes(string $xpath): array
+    /**
+     * @param string $xpath
+     *
+     * @return array
+     */
+    private function findNamespacePrefixes($xpath)
     {
         if (preg_match_all('/(?P<prefix>[a-z_][a-z_0-9\-\.]*+):[^"\/:]/i', $xpath, $matches)) {
             return array_unique($matches['prefix']);

@@ -252,8 +252,10 @@ class TextDescriptor extends Descriptor
 
     /**
      * Formats command aliases to show them in the command description.
+     *
+     * @return string
      */
-    private function getCommandAliasesText(Command $command): string
+    private function getCommandAliasesText(Command $command)
     {
         $text = '';
         $aliases = $command->getAliases();
@@ -269,8 +271,10 @@ class TextDescriptor extends Descriptor
      * Formats input option/argument default value.
      *
      * @param mixed $default
+     *
+     * @return string
      */
-    private function formatDefaultValue($default): string
+    private function formatDefaultValue($default)
     {
         if (INF === $default) {
             return 'INF';
@@ -291,8 +295,10 @@ class TextDescriptor extends Descriptor
 
     /**
      * @param (Command|string)[] $commands
+     *
+     * @return int
      */
-    private function getColumnWidth(array $commands): int
+    private function getColumnWidth(array $commands)
     {
         $widths = array();
 
@@ -312,8 +318,10 @@ class TextDescriptor extends Descriptor
 
     /**
      * @param InputOption[] $options
+     *
+     * @return int
      */
-    private function calculateTotalWidthForOptions(array $options): int
+    private function calculateTotalWidthForOptions(array $options)
     {
         $totalWidth = 0;
         foreach ($options as $option) {
