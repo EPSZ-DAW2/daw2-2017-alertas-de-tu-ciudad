@@ -8,7 +8,7 @@ use app\models\AreaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\components\ControlAcceso;
 /**
  * AreaController implements the CRUD actions for Area model.
  */
@@ -25,6 +25,20 @@ class AreaController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+            'access' => [
+                'class' => ControlAcceso::className(),
+                'rules' =>[ [
+					'allow'=>true,
+					'actions'=>['index', 'view'],
+					'roles'=>['N'],
+				],
+				[
+					'allow'=>true,
+					'actions'=>['index','view','create','update','delete'],
+					'roles'=>['A','M'],
+				],
+				],
             ],
         ];
     }
