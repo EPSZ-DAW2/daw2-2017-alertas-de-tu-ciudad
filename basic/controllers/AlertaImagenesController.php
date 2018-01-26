@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\AlertaImagen;
+use app\models\Alerta;
 use app\models\AlertaImagenSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -75,15 +76,50 @@ class AlertaImagenesController extends Controller
         ]);
     }
     
+
     /***
      * Acción encargada de controlar la vista de subida de varias imagenes.
      * 
      * Debe ir e una función a parte, pues no será lo mismo crear un único registro para
      * una única imagen que para varias al mismo tiempo.
      */
-    public function actionCreate()
+    public function actionCreate($a_id=null)
     { 
+        if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
        $model = new AlertaImagen();
+
+        $privilegios = false;
+       //Si accede sin acceso directo, por id específica DEBE ser administrador.
+       if(!isset($a_id) && Yii::$app->user->identity->rol === 'A')
+       {
+              $privilegios = true;    
+       }
+       else if(!isset($a_id) && Yii::$app->user->identity->rol !== 'A')
+           return $this->EnviarMensajeError(new AlertaImagen(), '¡No tienes permisos para hacer esto!', Yii::$app->request->referrer, true);
+           
+         //Habría que comprobar el moderador. En el caso de que tuviera permisos para las imagenes.
+        if (Yii::$app->user->identity->rol === 'A')
+        {
+                $privilegios = true;                    
+        }             
+        
+        $usuario_id = Yii::$app->user->getId();
+
+        //Habría que ver si permitimos crear a un moderador, supuestamente
+        //debería tener permisos para la sección de imágenes.
+        if (isset($a_id) && !$privilegios && (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M'))
+         {
+             $modelo_alerta= Alerta::findOne($a_id);
+
+             if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes agregar imagenes en la alerta de otro usuario!', Yii::$app->request->referrer, true);
+         }
+       
           
        //Accederemos siempre que se intente subir una imagen desde el input.
        //Es decir, siempre que que se produzca un submit.
@@ -132,11 +168,9 @@ class AlertaImagenesController extends Controller
                           
                 $model->load(Yii::$app->request->post());
                 //Esta alerta servira para todas las imagenes.
-                $alerta_id = $model->alerta_id;
-                //Aquí habria que COMPROBAR la alerta.
-                //Para saber si puedes agregar fotos en dicha alerta, si es tuya.
-                //O si es administrador etc.
-                $usuario_id = 0; // CAMBIAR por la id del usuario conectado.
+
+                 if(!isset($a_id))
+                    $alerta_id = $model->alerta_id;
 
                 $orden = 0; //Aún no funcional!!
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
@@ -154,6 +188,9 @@ class AlertaImagenesController extends Controller
                 $hashes = explode("-", $UUID);
                 $ruta = "";
 
+                if($privilegios)
+                 $model->imagen_revisada = 1;
+                
                 $model->alerta_id = $alerta_id;
                 $model->orden = $orden;
                 $model->imagen_id = $UUID;          
@@ -196,17 +233,22 @@ class AlertaImagenesController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'permisos' =>$privilegios,
+                
             ]);
         }
     }
 
    
-    private function EnviarMensajeError($model, $mensajeError, $return)
+    private function EnviarMensajeError($model, $mensajeError, $return, $redirect=false)
     {
         $model->load(Yii::$app->request->post());
 
         Yii::$app->getSession()->setFlash('error', 'ERROR: '. $mensajeError);
 
+        if($redirect)
+              return $this->redirect($return ?: 'index');
+        
         return $this->render($return, [
         'model' => $model,
     ]);   

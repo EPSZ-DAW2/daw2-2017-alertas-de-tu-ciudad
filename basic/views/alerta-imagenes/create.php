@@ -5,23 +5,28 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
+/* @var $permisos boolean */
 
 $this->registerJsFile('@web/js/funciones_imagenes.js');
 $this->registerCssFile('@web/css/imagenes.css');
 
-$this->title = Yii::t('app', 'Adjuntar imagenes en Alerta');
+$this->title = Yii::t('app', 'Adjuntar imagenes en la Alerta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagenes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+if(!isset($permisos))
+    $permisos = false;
+
 ?>
 <div class="alerta-imagen-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); // IMPORTANTE! ?>
-
+    <?php if($permisos){?>
     <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
-       
-    <div align="center" style="width:302px;">
+    <?php } ?>     
+    <div  align="center" style="width:302px;  <?php if(!$permisos) echo 'margin-top: -50px;'; ?>">
         <input style="display:none" type="file" name="explorar_ficheros[]" id="explorar_ficheros" onchange="previsualizacion_img(this)" multiple="multiple" />
         <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
     </div>
