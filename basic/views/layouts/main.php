@@ -31,7 +31,7 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse navbar-static-top',
         ],
     ]);
     echo Nav::widget([
