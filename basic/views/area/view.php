@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             ['attribute' => 'claseArea'],
             'nombre',
-            ['attribute' => 'parentArea.nombre', 'label' => 'Área padre'],
+            'parentName',
         ],
     ]) ?>
 

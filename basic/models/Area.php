@@ -14,7 +14,7 @@ use Yii;
  */
 class Area extends \yii\db\ActiveRecord
 {
-    public $clases_area = [
+    public static $clases_area = [
         'Planeta',
         'Continente',
         'País',
@@ -60,6 +60,7 @@ class Area extends \yii\db\ActiveRecord
             'nombre' => Yii::t('app', 'Nombre del área'),
             'area_id' => Yii::t('app', 'Área relacionada'),
             'parentArea' => Yii::t('app', 'Área padre'),
+            'parentName' => Yii::t('app', 'Nombre del área padre'),
             'childAreas' => Yii::t('app', 'Áreas hijas'),
         ];
     }
@@ -81,6 +82,12 @@ class Area extends \yii\db\ActiveRecord
         return $this->hasMany(Area::className(), ['area_id' => 'id'])->inverseOf('parentArea');
     }
     public function getClaseArea() {
-        return $this->clases_area[$this->clase_area_id];
+        return $this::$clases_area[$this->clase_area_id];
+    }
+
+    public function getParentName() 
+    {
+        $parent = $this->parentArea;
+        if ($parent) return $parent->nombre;
     }
 }
