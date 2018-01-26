@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
+use app\components\ControlAcceso;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -27,6 +28,23 @@ class AlertaImagenesController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            
+            'access' => [
+            'class' => ControlAcceso::className(),
+            'only' => ['index','view','create','update','delete','create_multi'],
+            'rules' =>[ 
+                [
+                'allow'=>true,
+                'actions'=>['create','create_multi','update', 'delete'],
+                'roles'=>['N'],
+                ],
+                [
+                'allow'=>true,
+                'actions'=>['index','view','create','create_multi','update','delete'],
+                'roles'=>['A','M'],
+                ],
+            ],
+         ],
         ];
     }
 
