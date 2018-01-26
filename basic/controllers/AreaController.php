@@ -41,6 +41,7 @@ class AreaController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'clasesArea' => Area::$clases_area
         ]);
     }
 

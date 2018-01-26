@@ -12,14 +12,16 @@ use app\models\Area;
  */
 class AreaSearch extends Area
 {
+    public $parentName;
+    public $claseArea;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'area_id'], 'integer'],
-            [['clase_area_id', 'nombre'], 'safe'],
+            [['id', 'area_id', 'clase_area_id'], 'integer'],
+            [['claseArea','parentName','nombre'], 'safe'],
         ];
     }
 
@@ -44,9 +46,27 @@ class AreaSearch extends Area
         $query = Area::find();
 
         // add conditions that should always apply here
+        $query->joinWith(['parentArea pA'], true, 'LEFT OUTER JOIN');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'id',
+                'parentName' => [
+                    'asc' => ['pA.nombre' => SORT_ASC],
+                    'desc' => ['pA.nombre' => SORT_DESC],
+                    'default' => SORT_ASC
+                ],
+                'nombre',
+                'claseArea' => [
+                    'asc' => ['clase_area_id' => SORT_ASC],
+                    'desc' => ['clase_area_id' => SORT_DESC],
+                    'default' => SORT_ASC
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -56,15 +76,15 @@ class AreaSearch extends Area
             // $query->where('0=1');
             return $dataProvider;
         }
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'area_id' => $this->area_id,
+            'areas.clase_area_id' => $this->claseArea
         ]);
 
-        $query->andFilterWhere(['like', 'clase_area_id', $this->clase_area_id])
-            ->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+        ->andFilterWhere(['like','pA.nombre', $this->parentName]);
 
         return $dataProvider;
     }
