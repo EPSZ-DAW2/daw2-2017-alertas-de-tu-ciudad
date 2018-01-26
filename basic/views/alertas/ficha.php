@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div>
 	<div>
-	 <h3>Apartado para comentarios:</h3>
+	 <h3 id ="Comentar">Apartado para comentarios:</h3>
     </div>
     <div>
        <!-- <textarea  rows="10" name="comment" id="comment" placeholder="Comentarios" ></textarea>-->

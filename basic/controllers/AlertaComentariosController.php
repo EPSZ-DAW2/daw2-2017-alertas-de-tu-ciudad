@@ -127,7 +127,7 @@ class AlertaComentariosController extends Controller
     /*
      * Función que crea un nuevo comentario pasadole un id de la alerta
      */
-    public function actionComentar($idComentarioPadre,$idAlerta)
+    public function actionComentar($idComentarioPadre,$idAlerta,$redireccion)
     {
         //COMENTARIOS RELLENAR LA INFORMACION DEL USUARIO QUE VA A COMENTAR
 
@@ -165,7 +165,7 @@ class AlertaComentariosController extends Controller
         $nuevoComentario->save();
 
         //Redirigimos al index
-        return $this->redirect(['index']);
+        return $this->redirect([$redireccion]);
 
     }
 
