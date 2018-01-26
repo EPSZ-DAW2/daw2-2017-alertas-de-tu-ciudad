@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\components\ControlAcceso;
 use app\models\Logs;
 use app\models\LogsSearch;
 use yii\web\Controller;
@@ -20,12 +21,32 @@ class LogsController extends Controller
     public function behaviors()
     {
         return [
+		
+			'access' => [
+                        'class' => ControlAcceso::className(),
+                        'only' => ['index','create','view','delete'],
+                        'rules' => [
+							[
+							    'actions' => ['create'],
+                                'allow' => true,
+                                'roles' => ['@'],
+                            ],
+						
+                            // allow admin users
+                            [
+							    'actions' => ['index','view','delete'],
+                                'allow' => true,
+                                'roles' => ['A'],
+                            ],
+                            // everything else is denied
+                        ],
+             ], 
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+			],
         ];
     }
 
@@ -57,21 +78,22 @@ class LogsController extends Controller
     }
 
     /**
-     * Creates a new Logs model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+	para generar un log nuevo sólo hay que introducir la siguiente línea desde cualquier lugar de la aplicación
+	lógicamente, al ser un return ha de ser la ultima linea
+	  return $this->redirect(array("logs/create?codigo=elcodigoquesequiera&modulo=elmoduloquelogenera&texto=elqtextoquesequiera"));
+	  modulo y texto pueden ser cadenas vacias
+	  la otra alternativa es que se use la clase del modelo
      */
-    public function actionCreate()
+   public function actionCreate($codigo, $modulo, $texto)
     {
+		//se prodria comprobar el $codigo en en función de el tipo de log hacer control de roles
         $model = new Logs();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+		$model->crea_fecha= date("Y-m-d H:i:s");
+		$model->clase_log_id=$codigo;
+		$model->modulo=$modulo;
+		$model->texto=$texto;
+        $model->save();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

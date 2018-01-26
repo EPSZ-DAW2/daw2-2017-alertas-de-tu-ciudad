@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\components\ControlAcceso;
 use app\models\Configuraciones;
 use app\models\ConfiguracionesSearch;
 use yii\web\Controller;
@@ -20,24 +21,26 @@ class ConfiguracionesController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-				/*'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','create','update','view','delete'],
+		
+			'access' => [
+                        'class' => ControlAcceso::className(),
+                        'only' => ['index','create','update','delete'],
                         'rules' => [
-                            // allow authenticated users
+                            // allow admin users
                             [
+							    'actions' => ['index','create','update','delete'],
                                 'allow' => true,
                                 'roles' => ['A'],
                             ],
                             // everything else is denied
                         ],
-                    ], */
-            ],
+             ], 
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+			],
         ];
     }
 
@@ -53,7 +56,11 @@ class ConfiguracionesController extends Controller
 			
 			$searchModel = new ConfiguracionesSearch();
 			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+			$dataProvider->pagination->pageSize=15;
+			$numeropaginas=Configuraciones::findOne("numero_lineas_pagina");
+			if($numeropaginas and $numeropaginas->valor>0){
+				$dataProvider->pagination->pageSize=$numeropaginas->valor;
+			}
 			return $this->render('index', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
@@ -61,17 +68,7 @@ class ConfiguracionesController extends Controller
 		}
     }
 
-    /**
-     * Displays a single Configuraciones model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+   
 
     /**
      * Creates a new Configuraciones model.
@@ -83,7 +80,7 @@ class ConfiguracionesController extends Controller
         $model = new Configuraciones();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->variable]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -102,7 +99,7 @@ class ConfiguracionesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->variable]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
