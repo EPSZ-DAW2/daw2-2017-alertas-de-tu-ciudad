@@ -40,9 +40,16 @@ use yii\helpers\Html;
                         <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
                     </a>
                 <?php }else{?>
-                    <li class="complain redFont"><span class="glyphicon glyphicon-ban-circle"></span> Bloqueado</li>
+                    <li class="complain redFont">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Bloqueado
+                    </li>
                <?php } ?>
-                <a href="TrabajoFinalDAW2/basic/web/usuario-incidencias/createdenuncia?id=1&tipo=comentario"><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
+
+                <a href="<?=Yii::getAlias('@web')?>/usuario-incidencias/createdenuncia?id=<?=$dataComentario->id?>&tipo=comentario">
+                    <li class="complain yellowFont">
+                        <span class="glyphicon glyphicon-warning-sign"></span> Denunciar
+                    </li>
+                </a>
             </ul>
         </div>
     </div>

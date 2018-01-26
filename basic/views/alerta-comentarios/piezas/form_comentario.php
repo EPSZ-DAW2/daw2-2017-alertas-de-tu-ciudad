@@ -22,7 +22,12 @@ if(!empty($_GET['idComentarioPadre'])) $idComentarioPadre = $_GET['idComentarioP
         <?= $form->field($model, 'texto')->textArea(['rows'=>'5'])->label('Respuesta al comentario #'.$idComentarioPadre) ?>
     <?php } ?>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Comentar!'), ['class' =>  'btn btn-success btn-right']) ?>
+        <?php if($idComentarioPadre == 0) {?>
+            <?= Html::submitButton(Yii::t('app', 'Comentar'), ['class' =>  'btn btn-success btn-right']) ?>
+        <?php }else {?>
+            <?= Html::submitButton(Yii::t('app', 'Responder'), ['class' =>  'btn btn-success btn-right']) ?>
+        <?php } ?>
+
     </div>
 
     <?php ActiveForm::end(); ?>
