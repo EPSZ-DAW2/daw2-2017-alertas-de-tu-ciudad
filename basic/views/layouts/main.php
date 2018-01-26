@@ -7,12 +7,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use yii\i18n\GettextMessageSource;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>"> 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <?='<link rel="mask-icon" href="'.Yii::$app->request->baseUrl.'/img/pin_logo.png" color="#293dff">'?>

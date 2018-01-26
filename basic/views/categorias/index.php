@@ -13,7 +13,7 @@ use app\models\CategoriasSearch;
 /* @var $searchModel app\models\CategoriasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Categorias');
+$this->title = Yii::t('yii', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categorias-index">
