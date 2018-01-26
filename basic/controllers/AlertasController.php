@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Alerta;
 use app\models\AlertaSearch;
+use app\models\AlertaComentarios;
+use app\models\AlertaComentariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -163,11 +165,11 @@ class AlertasController extends Controller
 	/*Funcion para acceder a la ficha de la alerta si eres usuario no registrado*/
 	
 	public function actionFicha($id)
-	
     {
-			  $model = $this->findModel($id);
-		
+        $model = $this->findModel($id);
 
+        $searchModelAlertaComentarios =  new AlertaComentariosSearch();
+        $dataProviderAlertaComentarios = $searchModelAlertaComentarios->ordenarComentariosFechaDesc($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -176,6 +178,8 @@ class AlertasController extends Controller
 			//$model->bloqueada='1';
             return $this->render('ficha', [
                 'model' => $model,
+                'searchModelAlertaComentarios' => $searchModelAlertaComentarios, //pasamos el searchmodel de nuestros comentarios
+                'dataProviderAlertaComentarios' => $dataProviderAlertaComentarios, //Pasamos nuestro dataprovider de los comentarios
             ]);
         }
 		
