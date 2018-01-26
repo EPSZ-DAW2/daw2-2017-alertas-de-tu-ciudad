@@ -6,6 +6,7 @@ use kartik\datetime\DateTimePicker;
 
 
 $idComentarioPadre = 0;
+$idAlerta = 3; //Esta variable nos la tiene que dar Javi que corresponderá con la alerta de la que se muestran los comentarios
 if(!empty($_GET['idComentarioPadre'])) $idComentarioPadre = $_GET['idComentarioPadre'];
 
 /* @var $this yii\web\View */
@@ -14,7 +15,7 @@ if(!empty($_GET['idComentarioPadre'])) $idComentarioPadre = $_GET['idComentarioP
 ?>
 
 <div class="alerta-comentarios-form" >
-    <?php $form = ActiveForm::begin(['action' =>['alerta-comentarios/comentar?idComentarioPadre='.$idComentarioPadre], 'method' => 'post',]);
+    <?php $form = ActiveForm::begin(['action' =>['alerta-comentarios/comentar?idComentarioPadre='.$idComentarioPadre."&idAlerta=".$idAlerta], 'method' => 'post',]);
     ?>
     <?php if($idComentarioPadre == 0) {?>
         <?= $form->field($model, 'texto')->textArea(['rows'=>'5'])->label('Nuevo Comentario') ?>
