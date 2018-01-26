@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
 		echo Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']); 
+		echo Html::a(Yii::t('app', 'Añadir etiqueta a la alerta'), ['alerta-etiquetas/create'], ['class' => 'btn btn-success']);
 		echo Html::a('Denunciar', ['denunciar', 'id' => $model->id], ['class' => 'btn btn-danger']);
 	
 		?>
@@ -74,8 +75,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<div>
 	<?php
-	
-	echo Html::a('Comentarios', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']);
+		
+	//echo Html::a('Comentarios', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']);
 
 	?>
 	</div>
