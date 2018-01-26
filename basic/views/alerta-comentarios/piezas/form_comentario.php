@@ -12,8 +12,8 @@ use kartik\datetime\DateTimePicker;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="alerta-comentarios-form">
-    <?php $form = ActiveForm::begin(['action' =>['alerta-comentarios/comentar'], 'method' => 'post',]);
+<div class="alerta-comentarios-form" >
+    <?php $form = ActiveForm::begin(['action' =>['alerta-comentarios/comentar?idComentarioPadre=0'], 'method' => 'post',]);
     ?>
     <?= $form->field($model, 'texto')->textArea(['rows'=>'5'])->label('Nuevo Comentario') ?>
     <div class="form-group">

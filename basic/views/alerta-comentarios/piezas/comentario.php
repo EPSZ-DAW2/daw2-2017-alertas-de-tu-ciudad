@@ -36,11 +36,13 @@ use yii\helpers\Html;
             </div>
             <ul class="comment-actions">
                 <?php if(!$dataComentario->bloqueado) {?>
-                    <a href=""> <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li></a>
+                    <a href="?idComentarioPadre=<?=$dataComentario->comentario_id?>#Comentar">
+                        <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
+                    </a>
                 <?php }else{?>
                     <li class="complain redFont"><span class="glyphicon glyphicon-ban-circle"></span> Bloqueado</li>
                <?php } ?>
-                <a href="/TrabajoFinalDAW2/basic/web/usuario-incidencias/createdenuncia?id=1&tipo=comentario"><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
+                <a href="TrabajoFinalDAW2/basic/web/usuario-incidencias/createdenuncia?id=1&tipo=comentario"><li class="complain"> <span class="glyphicon glyphicon-warning-sign"></span> Denunciar </li></a>
             </ul>
         </div>
     </div>

@@ -127,7 +127,7 @@ class AlertaComentariosController extends Controller
     /*
      * Función que crea un nuevo comentario pasadole un id de la alerta
      */
-    public function actionComentar()
+    public function actionComentar($idComentarioPadre)
     {
         //COMENTARIOS RELLENAR LA INFORMACION DEL USUARIO QUE VA A COMENTAR
         $nuevoComentario = new AlertaComentarios();
@@ -144,9 +144,12 @@ class AlertaComentariosController extends Controller
 
         $nuevoComentario->crea_fecha = $dateTimeNow;
         // $nuevoComentario->modi_usuario_id = //Se obtiene de sesion
-        // $nuevoComentario->modi_fecha =
+        // $nuevoComentario->modi_fecha = //Se obtiene de la sesion
         //$nuevoComentario->texto = Se obtiene del forumlario
-        // $nuevoComentario->comentario_id  = //Cuando le das a responder que pase una variable por get de hacia quien va la respuesta
+
+        $nuevoComentario->comentario_id = $idComentarioPadre;
+
+        //Cuando le das a responder que pase una variable por get de hacia quien va la respuesta
         $nuevoComentario->cerrado = 0;
         $nuevoComentario->num_denuncias = 0;
         $nuevoComentario->fecha_denuncia1 = null;
@@ -156,7 +159,7 @@ class AlertaComentariosController extends Controller
         $nuevoComentario->bloqueo_notas = null;
 
 
-
+        //Guardamos el nuevo comentario en bases de datos
         $nuevoComentario->save();
 
         return $this->redirect(['index']);
