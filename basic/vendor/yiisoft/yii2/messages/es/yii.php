@@ -35,6 +35,7 @@ return [
     'File upload failed.' => 'Falló la subida del archivo.',
     'Home' => 'Inicio',
     'Invalid data received for parameter "{param}".' => 'Se recibieron datos erróneos para el parámetro "{param}"',
+    'Heading' => 'Encabezado',
     'Login Required' => 'Login Requerido',
     'Missing required arguments: {params}' => 'Argumentos requeridos ausentes: {params}',
     'Missing required parameters: {params}' => 'Parámetros requeridos ausentes: {params}',
