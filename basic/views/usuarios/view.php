@@ -48,5 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'bloqueo_notas:ntext',
         ],
     ]) ?>
-
+	<p>
+		<?= Html::a(Yii::t('app', 'Crear una consulta'), ['usuario-incidencias/createconsulta'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Ver mis consultas'), ['usuario-incidencias/index', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+	</p>
 </div>
