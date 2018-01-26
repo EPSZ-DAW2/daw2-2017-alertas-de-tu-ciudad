@@ -173,6 +173,7 @@ class UsuariosController extends Controller
 					$model->bloqueo_fecha=$fecha;
 					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
 					$model->bloqueado=3;
+					$model->bloqueo_notas="Usuario bloqueado de forma manual por un Moderador";
 				}
 			}else if($model2->rol=='A'){ 
 				if($model2->id!=$model->id)//El administrador no se puede bloquear a sí mismo
@@ -182,6 +183,7 @@ class UsuariosController extends Controller
 					$model->bloqueo_fecha=$fecha;
 					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
 					$model->bloqueado=2;
+					$model->bloqueo_notas="Usuario bloqueado de forma manual por un Administrador";
 				}
 			}
 		
@@ -192,9 +194,9 @@ class UsuariosController extends Controller
 			$model->bloqueado=0;
 		}
 		
-        if ($model->save()) {
+        if ( $model->save()) {
             //return $this->redirect(['bloquear', 'id' => $model->id]);
-            return $this->redirect(['index', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } 
 		else {
             return $this->render('index', [

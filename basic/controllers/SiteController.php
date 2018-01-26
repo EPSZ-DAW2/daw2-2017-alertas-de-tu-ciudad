@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Usuario;
+
 
 class SiteController extends Controller
 {
@@ -77,6 +79,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+			$model2=Usuario::findOne($_SESSION["__id"]);
+			$dia=getdate();
+			$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+			$model2->fecha_acceso=$fecha;
+			$model2->save();
             return $this->goBack();
         }
         return $this->render('login', [
