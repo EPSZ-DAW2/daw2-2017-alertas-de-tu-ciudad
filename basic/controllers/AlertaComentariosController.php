@@ -127,41 +127,44 @@ class AlertaComentariosController extends Controller
     /*
      * Función que crea un nuevo comentario pasadole un id de la alerta
      */
-    public function actionComentar($idComentarioPadre)
+    public function actionComentar($idComentarioPadre,$idAlerta)
     {
         //COMENTARIOS RELLENAR LA INFORMACION DEL USUARIO QUE VA A COMENTAR
+
         $nuevoComentario = new AlertaComentarios();
         $nuevoComentario->load(Yii::$app->request->post());
 
-        //$nuevoComentario->id = 1;
-        $nuevoComentario->alerta_id = 1; //Se obtiene de la variable que indique en que alerta estamos
-        $nuevoComentario->crea_usuario_id = 3;//Se obtiene de sesion
-
+        $nuevoComentario->alerta_id = $idAlerta; //Se obtiene de la variable que indique en que alerta estamos
+        //INFORMACION QUE SE OBTIENE DE SESION
+        if(!empty($_SESSION["__id"])) {
+            $nuevoComentario->crea_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion
+            $nuevoComentario->modi_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion
+        }
         //Establecemos la zona horaria
         date_default_timezone_set('Europe/Amsterdam');
         //Obtenemos la hora y fecha actual
         $dateTimeNow = date('Y/m/d h:i:s', time());
 
+        //INFORMACIÓN YA ALMACENADA DEL COMENTARIO
+
+        //$nuevoComentario->texto = Se obtiene del formulario
+        //$nuevoComentario->id = //Se crea automaticamente con autoincrement en el SQL
         $nuevoComentario->crea_fecha = $dateTimeNow;
-        // $nuevoComentario->modi_usuario_id = //Se obtiene de sesion
-        // $nuevoComentario->modi_fecha = //Se obtiene de la sesion
-        //$nuevoComentario->texto = Se obtiene del forumlario
-
-        $nuevoComentario->comentario_id = $idComentarioPadre;
-
-        //Cuando le das a responder que pase una variable por get de hacia quien va la respuesta
-        $nuevoComentario->cerrado = 0;
-        $nuevoComentario->num_denuncias = 0;
-        $nuevoComentario->fecha_denuncia1 = null;
-        $nuevoComentario->bloqueado = 0;
-        $nuevoComentario->bloqueo_usuario_id = null;
-        $nuevoComentario->bloqueo_fecha = null;
-        $nuevoComentario->bloqueo_notas = null;
+        $nuevoComentario->modi_fecha = $nuevoComentario->crea_fecha; //En un primer momento la fecha de modificacion es igual a la de creacion
+        $nuevoComentario->comentario_id = $idComentarioPadre; //Metemos el padre al que responde
+        $nuevoComentario->cerrado = 0; //Comienza en abierto
+        $nuevoComentario->num_denuncias = 0; //En un primer momento no hay denuncias
+        $nuevoComentario->fecha_denuncia1 = null; //En un primer momento si no hay denuncia no hay fecha de denuncia
+        $nuevoComentario->bloqueado = 0; //Comienza en desbloquedo
+        $nuevoComentario->bloqueo_usuario_id = null; //No pose usuarios bloqueados
+        $nuevoComentario->bloqueo_fecha = null; //No tiene la fecha de bloqueo
+        $nuevoComentario->bloqueo_notas = null; //No tiene notas
 
 
         //Guardamos el nuevo comentario en bases de datos
         $nuevoComentario->save();
 
+        //Redirigimos al index
         return $this->redirect(['index']);
 
     }
