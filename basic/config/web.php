@@ -4,7 +4,9 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'basic', 
+    'language' => 'es-ES',
+    'sourceLanguage' => 'en-US',
     'basePath' => dirname(__DIR__),
     'vendorPath' => dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor',
     'bootstrap' => ['log'],
@@ -56,6 +58,19 @@ $config = [
             ],
         ],
         //---*/
+        'i18n' => [
+        'translations' => [
+            'app*' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => dirname(__DIR__).'/messages',
+                'sourceLanguage' => 'en-US',
+                'fileMap' => [
+                    'app' => 'app.php',
+                    'app/error' => 'error.php',
+                ],
+            ],
+        ],
+    ],
     ],
     'params' => $params,
 ];

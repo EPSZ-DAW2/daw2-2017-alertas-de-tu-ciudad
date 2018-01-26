@@ -22,13 +22,18 @@ use app\models\AlertaComentarios;
     //Nuevo comentario que metera el usuario por input
     $nuevoComentario = new AlertaComentarios();
     //Renderiza la pieza del formulario para nuevos comentarios
-    echo $this->render('piezas/form_comentario.php',['model'=> $nuevoComentario]);
+    echo $this->render('piezas/form_comentario.php',[
+        'model'=> $nuevoComentario,
+        'idAlerta' => $idAlerta]);
 
     for ($count = 0; $count < $limit; ++$count) {
         //Renderizamos cada comentario de la página
         $dataComentario = $comentariosOrdenadosFecha[$count];
 
-        echo $this->render('piezas/comentario.php',['model'=>$searchModel, 'dataComentario' => $dataComentario]);
+        echo $this->render('piezas/comentario.php',
+            ['model'=>$searchModel,
+            'dataComentario' => $dataComentario
+            ]);
     }
 
     echo LinkPager::widget([

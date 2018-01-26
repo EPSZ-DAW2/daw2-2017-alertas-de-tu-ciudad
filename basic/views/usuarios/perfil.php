@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = $model->id;
+$this->title = $model->nick;
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,20 +15,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Modificar', ['updateperfil', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['usuario-incidencias/createconsulta'], [
             'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => '¿Está seguro de que desea eliminar este elemento?',
-                'method' => 'post',
-            ],
+            
         ]) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'email:email',
             'password',
             'nick',
@@ -36,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'apellidos',
             'fecha_nacimiento',
             'direccion:ntext',
-            'area_id',
+           /* 'area_id',
             'rol',
             'fecha_registro',
             'confirmado',
@@ -45,11 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'bloqueado',
             'bloqueo_usuario_id',
             'bloqueo_fecha',
-            'bloqueo_notas:ntext',
+            'bloqueo_notas:ntext',*/
         ],
     ]) ?>
 	<p>
-		<?= Html::a(Yii::t('app', 'Crear una consulta'), ['usuario-incidencias/createconsulta'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'Ver mis consultas'), ['usuario-incidencias/index', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Crear una incidencia'), ['usuario-incidencias/createconsulta'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Ver mis incidencias'), ['usuario-incidencias/index', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 	</p>
 </div>

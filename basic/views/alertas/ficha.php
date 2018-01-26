@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Alerta */
 
@@ -57,11 +56,20 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div>
 	<div>
-	 <h3>Apartado para comentarios:</h3>
+	 <h3 id ="Comentar">Apartado para comentarios:</h3>
     </div>
     <div>
-        <textarea  rows="10" name="comment" id="comment" placeholder="Comentarios" ></textarea>
-    
+       <!-- <textarea  rows="10" name="comment" id="comment" placeholder="Comentarios" ></textarea>-->
+
+    <?=
+    $this->render('//alerta-comentarios/comentarios.php',
+        ['searchModel'=>$searchModelAlertaComentarios,
+            'dataProvider2'=>$dataProviderAlertaComentarios,
+            'idAlerta' => $idAlerta])
+    ?>
+
+
+
 	 <h3>Apartado para imagenes:</h3>
    
     <div>

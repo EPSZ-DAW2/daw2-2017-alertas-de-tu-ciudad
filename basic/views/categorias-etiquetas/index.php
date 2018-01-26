@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $template='{view} {update} {delete}';
             echo Html::a(Yii::t('app', 'Crear Categoria-Etiqueta'), ['create'], ['class' => 'btn btn-success']);
         }else{
-            $template='{view}';
+            $template='{view}'; 
         }
     ?>
     </p>

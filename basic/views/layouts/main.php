@@ -11,7 +11,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>"> 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <?='<link rel="mask-icon" href="'.Yii::$app->request->baseUrl.'/img/pin_logo.png" color="#293dff">'?>
@@ -37,18 +37,18 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => Yii::t('app','Home'), 'url' => ['/site/index']],
 			['label' => 'Alertas', 'url' => ['/alertas']],
             /*['label' => 'About', 'url' => ['/site/about']],*/
             /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             //Acceso a Categorias 
-            ['label' => 'Categorias', 'url' => ['/categorias']],
+            ['label' => Yii::t('app','Categories'), 'url' => ['/categorias']],
             //Acceso a Etiquetas 
-            ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
+            ['label' => Yii::t('app','Tags'), 'url' => ['/etiquetas']],
             //Acceso a Incidencias
             ['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
             //Acceso a usuarios
-            ['label' => 'Usuarios', 'url' => ['/usuarios']],
+            ['label' => Yii::t('app','Users'), 'url' => ['/usuarios']],
             //Acceso a los comentarios de las alertas
             ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area']],

@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Ver perfil', ['perfil'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'email:email',
-            'password',
+            //'password',
             'nick',
             'nombre',
             'apellidos',

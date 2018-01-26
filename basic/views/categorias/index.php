@@ -13,7 +13,7 @@ use app\models\CategoriasSearch;
 /* @var $searchModel app\models\CategoriasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Categorias');
+$this->title = Yii::t('yii', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categorias-index">
@@ -23,10 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Crear Categoria'), ['create'], ['class' => 'btn btn-success']) ?>
         <?php 
         if ( isset(Yii::$app->user->identity->rol)){
             if(Yii::$app->user->identity->rol === 'A'){
+                echo Html::a(Yii::t('app', 'Create Categorie'), ['create'], ['class' => 'btn btn-success']).' ';
                 $template='{view} {update} {delete}';
             }else if(Yii::$app->user->identity->rol === 'M'){
                 $template='{view}';

@@ -49,7 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <h1 id="Comentar">Comentarios Prueba</h1>
-    <?= $this->render("comentarios.php",['searchModel'=>$searchModel, 'dataProvider2'=>$dataProvider2]); ?>
+    <?= $this->render("comentarios.php",[
+            'searchModel'=>$searchModel,
+        'dataProvider2'=>$dataProvider2,
+        'idAlerta' => $idAlerta,
+    ]); ?>
 
 <?php
     Pjax::end();

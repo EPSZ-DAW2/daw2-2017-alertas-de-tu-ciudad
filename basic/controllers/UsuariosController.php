@@ -31,12 +31,12 @@ class UsuariosController extends Controller
                // 'only' => ['index','view','create','update','delete','bloquear'],
                 'rules' =>[ [
 					'allow'=>true,
-					'actions'=>['index','view'],
+					'actions'=>['index','perfil','updatePerfil'],
 					'roles'=>['N'],
 				],
 				[
 					'allow'=>true,
-					'actions'=>['index','view','create','update','delete','bloquear'],
+					'actions'=>['index','view','create','update','delete','bloquear','perfil','updateperfil'],
 					'roles'=>['A','M'],
 				],
 				],
@@ -68,6 +68,13 @@ class UsuariosController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+	
+	public function actionPerfil()
+    {
+        return $this->render('perfil', [
+            'model' => $this->findModel($_SESSION["__id"]),
         ]);
     }
 
@@ -103,6 +110,19 @@ class UsuariosController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+	
+	public function actionUpdateperfil()
+    {
+        $model = $this->findModel($_SESSION["__id"]);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['perfil', 'id' => $model->id]);
+        } else {
+            return $this->render('updatePerfil', [
                 'model' => $model,
             ]);
         }
@@ -164,6 +184,7 @@ class UsuariosController extends Controller
 					$model->bloqueado=2;
 				}
 			}
+		
 		}else{
 			$model->bloqueo_usuario_id=0;
 			$model->bloqueo_fecha=NULL;
@@ -172,9 +193,11 @@ class UsuariosController extends Controller
 		}
 		
         if ($model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
+            //return $this->redirect(['bloquear', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
+        } 
+		else {
+            return $this->render('index', [
                 'model' => $model,
             ]);
         }
