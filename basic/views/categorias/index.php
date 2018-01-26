@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php 
         if ( isset(Yii::$app->user->identity->rol)){
             if(Yii::$app->user->identity->rol === 'A'){
-                echo Html::a(Yii::t('app', 'Crear Categoria'), ['create'], ['class' => 'btn btn-success']).' ';
+                echo Html::a(Yii::t('app', 'Create Categorie'), ['create'], ['class' => 'btn btn-success']).' ';
                 $template='{view} {update} {delete}';
             }else if(Yii::$app->user->identity->rol === 'M'){
                 $template='{view}';

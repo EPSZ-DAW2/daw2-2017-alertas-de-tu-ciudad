@@ -37,26 +37,26 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => Yii::t('yii','Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app','Home'), 'url' => ['/site/index']],
 			['label' => 'Alertas', 'url' => ['/alertas']],
             /*['label' => 'About', 'url' => ['/site/about']],*/
             /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             //Acceso a Categorias 
-            ['label' => Yii::t('yii','Categories'), 'url' => ['/categorias']],
+            ['label' => Yii::t('app','Categories'), 'url' => ['/categorias']],
             //Acceso a Etiquetas 
-            ['label' => 'Etiquetas', 'url' => ['/etiquetas']],
+            ['label' => Yii::t('app','Tags'), 'url' => ['/etiquetas']],
             //Acceso a Incidencias
             ['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
             //Acceso a usuarios
-            ['label' => 'Usuarios', 'url' => ['/usuarios']],
+            ['label' => Yii::t('app','Users'), 'url' => ['/usuarios']],
             //Acceso a los comentarios de las alertas
             ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area']],
             //Index Imagenes listas.
             //Se modificará en un futuro para permitir únicamente el acceso
             //a administradores/moderadores.
-            ['label' => Yii::t('yii', 'Imágenes'), 'url' => ['/alerta-imagenes']],
-			['label' => Yii::t('yii', 'Config'), 'url' => ['/configuraciones'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],
+            ['label' => Yii::t('app', 'Imágenes'), 'url' => ['/alerta-imagenes']],
+			['label' => Yii::t('app', 'Config'), 'url' => ['/configuraciones'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],
             ['label' => Yii::t('app', 'Logs'), 'url' => ['/logs'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],
 
             Yii::$app->user->isGuest ? (
