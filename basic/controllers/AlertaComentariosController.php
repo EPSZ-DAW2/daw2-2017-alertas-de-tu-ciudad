@@ -38,11 +38,13 @@ class AlertaComentariosController extends Controller
         $searchModel = new AlertaComentariosSearch();
         $searchModel2 = new AlertaComentariosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc("");
+        $idAlerta = "";
+        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc($idAlerta);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'dataProvider2' => $dataProvider2
+            'dataProvider2' => $dataProvider2,
+            'idAlerta' => $idAlerta
         ]);
     }
 
@@ -125,7 +127,7 @@ class AlertaComentariosController extends Controller
     }
 
     /*
-     * Función que crea un nuevo comentario pasadole un id de la alerta
+     * Función que crea un nuevo comentario pasadole un id de la alerta, un comentario padre y la redireccion una vez que secree
      */
     public function actionComentar($idComentarioPadre,$idAlerta,$redireccion)
     {

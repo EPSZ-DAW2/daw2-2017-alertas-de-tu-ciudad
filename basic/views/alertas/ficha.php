@@ -63,7 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?=
     $this->render('//alerta-comentarios/comentarios.php',
-        ['searchModel'=>$searchModelAlertaComentarios, 'dataProvider2'=>$dataProviderAlertaComentarios])
+        ['searchModel'=>$searchModelAlertaComentarios,
+            'dataProvider2'=>$dataProviderAlertaComentarios,
+            'idAlerta' => $idAlerta])
     ?>
 
 

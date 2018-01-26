@@ -178,6 +178,7 @@ class AlertasController extends Controller
 			//$model->bloqueada='1';
             return $this->render('ficha', [
                 'model' => $model,
+                'idAlerta'=>$id,
                 'searchModelAlertaComentarios' => $searchModelAlertaComentarios, //pasamos el searchmodel de nuestros comentarios
                 'dataProviderAlertaComentarios' => $dataProviderAlertaComentarios, //Pasamos nuestro dataprovider de los comentarios
             ]);
