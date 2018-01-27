@@ -21,7 +21,7 @@ function previsualizacion_img(input_file)
 			   reader.onload = function(e) 
 			   {
 				   $('#previsualizador').append(
-				   '<li id="id_'+itr+'" class="imagen_miniatura"><a href="javascript:void(0)" onclick="ver_imagen(this);"> \
+				   '<li id="id_'+itr+'" class="imagen_miniatura"><a class="imagen_miniatura_lnk" href="javascript:void(0)" onclick="ver_imagen(this);"> \
 				   <img class="imagen_style" src="' + e.target.result + '" \
 				   title="'+ escape(file.name) +'" /></a><br /></li>');
 			   }
@@ -32,16 +32,16 @@ function previsualizacion_img(input_file)
 	});
 }
 
-function previsualizar_imagen(ruta_imagen, div_padre) 
+function previsualizar_imagen(ruta_imagen, id, user_ID, div_padre) 
 {	
    //$('#previsualizador').html(''); 
-   
+
    //Creamos un div, cuya clase sea imagen_miniatura
     var div = document.createElement('li');
     div.className = 'imagen_miniatura';
    
    //Agregamos el código referente a la imagen como html.
-   div.innerHTML ='<a href="javascript:void(0)" onclick="ver_imagen(this);"><img class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
+   div.innerHTML ='<a class="imagen_miniatura_lnk" href="javascript:void(0)" onclick="ver_imagen(this);"><img id="img_'+id+':'+user_ID+'" class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
  
 	//Insertamos este nuevo div, en el previsualizador.
    document.getElementById(div_padre).appendChild(div);
@@ -71,6 +71,49 @@ function retirar_visor(ev)
 	}
 	
 }
+
+function barra_herramientas_imagenes(url_base, id_user, id_alerta, creador, admin) 
+{	
+	var x = document.getElementsByClassName("imagen_miniatura");
+	var i;
+	
+	for (i = 0; i < x.length; i++) {
+		var div = document.createElement("div");
+		div.className = 'div_herramientas_imagen';
+					
+		var img = x[i].getElementsByTagName('a')[0].getElementsByTagName('img')[0];
+
+		var id = img.getAttribute('id');				
+		id = id.replace("img_", "");
+		
+		var r_id = id.split(":");
+		
+			//alert('AAA ID: ' + id_user + " ID_F:" +r_id[1]);
+		
+		if(id_user == r_id[1] || admin==1)
+		{
+
+			div.innerHTML = '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/delete?id='+r_id[0]+'" title="Eliminar" aria-label="Eliminar" data-pjax="0" data-confirm="¿Está seguro de eliminar esta imagen?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>';
+			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/update?id='+r_id[0]+'" title="Actualizar" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+		}			
+		x[i].appendChild(div);	
+
+	} 
+		
+	if(admin==1 || creador==1 )
+	{	
+		var div_padre = document.getElementById("previsualizador").parentElement;
+		
+		var btn = document.createElement("a");
+		btn.className = 'btn btn-success btn-right';
+		btn.setAttribute('href', url_base+'/alerta-imagenes/create?a_id='+id_alerta);
+		btn.innerHTML = 'Agregar nuevas imágenes';
+		
+		div_padre.appendChild(btn);
+	}
+	
+}
+
 
 
 

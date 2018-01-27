@@ -1,9 +1,13 @@
 <?php
 namespace app\widgets;
 
+
+use Yii;
+use app\models\Alerta;
 use yii\base\Widget;
 use app\models\AlertaImagen;
 use yii\helpers\Url;
+use app\components\ControlAcceso;
     
 class ListaImagenes extends Widget
 {
@@ -12,23 +16,14 @@ class ListaImagenes extends Widget
     public $id_alerta; // El primer parametro es la id de la alerta.
     public $view;   // El segundo parametro es la vista. ** La vista sería $this en una vista, lógicamente.
     //*****
-    
-    private $rutas_imagenes = array();
-    
+
+    private $imagenes;
     public function init()
     {
        parent::init();
 
        //Comenzamos tomando todas las imagenes asociadas a la alerta y guardándolas $imagenes.
-       $imagenes = AlertaImagen::find()->tomarImagenesDesdeAlerta($this->id_alerta)->all();
-       
-       //Trataremos las rutas de las imagenes una a una y guardaremos la ruta física tratada en el array $rutas_imagenes.
-       foreach($imagenes as $imagen)
-       {
-           $i = $imagen->obtenerRutaFisica();
-           if($i != NULL)
-            array_push($this->rutas_imagenes, $i);
-       }       
+       $this->imagenes = AlertaImagen::find()->tomarImagenesDesdeAlerta($this->id_alerta)->all();         
    }
 
     public function run()
@@ -41,12 +36,34 @@ class ListaImagenes extends Widget
         // Lo haremos usando una ruta global, para evitar posibles problemas.
         $this->view->registerJSFile(Url::base(true).'/js/funciones_imagenes.js');
         
-       foreach($this->rutas_imagenes as $ruta)
+       //Trataremos las rutas de las imagenes una a una y guardaremos la ruta física tratada en el array $rutas_imagenes.
+       foreach($this->imagenes as $imagen)
        {
+           $i = $imagen->obtenerRutaFisica();
+
            //Ejecutamos la función asociada al fichero JS registrado anteriormente.
            //Pasándole como dato la ruta de la imagen
-           $this->view->registerJS('previsualizar_imagen("'.$ruta.'","previsualizador");', 4);
+           if($i != NULL)
+           $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);
+       }
+       $admin = 0;
+       $creador = 0;
+       
+       if(!Yii::$app->user->isGuest)
+       {
+            if(Yii::$app->user->identity->rol === 'A')
+                    $admin = 1;
+            else
+            {
+                  $modelo_alerta= Alerta::findOne($this->id_alerta);
+                 if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())
+                       $creador = 1;
+            }
+            
+        $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'","'.$this->id_alerta.'", "'.$creador.'","'.$admin.'");', 4);    
        }
        
+
+         Url::remember();
     }
 }

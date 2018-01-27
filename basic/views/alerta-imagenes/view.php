@@ -48,4 +48,5 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>  
     
+    <?php Url::remember();?>
 </div>

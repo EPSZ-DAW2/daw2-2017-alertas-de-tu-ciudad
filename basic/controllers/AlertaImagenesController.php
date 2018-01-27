@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
 use app\components\ControlAcceso;
+use yii\helpers\Url;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -75,7 +76,6 @@ class AlertaImagenesController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-    
 
     /***
      * Acción encargada de controlar la vista de subida de varias imagenes.
@@ -171,6 +171,7 @@ class AlertaImagenesController extends Controller
 
                  if(!isset($a_id))
                     $alerta_id = $model->alerta_id;
+                 else $alerta_id = $a_id;
 
                 $orden = 0; //Aún no funcional!!
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
@@ -224,7 +225,12 @@ class AlertaImagenesController extends Controller
  
              }
              
-           return $this->redirect(Yii::$app->request->referrer ?: 'index');
+             $url = Url::previous();
+             
+             if(!isset($url))
+                $url= Yii::$app->request->referrer;
+             
+            return $this->redirect($url ?: 'index');     
        }
 
        
@@ -333,7 +339,7 @@ class AlertaImagenesController extends Controller
         //debería tener permisos para la sección de imágenes.
         if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
          {
-             if(!isset($modelo_alerta) || $model->crea_usuario_id != $usuario_id)
+             if($model->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes modificar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
          }
          
@@ -363,12 +369,11 @@ class AlertaImagenesController extends Controller
              
                 $model->load(Yii::$app->request->post());
              
-                $model->modi_usuario_id = 0; //ID del usuario que modifica. Esperando a que estén listos los usuarios.
+                $model->modi_usuario_id = $usuario_id; //ID del usuario que modifica. Esperando a que estén listos los usuarios.
                 $model->modi_fecha = date("Y-m-d H:i:s"); ;  //Estamos creando, no modificando.
                 
-                // Esperando por los usuarios...
-                // if(Yii::$app->user->isAdmin) SI SE TRATA DE UN ADMIN.
-                // Imagen revisada = 1.
+                if (Yii::$app->user->identity->rol === 'A')
+                    $model->imagen_revisada = 1;
                 
              if($imagen_subida)
              {
@@ -404,14 +409,19 @@ class AlertaImagenesController extends Controller
                 
                  //Subimos la nueva imagen
                   if(!move_uploaded_file($fichero_temporal, $ruta_relativa))
-                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create_multi');                        
+                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'update');                        
             
                   
                  }
              
              $model->save();
              
-            return $this->redirect(Yii::$app->request->referrer ?: 'index');          
+             $url = Url::previous();
+             
+             if(!isset($url))
+                $url= Yii::$app->request->referrer;
+             
+            return $this->redirect($url ?: 'index');          
        }
             
 
@@ -450,7 +460,7 @@ class AlertaImagenesController extends Controller
         //debería tener permisos para la sección de imágenes.
         if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
          {
-             if(!isset($modelo_alerta) || $model->crea_usuario_id != $usuario_id)
+             if($model->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes borrar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
          }
 

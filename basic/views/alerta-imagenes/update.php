@@ -7,17 +7,21 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\widgets\ImagenUnica; 
+use app\components\ControlAcceso;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
 
-$this->title = Yii::t('app', 'Modificar {modelClass}: ', [
-    'modelClass' => 'Alerta Imagen',
-]) . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagens'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->title = Yii::t('app', 'Modificar Imagen');
+//$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagens'), 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+//$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+  $url = Url::previous();
+  if(!isset($url))
+     $url= Yii::$app->request->referrer;         
 ?>
+  <?= Html::a(Yii::t('app', 'Volver'), $url, ['class' => 'btn btn-success']) ?>
 <div class="alerta-imagen-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -26,18 +30,15 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
       
-    <?php 
-    //Si el usuario es administrador, podrá editar más opciones de la imagen.
-    //Tocará editarlo cuando los usuarios estén realizados...
-    //if(Yii::$app->user->isGuest){ ?>
+    <?php if(!Yii::$app->user->isGuest &&  Yii::$app->user->identity->rol === 'A'){ ?>
     <?= $this->render('update_admin_form', [
         'model' => $model, 'form' => $form,]) ?>
         
-    <?php //}  ?>
+    <?php }  ?>
         
-    <div align="center" style="width:302px;">
+    <div align="center" style="width:302px; padding-bottom: 1px;" >
         <input accept="image/*" style="display:none" type="file" name="explorar_ficheros" id="explorar_ficheros" onchange="previsualizacion_img(this)" />
-        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Nueva imagen</div>
+        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Modificar imagen</div>
     </div>
     
     <div style="margin-top: 70px; margin-bottom: 30px;">
@@ -47,7 +48,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
    <?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>     
         
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Modificar la imagen'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Guardar cambios'), ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

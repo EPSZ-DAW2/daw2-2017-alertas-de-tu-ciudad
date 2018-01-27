@@ -1,6 +1,7 @@
 <?php
 namespace app\widgets;
 
+use Yii;
 use yii\base\Widget;
 use app\models\AlertaImagen;
 use yii\helpers\Url;
@@ -35,7 +36,7 @@ class ImagenUnica extends Widget
         $ruta = $this->imagen->obtenerRutaFisica();
         
         if($ruta != NULL)
-             $this->view->registerJS('previsualizar_imagen("'.$ruta.'", "'.$this->div_render.'");', 4);
+             $this->view->registerJS('previsualizar_imagen("'.$ruta.'", "'.$this->imagen->id.'","'.Yii::$app->user->getId().'", "'.$this->div_render.'");', 4);
    
     }
 }
