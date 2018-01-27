@@ -49,6 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 	<p>
-		<?= Html::a(Yii::t('app', 'Revisar incidencias'), ['usuario-incidencias/index', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Revisar incidencias'), ['usuario-incidencias/index2', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 	</p>
 </div>
