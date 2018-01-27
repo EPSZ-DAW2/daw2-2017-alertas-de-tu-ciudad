@@ -27,31 +27,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'alerta_id',
             'crea_usuario_id',
             //'crea_fecha',
-            'modi_usuario_id',
-            'modi_fecha',
+            //'modi_usuario_id',
+            //'modi_fecha',
             //'texto:ntext',
             // 'comentario_id',
-            //'cerrado',
+             'cerrado',
             // 'num_denuncias',
             // 'fecha_denuncia1',
-            // 'bloqueado',
+             'bloqueado',
             // 'bloqueo_usuario_id',
             // 'bloqueo_fecha',
             // 'bloqueo_notas:ntext',
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{gestion}',
+                'template' => '{gestionhilos}',
                 'buttons' => [
-                    'gestion' => function ($url) {
+                    'gestionhilos' => function ($url) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-remove"></span>',
-                            $url,
+                            'Cerrar<span class="glyphicon glyphicon-remove"></span>',
+                            $url."&accion=cerrar",
                             [
                                 'title' => 'Cerrar Hilo',
-
-
-
                             ]
                         );
                     },
@@ -62,13 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{GestionHilos}',
+                'template' => '{gestionhilos}',
                 'buttons' => [
 
-                    'GestionHilos' => function ($url) {
+                    'gestionhilos' => function ($url) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-ban-circle"></span>',
-                            $url,
+                            'Bloquear<span class="glyphicon glyphicon-ban-circle"></span>',
+                            $url."&accion=bloquear",
                             [
                                 'title' => 'Bloquear Hilo',
 
@@ -81,12 +78,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{GestionHilos}',
+                'template' => '{gestionhilos}',
                 'buttons' => [
-                    'GestionHilos' => function ($url) {
+                    'gestionhilos' => function ($url) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-ok"></span>',
-                            $url,
+                            'Abrir <span class="glyphicon glyphicon-ok"></span>',
+                            $url."&accion=abrir",
                             [
                                 'title' => 'Abrir Hilo',
 
@@ -100,12 +97,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{GestionHilos}',
+                'template' => '{gestionhilos}',
                 'buttons' => [
-                    'GestionHilos' => function ($url) {
+                    'gestionhilos' => function ($url) {
                         return Html::a(
-                            '<span class="	glyphicon glyphicon-comment"></span>',
-                            $url,
+                            'Desbloquear <span class="	glyphicon glyphicon-comment"></span>',
+                            $url."&accion=desbloquear",
                             [
                                 'title' => 'Desbloquear Hilo',
 

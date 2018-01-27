@@ -190,15 +190,15 @@ class AlertaComentariosController extends Controller
     /*
      * Función que bloquea o cierra a los alerta-comentarios dado un padre
      */
-    public function actionGestionhilos($idPadre,$accion){
+    public function actionGestionhilos($id,$accion){
 
-        $modeloPadre = $this->findModel($idPadre);
+        $modeloPadre = $this->findModel($id);
 
         //Si el padre existe entonces se recorre buscando los hijos y cerrandolos o bloqueandoloss
         if(!empty($modeloPadre)) {
 
             $searchModel = new AlertaComentariosSearch();
-            $dataProvider = $searchModel->encontrarComentariosHijos($idPadre);
+            $dataProvider = $searchModel->encontrarComentariosHijos($id);
             $modelosHijos = $dataProvider->getModels();
 
             for ($i = 0; $i < sizeof($modelosHijos); $i++) {
@@ -217,6 +217,7 @@ class AlertaComentariosController extends Controller
 
                 //Guardamos los datos de los hijos una vez modificados
                 $modelosHijos[$i]->save();
+                //LLamada recursiva con el siguiente hijo y sus hijos
                 $this->actionGestionhilos($modelosHijos[$i]->id,$accion);
 
             }

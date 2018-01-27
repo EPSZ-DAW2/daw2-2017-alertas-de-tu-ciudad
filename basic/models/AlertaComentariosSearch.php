@@ -240,7 +240,7 @@ class AlertaComentariosSearch extends AlertaComentarios
             'comentario_id' => $idPadre,
         ])
         ->union("SELECT *
-            FROM alerta_comentarios
+                FROM alerta_comentarios
                 WHERE comentario_id IN
         (SELECT id FROM alerta_comentarios WHERE comentario_id = $idPadre)");
 
