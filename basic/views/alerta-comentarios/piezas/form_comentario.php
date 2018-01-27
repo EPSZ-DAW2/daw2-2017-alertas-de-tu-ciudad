@@ -18,6 +18,7 @@ use kartik\datetime\DateTimePicker;
     /* @var $this yii\web\View */
     /* @var $model app\models\AlertaComentarios */
     /* @var $form yii\widgets\ActiveForm */
+
     ?>
 
     <div class="alerta-comentarios-form" >

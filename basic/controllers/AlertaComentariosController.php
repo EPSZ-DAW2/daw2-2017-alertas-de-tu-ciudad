@@ -162,7 +162,7 @@ class AlertaComentariosController extends Controller
         //Establecemos la zona horaria
         date_default_timezone_set('Europe/Amsterdam');
         //Obtenemos la hora y fecha actual
-        $dateTimeNow = date('Y/m/d h:i:s', time());
+        $dateTimeNow = date('Y/m/d H:i:s', time()); //Formato de la hora
 
         //INFORMACIÓN YA ALMACENADA DEL COMENTARIO
 
