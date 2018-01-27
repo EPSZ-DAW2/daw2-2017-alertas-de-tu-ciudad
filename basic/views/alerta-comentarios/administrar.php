@@ -39,7 +39,83 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'bloqueo_fecha',
             // 'bloqueo_notas:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{gestion}',
+                'buttons' => [
+                    'gestion' => function ($url) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-remove"></span>',
+                            $url,
+                            [
+                                'title' => 'Cerrar Hilo',
+
+
+
+                            ]
+                        );
+                    },
+
+
+                ],
+            ],
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{GestionHilos}',
+                'buttons' => [
+
+                    'GestionHilos' => function ($url) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-ban-circle"></span>',
+                            $url,
+                            [
+                                'title' => 'Bloquear Hilo',
+
+
+                            ]
+                        );
+                    },
+                ],
+            ],
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{GestionHilos}',
+                'buttons' => [
+                    'GestionHilos' => function ($url) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-ok"></span>',
+                            $url,
+                            [
+                                'title' => 'Abrir Hilo',
+
+                            ]
+                        );
+                    },
+
+
+                ],
+            ],
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{GestionHilos}',
+                'buttons' => [
+                    'GestionHilos' => function ($url) {
+                        return Html::a(
+                            '<span class="	glyphicon glyphicon-comment"></span>',
+                            $url,
+                            [
+                                'title' => 'Desbloquear Hilo',
+
+                            ]
+                        );
+                    },
+
+                ],
+            ],
+
         ],
     ]); ?>
 </div>
