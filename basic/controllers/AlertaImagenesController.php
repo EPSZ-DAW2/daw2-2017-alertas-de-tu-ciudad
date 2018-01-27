@@ -117,7 +117,7 @@ class AlertaImagenesController extends Controller
              $modelo_alerta= Alerta::findOne($a_id);
 
              if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
-                 return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes agregar imagenes en la alerta de otro usuario!', Yii::$app->request->referrer, true);
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes agregar imágenes en la alerta de otro usuario!', Yii::$app->request->referrer, true);
          }
        
           
@@ -315,8 +315,28 @@ class AlertaImagenesController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
-    {      
+    {        
+         if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
        $model = $this->findModel($id);
+       
+       if(!isset($model))
+           return $this->redirect(Yii::$app->request->referrer ?: 'index');
+       
+        $usuario_id = Yii::$app->user->getId();
+
+        //Habría que ver si permitimos crear a un moderador, supuestamente
+        //debería tener permisos para la sección de imágenes.
+        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+         {
+             if(!isset($modelo_alerta) || $model->crea_usuario_id != $usuario_id)
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes modificar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
+         }
+         
           
        //Accederemos siempre que se intente subir una imagen desde el input.
        //Es decir, siempre que que se produzca un submit.
@@ -413,13 +433,26 @@ class AlertaImagenesController extends Controller
      */
     public function actionDelete($id)
     {
-     //   $this->findModel($id)->delete();
-      //  return $this->redirect(['index']);
+         if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
         
-        //COMPROBAR QUE PUEDE BORRAR EL ARCHIVO...
-        //Yii::$app->user->getId(); //Obtener el ID del usuario conectado - Yii
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
         
-         $model= AlertaImagen::findOne($id);
+       $model = $this->findModel($id);
+       
+       if(!isset($model))
+           return $this->redirect(Yii::$app->request->referrer ?: 'index');
+       
+        $usuario_id = Yii::$app->user->getId();
+
+        //Habría que ver si permitimos crear a un moderador, supuestamente
+        //debería tener permisos para la sección de imágenes.
+        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+         {
+             if(!isset($modelo_alerta) || $model->crea_usuario_id != $usuario_id)
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes borrar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
+         }
 
         $ruta = $model->obtenerRutaFisica();  
         
