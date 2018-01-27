@@ -88,6 +88,41 @@ class UsuarioIncidenciasController extends Controller
         ]);
     }
 	
+	 public function actionIndex2($id)//Función para la revisión de incidencias desde usuarios
+    {	
+		if(!isset(Yii::$app->user->identity->id)){
+			return $this-> redirect(['site/login']);
+		}
+	
+		$paginacion=100;
+		$admin=true;
+		$configuracion= Configuraciones::findOne("numero_lineas_pagina");
+		if($configuracion){
+			$paginacion=$configuracion->valor;
+		}
+		//el usuario tiene que ver cualquier cosa que vaya dirigida hacia el o creada por el
+        $searchModel = new UsuarioIncidenciaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		//$yo=Yii::$app->user->identity->id;
+		$yo= $id;
+	  // $dataProvider= new SqlDataProvider(['sql' => 'SELECT * FROM usuario_incidencias']);
+	   $dataProvider->query->andWhere("(clase_incidencia_id='N' or 
+	   (clase_incidencia_id='M' and (destino_usuario_id=$yo or origen_usuario_id=$yo)) or 
+	   (clase_incidencia_id='C' and origen_usuario_id=$yo ) or 
+	   (clase_incidencia_id='A' and destino_usuario_id=$yo ) ) 
+	   and fecha_borrado IS NULL");
+	   
+		$dataProvider->pagination = ['pageSize' => $paginacion];
+		
+		//modificar para que solo coja unos y dependiendo el rol coger unos parametros un otros
+
+        return $this->render('index2', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'admin'=> $admin,
+        ]);
+    }
+	
 	/*
 	* Función actionIndexadmin: el index al que solo podrá tener acceso el usuario Administrador
 	*							y Moderador.  Se encargará de recoger el número de paginación 
