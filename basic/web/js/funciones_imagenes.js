@@ -72,6 +72,11 @@ function retirar_visor(ev)
 	
 }
 
+function auto_submit() 
+{	
+	 document.getElementById("previsualizador").parentElement.parentElement.submit();
+}
+
 function barra_herramientas_imagenes(url_base, id_user, id_alerta, creador, admin) 
 {	
 	var x = document.getElementsByClassName("imagen_miniatura");
@@ -88,7 +93,6 @@ function barra_herramientas_imagenes(url_base, id_user, id_alerta, creador, admi
 		
 		var r_id = id.split(":");
 		
-			//alert('AAA ID: ' + id_user + " ID_F:" +r_id[1]);
 		
 		if(id_user == r_id[1] || admin==1)
 		{
@@ -103,10 +107,11 @@ function barra_herramientas_imagenes(url_base, id_user, id_alerta, creador, admi
 	if(admin==1 || creador==1 )
 	{	
 		var div_padre = document.getElementById("previsualizador").parentElement;
+		div_padre.innerHTML = div_padre.innerHTML + '<input style="display:none" name="explorar_ficheros[]" id="explorar_ficheros" onchange="auto_submit();" multiple="multiple" type="file">';
 		
 		var btn = document.createElement("a");
 		btn.className = 'btn btn-success btn-right';
-		btn.setAttribute('href', url_base+'/alerta-imagenes/create?a_id='+id_alerta);
+		btn.setAttribute('onclick', 'document.getElementById(\'explorar_ficheros\').click();');
 		btn.innerHTML = 'Agregar nuevas imágenes';
 		
 		div_padre.appendChild(btn);

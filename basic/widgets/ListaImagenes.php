@@ -8,7 +8,8 @@ use yii\base\Widget;
 use app\models\AlertaImagen;
 use yii\helpers\Url;
 use app\components\ControlAcceso;
-    
+use yii\widgets\ActiveForm;    
+
 class ListaImagenes extends Widget
 {
 
@@ -29,6 +30,8 @@ class ListaImagenes extends Widget
     public function run()
     {
         $this->view->registerCssFile(Url::base(true).'/css/imagenes.css');
+        
+        $form = ActiveForm::begin(['action' => Url::base(true).'/alerta-imagenes/create?a_id='.$this->id_alerta, 'options' => ['enctype' => 'multipart/form-data']]); // IMPORTANTE! 
         //Agregamos el div de previsualización en la vista.
         echo '<div style="margin-top: 30px; margin-bottom: 30px;">'
        . '<ul id="previsualizador" class="ul_imagen"></ul></div>';
@@ -59,11 +62,13 @@ class ListaImagenes extends Widget
                  if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())
                        $creador = 1;
             }
-            
-        $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'","'.$this->id_alerta.'", "'.$creador.'","'.$admin.'");', 4);    
+          
+    
+            $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'","'.$this->id_alerta.'", "'.$creador.'","'.$admin.'");', 4);    
        }
        
 
          Url::remember();
+        ActiveForm::end();
     }
 }
