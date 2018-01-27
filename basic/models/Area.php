@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use Yii\Helpers\ArrayHelper;
 
 /**
  * This is the model class for table "areas".
@@ -62,6 +63,7 @@ class Area extends \yii\db\ActiveRecord
             'parentArea' => Yii::t('app', 'Área padre'),
             'parentName' => Yii::t('app', 'Nombre del área padre'),
             'childAreas' => Yii::t('app', 'Áreas hijas'),
+            'childrenNames' => Yii::t('app', 'Áreas hijas')
         ];
     }
 
@@ -89,5 +91,12 @@ class Area extends \yii\db\ActiveRecord
     {
         $parent = $this->parentArea;
         if ($parent) return $parent->nombre;
+    }
+
+    public function getChildrenNames() {
+        $children = $this->childAreas;
+        if ($children) {
+           return join(ArrayHelper::map($children, 'id', 'nombre'), ', ');
+        }
     }
 }

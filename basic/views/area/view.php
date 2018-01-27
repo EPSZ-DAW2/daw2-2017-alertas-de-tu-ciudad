@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'claseArea'],
             'nombre',
             'parentName',
+            'childrenNames'
         ],
     ]) ?>
 
