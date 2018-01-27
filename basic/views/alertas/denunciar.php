@@ -26,14 +26,15 @@ $this->params['breadcrumbs'][] = 'Denunciar';
             'id',
 			'fecha_denuncia1',
 			'num_denuncias',
+			'bloqueada',
 		   ],
     ]) ?>
 	<?php $form = ActiveForm::begin(); ?>
 	
-	<?= $form->field($model, 'fecha_denuncia1')->textinput() ?>
 	
 	<div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Confirmar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		<?php //Enlace para hacer la denuncia?>
+		  <?= Html::a(Yii::t('app', 'Confirmar'), ['usuario-incidencias/createdenuncia', 'id'=>$model->id, 'tipo'=>"alerta"], ['class' => 'btn btn-success'])?>
     </div>
 	 <?php ActiveForm::end(); ?>
 
