@@ -190,7 +190,7 @@ class AlertaComentariosController extends Controller
     /*
      * Función que bloquea o cierra a los alerta-comentarios dado un padre
      */
-    public function actionGestionHilos($idPadre,$accion){
+    public function actionGestionhilos($idPadre,$accion){
 
         $modeloPadre = $this->findModel($idPadre);
 
@@ -217,6 +217,7 @@ class AlertaComentariosController extends Controller
 
                 //Guardamos los datos de los hijos una vez modificados
                 $modelosHijos[$i]->save();
+                $this->actionGestionhilos($modelosHijos[$i]->id,$accion);
 
             }
 

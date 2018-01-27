@@ -32,13 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'comentario_id',
             'alerta_id',
             'crea_usuario_id',
             //'crea_fecha',
             'modi_usuario_id',
              'modi_fecha',
              //'texto:ntext',
-            // 'comentario_id',
+
             //'cerrado',
             // 'num_denuncias',
             // 'fecha_denuncia1',
