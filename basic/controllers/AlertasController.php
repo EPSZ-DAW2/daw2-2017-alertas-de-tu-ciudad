@@ -75,10 +75,13 @@ class AlertasController extends Controller
      */
     public function actionView($id)
 	{
+		$model = $this->findModel($id);
+		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+		
+		$model->fecha_inicio= date("Y-m-d H:i:s");
+		return $this->render('view', [
+            'model' => $model,
         ]);
     }
 	
@@ -95,6 +98,7 @@ class AlertasController extends Controller
         $model = new Alerta();
 		
 		$us=Yii::$app->user->identity->id; //solo pueden crear alertas nuevas usuarios registrados
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -116,6 +120,8 @@ class AlertasController extends Controller
         $model = $this->findModel($id);
 		
 		$us=Yii::$app->user->identity->id; //solo pueden Modificar alertas nuevas usuarios registrados
+		
+		
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -194,6 +200,8 @@ class AlertasController extends Controller
         $model = $this->findModel($id);
 		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+		
+		
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -218,14 +226,20 @@ class AlertasController extends Controller
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 
 		$model->num_denuncias = $model->num_denuncias + 1;
+		$model->fecha_denuncia1= date("Y-m-d H:i:s"); //Fecha de la denuncia
+		if($model->num_denuncias == 5) //Cuando haya 5 denuncias se bloquea la alerta
+		{
+			$model->bloqueada='1';
+		}
+		
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-			if($model->num_denuncias >= 5){
-			$model->bloqueada='1';}
+			$model->save();
             return $this->render('denunciar', [
                 'model' => $model,
+				
             ]);
         }
 		
