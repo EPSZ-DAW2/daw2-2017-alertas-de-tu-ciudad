@@ -59,7 +59,7 @@ class AlertasController extends Controller
         $searchModel = new AlertaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-		
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

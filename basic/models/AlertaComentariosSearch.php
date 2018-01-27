@@ -221,4 +221,41 @@ class AlertaComentariosSearch extends AlertaComentarios
         }
         return $dataProvider;
     }
+
+    public function encontrarComentariosHijos($idPadre){
+        $query = AlertaComentarios::find()
+            ->select(
+                [
+                    'alerta_comentarios.id',
+                    'alerta_comentarios.alerta_id',
+                    'alerta_comentarios.crea_usuario_id',
+                    'alerta_comentarios.crea_fecha',
+                    'alerta_comentarios.modi_usuario_id',
+                    'alerta_comentarios.modi_fecha',
+                    'alerta_comentarios.texto',
+                    'alerta_comentarios.comentario_id',
+                    'alerta_comentarios.cerrado',
+                    'alerta_comentarios.num_denuncias',
+                    'alerta_comentarios.fecha_denuncia1',
+                    'alerta_comentarios.bloqueado',
+                    'alerta_comentarios.bloqueo_usuario_id',
+                    'alerta_comentarios.bloqueo_fecha',
+                    'alerta_comentarios.bloqueo_notas',
+
+                ]
+            )
+            ->andFilterWhere(['alerta_comentarios.comentario_id' => $idPadre]);
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+
+            if (!$this->validate()) {
+                // uncomment the following line if you do not want to return any records when validation fails
+                // $query->where('0=1');
+                return $dataProvider;
+            }
+            return $dataProvider;
+
+    }
 }

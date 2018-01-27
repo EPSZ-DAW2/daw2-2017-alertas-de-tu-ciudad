@@ -187,6 +187,59 @@ class AlertaComentariosController extends Controller
         return $this->redirect([$redireccion]);
 
     }
+    /*
+     * Función que bloquea o cierra a los alerta-comentarios dado un padre
+     */
+    public function actionGestionHilos($idPadre,$accion){
 
+        $modeloPadre = $this->findModel($idPadre);
+
+        //Si el padre existe entonces se recorre buscando los hijos y cerrandolos o bloqueandoloss
+        if(!empty($modeloPadre)) {
+
+            $searchModel = new AlertaComentariosSearch();
+            $dataProvider = $searchModel->encontrarComentariosHijos($idPadre);
+            $modelosHijos = $dataProvider->getModels();
+
+            for ($i = 0; $i < sizeof($modelosHijos); $i++) {
+                if (strcmp($accion,'cerrar') == 0) {
+                    $modelosHijos[$i]->cerrado = 1;
+                }
+                if (strcmp($accion,'bloquear') == 0) {
+                    $modelosHijos[$i]->bloqueado = 1;
+                }
+                if (strcmp($accion,'abrir') == 0) {
+                    $modelosHijos[$i]->cerrado = 0;
+                }
+                if (strcmp($accion,'desbloquear') == 0) {
+                    $modelosHijos[$i]->bloqueado = 0;
+                }
+
+                //Guardamos los datos de los hijos una vez modificados
+                $modelosHijos[$i]->save();
+
+            }
+
+            //ahora cerramos el padre
+            if (strcmp($accion,'cerrar') == 0) {
+                $modeloPadre->cerrado = 1;
+            }
+            if (strcmp($accion,'bloquear') == 0) {
+                $modeloPadre->bloqueado = 1;
+            }
+            if (strcmp($accion,'abrir') == 0) {
+                $modeloPadre->cerrado = 0;
+            }
+            if (strcmp($accion,'desbloquear') == 0) {
+                $modeloPadre->bloqueado = 0;
+            }
+            $modeloPadre->save();
+
+        }
+
+
+        //Redireccionamos a adminitrar
+        return $this->redirect(["administrar"]);
+    }
 
 }
