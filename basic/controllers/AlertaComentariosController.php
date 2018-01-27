@@ -78,6 +78,23 @@ class AlertaComentariosController extends Controller
         }
     }
 
+
+    public function actionAdministrar()
+    {
+        $searchModel = new AlertaComentariosSearch();
+        $searchModel2 = new AlertaComentariosSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc("");
+        $dataProvider3 = $searchModel->search2("");
+        return $this->render('administrar', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'dataProvider2' => $dataProvider2,
+            'dataProvider3' => $dataProvider3
+        ]);
+
+    }
+
     /**
      * Updates an existing AlertaComentarios model.
      * If update is successful, the browser will be redirected to the 'view' page.

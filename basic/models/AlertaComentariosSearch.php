@@ -103,6 +103,62 @@ class AlertaComentariosSearch extends AlertaComentarios
         return $dataProvider;
     }
 
+    public function search2($params)
+    {
+        $query = AlertaComentarios::find()
+            ->select(
+                [
+                    'id',
+                    'alerta_id',
+                    'crea_usuario_id',
+                    'crea_fecha',
+                    'modi_usuario_id',
+                    'modi_fecha',
+                    'texto',
+                    'comentario_id',
+                    'cerrado',
+                    'num_denuncias',
+                    'fecha_denuncia1',
+                    'bloqueado',
+                    'bloqueo_usuario_id',
+                    'bloqueo_fecha',
+                    'bloqueo_notas',
+
+                ]
+            )
+
+            //Añadimos esta condicion para solo mostrar los hilos abiertos
+            ->andFilterWhere(['comentario_id' => 0]);
+
+
+        //Si existe el id de Incidencia se le hace el filtro
+        if(!empty($idIncidencia)){
+            $query->andFilterWhere([
+                'alerta_id' => $idIncidencia]);
+
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+            'sort'=>[
+                'defaultOrder' => [
+                    'modi_fecha' => SORT_DESC,
+                ]
+            ]
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+
+            return $dataProvider;
+        }
+        return $dataProvider;
+    }
+
     /**
      * Función que crea devuelve un data provider con los datosOrdenados y devolviendo ademas el valor del nick(atributo virtual)
      * para los comentarios
