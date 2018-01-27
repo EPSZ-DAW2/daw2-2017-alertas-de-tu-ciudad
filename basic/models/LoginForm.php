@@ -4,7 +4,12 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-
+use app\models\Usuario;
+use app\models\UsuarioSearch;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use app\components\ControlAcceso;
 /**
  * LoginForm is the model behind the login form.
  *
@@ -45,8 +50,9 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
+			
             $user = $this->getUser();
-
+			//$model=Usuario::findOne($user);
            /* if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }*/
@@ -56,28 +62,27 @@ class LoginForm extends Model
 			else if (!$user->validatePassword($this->password)) 
 			{
 				//$this->inc_NumAccesos($user);
+				$user->num_accesos= $user->num_accesos + 1;
+				if($user->num_accesos >= 5){
+					$user->bloqueado= 1;
+					$dia=getdate();
+					$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+					$user->bloqueo_fecha=$fecha;
+					$user->bloqueo_usuario_id=0;
+					$user->bloqueo_notas="Usuario bloqueado de forma automática";
+					$user->num_accesos=5;
+				}
+				if (!$user->save()) {
+					$this->addError( 'Modelo no guardado, num_Acessos');
+				}
 				$this->addError($attribute, 'Contraseña o usuario incorrecto');
 				
 			}
         }
+		
     }
-/*
-	public function inc_NumAccesos($user)
-	{
-		/*if(Usuario::findOne($this->_user)){
-			printf("Hecho");
-		}
-        $model = Usuario::findOne($user);
-		$model->num_accesos= $model->num_accesos + 1;
-		if($model->num_accesos >= 5){
-			$model->bloqueado= 1;
-			$model->num_accesos=5;
-		}
-        if ($model->save()) {
-			$this->addError( 'Modelo no guardado, num_Acessos');
-        }		
-	}
-*/
+
+
     /**
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
@@ -106,13 +111,12 @@ class LoginForm extends Model
             $this->_user = Usuario::findByUsername($this->email);
 			if($this->_user!=NULL)
 			{
-				$model= Usuario::findOne($this->_user);
-				if ($model->confirmado== 0 || $model->bloqueado!=0)
+				//$model= Usuario::findOne($this->_user);
+				if ($this->_user->confirmado== 0 || $this->_user->bloqueado!=0)
 					$this->_user= NULL;
 			}
 			
         }
-
         return $this->_user;
 		
     }
