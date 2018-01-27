@@ -83,6 +83,7 @@ class SiteController extends Controller
 			$dia=getdate();
 			$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
 			$model2->fecha_acceso=$fecha;
+			$model2->num_accesos=$model2->num_accesos+1;
 			$model2->save();
             return $this->goBack();
         }
@@ -98,6 +99,9 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+		$model=Usuario::findOne($_SESSION["__id"]);
+		$model->num_accesos=0;
+		$model->save();
         Yii::$app->user->logout();
 
         return $this->goHome();
