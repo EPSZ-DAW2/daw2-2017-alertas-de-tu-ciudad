@@ -10,8 +10,8 @@ use app\models\Usuarios;
     //Obtenemos el modelo del usuario
     if(!empty($_SESSION["__id"])){
 
-        $usuario = new Usuarios();
-        $usuario = $usuario::findOne($_SESSION["__id"]);
+        $usuario = new Usuarios(); //Creamos un modelo usuario
+        $usuario = $usuario::findOne($_SESSION["__id"]); //encontrando toda su inforación por su id
     }
 
     $comentariosOrdenadosFecha = $dataProvider2->getModels();

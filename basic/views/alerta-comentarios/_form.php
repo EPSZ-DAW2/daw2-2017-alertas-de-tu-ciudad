@@ -4,12 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 
-
-
-
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaComentarios */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="alerta-comentarios-form col-md-6 col-md-offset-3">

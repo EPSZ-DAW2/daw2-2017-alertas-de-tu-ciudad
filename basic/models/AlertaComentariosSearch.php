@@ -71,6 +71,9 @@ class AlertaComentariosSearch extends AlertaComentarios
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
         ]);
 
         $this->load($params);
@@ -103,7 +106,9 @@ class AlertaComentariosSearch extends AlertaComentarios
 
         return $dataProvider;
     }
-
+    /*
+     * Función que obtiene un data provider con los comentarios raiz o padres de los demás
+     */
     public function obtenerComentariosPadres()
     {
         $query = AlertaComentarios::find()
@@ -131,14 +136,7 @@ class AlertaComentariosSearch extends AlertaComentarios
             //Añadimos esta condicion para solo mostrar los hilos abiertos
             ->andFilterWhere(['comentario_id' => 0]);
 
-
-        //Si existe el id de Incidencia se le hace el filtro
-        if(!empty($idIncidencia)){
-            $query->andFilterWhere([
-                'alerta_id' => $idIncidencia]);
-
-        }
-
+        //Creamos el data provider para obtener los comentarios padres ordenados por fecha
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -195,7 +193,7 @@ class AlertaComentariosSearch extends AlertaComentarios
 
 
 
-        //Si existe el id de Incidencia se le hace el filtro
+        //Si existe el id de Incidencia se le hace el filtro sino se mostrarian todos los comentarios como en el caso del adminsitrador
         if(!empty($idIncidencia)){
             $query->andFilterWhere([
                 'alerta_id' => $idIncidencia]);
@@ -223,28 +221,18 @@ class AlertaComentariosSearch extends AlertaComentarios
         return $dataProvider;
     }
 
+    /*
+     * Función que encuentra todos los comentarios hijos dado un padre
+     */
     public function encontrarComentariosHijos($idPadre){
-            /*
-             * SELECT *
-                FROM alerta_comentarios
-                WHERE comentario_id = 100
-                UNION
-                SELECT *
-                FROM alerta_comentarios
-                WHERE comentario_id IN
-                (SELECT id FROM alerta_comentarios WHERE comentario_id = 100)
-             */
+
+        //Realizamos una selección con todos los hijos de idPadre
         $query = AlertaComentarios::find()
 
         ->andFilterWhere([
             'comentario_id' => $idPadre,
-        ])
-        ->union("SELECT *
-                FROM alerta_comentarios
-                WHERE comentario_id IN
-                (SELECT id FROM alerta_comentarios WHERE comentario_id = $idPadre)");
-
-
+        ]);
+        //Devolvemos estos hijos en el dataprovider
          $dataProvider = new ActiveDataProvider([
              'query' => $query,
              'pagination' => [
