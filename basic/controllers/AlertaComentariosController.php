@@ -44,7 +44,13 @@ class AlertaComentariosController extends Controller
                         'allow' =>true,
                         'actions' =>['comentar'], //Se le permite comentar a los 3 usuarios
                         'roles' => ['A','N','M'],
+                    ],
+                    [
+                        'allow' =>true,
+                        'actions'=>['ajax'],
+                        'roles'=> ['@']
                     ]
+
                 ],
             ],
         ];
@@ -278,6 +284,20 @@ class AlertaComentariosController extends Controller
 
         //Redireccionamos a administrar
         return $this->redirect(["administrar"]);
+    }
+    /*
+     * Función que devuelve el comentario al que respondio
+     */
+    public function actionAjax($id){
+        //Si el comentario no es padre devolvemos su informacion
+        if($id != 0) {
+            if (($model = AlertaComentarios::findOne($id)) !== null) {
+                var_dump($model->attributes);
+            }
+        }
+
+
+
     }
 
 }

@@ -13,7 +13,7 @@ use yii\helpers\Html;
     <div class="comment-block">
         <div class="comment-name">
             <h1><?=$dataComentario->nick?></h1>
-            <h4> <b>#<?=$dataComentario->id?></b>
+            <h4 class="<?="Respuesta".$dataComentario->id?>"> <b>#<?=$dataComentario->id?></b>
                 <?php   if(($dataComentario->comentario_id) == 0){ //Comentario padre/raiz?>
                         <span class="glyphicon glyphicon-asterisk"></span>
 
@@ -59,7 +59,26 @@ use yii\helpers\Html;
     </div>
 
 </div>
+<?php
+    $urlControladorAjax = Yii::getAlias('@web')."/alerta-comentarios/ajax?id=$dataComentario->comentario_id";
+    $identificadorComentario = "\".Respuesta".$dataComentario->id."\"";
+    $this->registerJs( <<< EOT_JS
 
+        $($identificadorComentario).hover(function(){
+         
+                    jQuery.ajax({
+                        url:'$urlControladorAjax',
+                        type:'GET',
+                        success:function(mensaje) {
+                            
+                            console.log(mensaje);
+                        },
+                        error : function(){
+                            console.log("error");
+                        }
+                    });
+        });
 
-
-
+EOT_JS
+    );
+?>
