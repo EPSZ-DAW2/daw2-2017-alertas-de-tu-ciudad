@@ -59,6 +59,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'descripcion:ntext',
             'categoria_id',
+            ['attribute' => 'nombCatId',
+                'label' => 'Nombre Categoria ID',
+                'value' => 'categoria.nombre',
+                'filter' => AutoComplete::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'nombCatId',
+                    'clientOptions' => [
+                    'source' => array_merge(array(),array_unique(Categorias::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->orderBy('categoria.nombre')->asArray()->all(),SORT_REGULAR)),
+                    ],
+                    'options' => [
+                        'class' => 'form-control'
+                    ],
+                ]),
+                
+            ],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => $template,
             ],

@@ -26,7 +26,7 @@ class CategoriasController extends Controller
         return [
             'access' => [
                 'class' => ControlAcceso::className(),
-                'only' => ['view','create','update','delete'],
+                // 'only' => ['view','create','update','delete'],
                 'rules' => [
                     [
                         'actions' => ['create','update','delete'],
@@ -34,7 +34,7 @@ class CategoriasController extends Controller
                         'roles' => ['A'],
                     ],
                     [
-                        'actions' => ['view'],
+                        'actions' => ['view','index'],
                         'allow' => true,
                         'roles' => ['A','M','N','?'],
                     ],

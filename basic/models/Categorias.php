@@ -15,6 +15,7 @@ use Yii;
  */
 class Categorias extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -35,6 +36,7 @@ class Categorias extends \yii\db\ActiveRecord
             [['nombre'],'unique','message' => 'La categoria ya existe'],
             [['nombre'],'string', 'max' => 25 ],
             [['nombre'],'required','message' => 'Introduzca un nombre'],
+            [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::className(), 'targetAttribute' => ['categoria_id' => 'id']],
         ];
     }
 
@@ -48,7 +50,16 @@ class Categorias extends \yii\db\ActiveRecord
             'nombre' => Yii::t('app', 'Nombre'),
             'descripcion' => Yii::t('app', 'Descripcion'),
             'categoria_id' => Yii::t('app', 'Categoria ID'),
+            'nombCatId' => Yii::t('app', 'Nombre Categoria ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoria()
+    {
+        return $this->hasOne(Categorias::className(), ['id' => 'categoria_id']);
     }
 
     /**

@@ -23,6 +23,7 @@ class CategoriasEtiquetasController extends Controller
         return [
             'access' => [
                 'class' => ControlAcceso::className(),
+                // 'only' => ['view','create','update','delete'],
                 'rules' => [
                     [
                         'actions' => ['index','view'],
@@ -30,7 +31,7 @@ class CategoriasEtiquetasController extends Controller
                         'roles' => ['A','M'],
                     ],
                     [
-                        'actions' => ['update','delete'],
+                        'actions' => ['update','delete','create'],
                         'allow' => true,
                         'roles' => ['A'],
                     ],

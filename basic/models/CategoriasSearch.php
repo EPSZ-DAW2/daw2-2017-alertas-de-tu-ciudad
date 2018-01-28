@@ -15,6 +15,7 @@ use yii\grid\ActionColumn;
  */
 class CategoriasSearch extends Categorias
 {
+    public $nombCatId;
     /**
      * @inheritdoc
      */
@@ -23,6 +24,7 @@ class CategoriasSearch extends Categorias
         return [
             [['id', 'categoria_id'], 'integer'],
             [['nombre', 'descripcion'], 'safe'],
+            [['nombCatId'],'safe'],
         ];
     }
 
@@ -44,18 +46,36 @@ class CategoriasSearch extends Categorias
      */
     public function search($params)
     {
-        $query = Categorias::find();
+        $query = Categorias::find()->joinWith('categoria AS categoria');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             // 'pagination' => false,
-            'pagination'=>[
-            'pageSize' =>30,
-            ],
+            // 'pagination'=>[
+            // 'pageSize' =>30,
+            // ],
         ]);
+        $dataProvider->getSort()->attributes['nombCatId']= [
+            'asc' => [  
+                'id' => SORT_ASC, 
+                'nombre' => SORT_ASC,
+                'descripcion' => SORT_ASC,
+                'categoria_id' => SORT_ASC,
+                'categoria.nombre' => SORT_ASC,
+                ],
+            'desc' => [
+                'id' => SORT_DESC, 
+                'nombre' => SORT_DESC,
+                'descripcion' => SORT_DESC,
+                'categoria_id' => SORT_DESC,
+                'categoria.nombre' => SORT_DESC,
+                ],
 
+            'default' => SORT_ASC,
+            //'label' => 'Nombre CAT',
+        ];
         $this->load($params);
 
         if (!$this->validate()) {
@@ -82,7 +102,8 @@ class CategoriasSearch extends Categorias
         
        
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion])
+            ->andFilterWhere(['like','categoria.nombre,',$this->nombCatId]);
 
         return $dataProvider;
     }
