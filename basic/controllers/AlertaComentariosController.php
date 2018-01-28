@@ -8,6 +8,7 @@ use app\models\AlertaComentariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\ControlAcceso;
 
 /**
  * AlertaComentariosController implements the CRUD actions for AlertaComentarios model.
@@ -26,6 +27,22 @@ class AlertaComentariosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => ControlAcceso::className(),
+                // 'only' => ['index','view','create','update','delete','bloquear'],
+                'rules' =>[
+                    [
+                        'allow'=>true,
+                        'actions'=>['index','view','create','administrar','update','delete','gestionhilos'],
+                        'roles'=>['A'],
+                    ],
+                    [
+                        'allow' =>true,
+                        'actions' =>['comentar'],
+                        'roles' => ['A','N','M'],
+                    ]
+                ],
+            ],
         ];
     }
 
@@ -40,6 +57,7 @@ class AlertaComentariosController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $idAlerta = "";
         $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc($idAlerta);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -82,15 +100,11 @@ class AlertaComentariosController extends Controller
     public function actionAdministrar()
     {
         $searchModel = new AlertaComentariosSearch();
-        $searchModel2 = new AlertaComentariosSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc("");
-        $dataProvider3 = $searchModel->search2("");
+        $dataProvider = $searchModel->obtenerComentariosPadres("");
+
         return $this->render('administrar', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'dataProvider2' => $dataProvider2,
-            'dataProvider3' => $dataProvider3
         ]);
 
     }

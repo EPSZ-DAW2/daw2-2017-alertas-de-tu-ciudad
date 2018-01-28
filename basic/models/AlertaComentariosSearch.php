@@ -104,7 +104,7 @@ class AlertaComentariosSearch extends AlertaComentarios
         return $dataProvider;
     }
 
-    public function search2($params)
+    public function obtenerComentariosPadres()
     {
         $query = AlertaComentarios::find()
             ->select(
@@ -242,7 +242,7 @@ class AlertaComentariosSearch extends AlertaComentarios
         ->union("SELECT *
                 FROM alerta_comentarios
                 WHERE comentario_id IN
-        (SELECT id FROM alerta_comentarios WHERE comentario_id = $idPadre)");
+                (SELECT id FROM alerta_comentarios WHERE comentario_id = $idPadre)");
 
 
          $dataProvider = new ActiveDataProvider([
