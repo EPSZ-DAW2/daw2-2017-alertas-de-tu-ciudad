@@ -107,7 +107,7 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 	if((admin==1 || creador==1) && btn_add ==1)
 	{	
 		var div_padre = document.getElementById("previsualizador").parentElement;
-		div_padre.innerHTML = div_padre.innerHTML + '<input style="display:none" name="explorar_ficheros[]" id="explorar_ficheros" onchange="auto_submit();" multiple="multiple" type="file">';
+		div_padre.innerHTML = div_padre.innerHTML + '<input accept="image/*" style="display:none" name="explorar_ficheros[]" id="explorar_ficheros" onchange="auto_submit();" multiple="multiple" type="file">';
 		
 		var btn = document.createElement("a");
 		btn.className = 'btn btn-success btn-right';

@@ -38,7 +38,7 @@ $this->title = Yii::t('app', 'Adjuntar imagenes en la Alerta');
     <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
     <?php } ?>     
     <div  align="center" style="width:302px;padding-bottom: 1px;">
-        <input style="display:none" type="file" name="explorar_ficheros[]" id="explorar_ficheros" onchange="previsualizacion_img(this)" multiple="multiple" />
+        <input style="display:none" accept="image/*" type="file" name="explorar_ficheros[]" id="explorar_ficheros" onchange="previsualizacion_img(this)" multiple="multiple" />
         <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
     </div>
     
