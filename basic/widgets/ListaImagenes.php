@@ -47,7 +47,12 @@ class ListaImagenes extends Widget
            //Ejecutamos la función asociada al fichero JS registrado anteriormente.
            //Pasándole como dato la ruta de la imagen
            if($i != NULL)
-           $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);
+           {
+            if(Yii::$app->user->identity->rol === 'A')
+                $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador");', 4);  
+            else  $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);  
+            
+           }
        }
        $admin = 0;
        $creador = 0;

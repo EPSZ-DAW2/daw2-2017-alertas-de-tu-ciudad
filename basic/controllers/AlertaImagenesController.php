@@ -34,7 +34,7 @@ class AlertaImagenesController extends Controller
             
             'access' => [
             'class' => ControlAcceso::className(),
-            'only' => ['index','view','create','update','delete','revisar'],
+            'only' => ['index','view','create','update','delete','revisar','imagenrevisar'],
             'rules' =>[ 
                 [
                 'allow'=>true,
@@ -43,7 +43,7 @@ class AlertaImagenesController extends Controller
                 ],
                 [
                 'allow'=>true,
-                'actions'=>['index','view','create','update','delete','revisar'],
+                'actions'=>['index','view','create','update','delete','revisar', 'imagenrevisar'],
                 'roles'=>['A','M'],
                 ],
             ],
@@ -107,6 +107,35 @@ class AlertaImagenesController extends Controller
         ]);
     }
 
+    public function actionImagenrevisar($id, $change = false)
+    {
+        if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+         $model = $this->findModel($id);
+        
+        if(!$change)
+        {
+            if($model->imagen_revisada == 0)
+            {          
+                $model->imagen_revisada = 1;   
+                $model->save();
+            }
+        }
+        
+        $url = Url::previous();
+             
+        if(!isset($url))
+         $url= Yii::$app->request->referrer;
+             
+        return $this->redirect($url ?: 'index');                 
+        
+    }
+    
+    
     /**
      * Displays a single AlertaImagen model.
      * @param string $id

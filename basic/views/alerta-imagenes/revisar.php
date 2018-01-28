@@ -81,8 +81,13 @@ $this->params['breadcrumbs'][] = $this->title;
            //Ejecutamos la función asociada al fichero JS registrado anteriormente.
            //Pasándole como dato la ruta de la imagen
            if($i != NULL)
-           $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);
-       }
+           {
+            if(Yii::$app->user->identity->rol === 'A')
+                $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador");', 4);  
+            else  $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);  
+            
+           }
+           }
        
        $this->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'", "0","1","0");', 4);    
        
@@ -101,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+        
             'id',
             'alerta_id',
             //'orden',
@@ -117,8 +122,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'contentOptions' => ['style' => 'width:42%'],
             ],
             // 'notas_admin:ntext',
+         [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => '{view} {update} {delete} {imagenrevisar}',
+        'buttons' => [
+                'imagenrevisar' => function ($url, $model) {
+                        $color = '';
+                        if($model->imagen_revisada == 1) 
+                            $color='style = "color:green;"';
+                        
+                        return Html::a(        
+                                '<span '.$color.'class="glyphicon glyphicon-ok"></span>', 
+                                $url);
+                },
+        ],
+],
 
-            ['class' => 'yii\grid\ActionColumn'],
+        
         ],
     ]); 
         ?>
@@ -141,7 +161,21 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modi_fecha',
             // 'notas_admin:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+         [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => '{view} {update} {delete} {imagenrevisar}',
+        'buttons' => [
+                'imagenrevisar' => function ($url, $model) {
+                        $color = '';
+                        if($model->imagen_revisada == 1) 
+                            $color='style = "color:green;"';
+                        
+                        return Html::a(        
+                                '<span '.$color.'class="glyphicon glyphicon-ok"></span>', 
+                                $url);
+                },
+        ],
+],
         ],
     ]); 
         ?>

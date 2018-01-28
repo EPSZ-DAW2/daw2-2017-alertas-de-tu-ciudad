@@ -101,7 +101,10 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/update?id='+r_id[0]+'" title="Actualizar" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
 			if(admin==1)
 			{
+				var color = '';
+				if(r_id[2] == 1){ color = 'style="color:green;"'; }
 				div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/view?id='+r_id[0]+'" title="Ver" aria-label="Ver" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
+				div.innerHTML = div.innerHTML + '<a style = "float:left; margin-left: 10px;" class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/imagenrevisar?id='+r_id[0]+'" title="Marcar como revisada" aria-label="Revisar" data-pjax="0"><span '+color+' class="glyphicon glyphicon-ok"></span></a>';
 			}
 		}			
 		x[i].appendChild(div);	
