@@ -124,6 +124,29 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			return self::findOne(['email'=>$email]);
 	}
 	
+	public static function findByEmail($email)
+	{
+		return self::findOne(['email'=>$email]);
+	}
+	
+	public static function findByNick($nick)
+	{
+		return self::findOne(['nick'=>$nick]);
+	}
+	
+	public static function findByUsername2($email, $nick)
+	{
+
+		if(self::findOne(['email'=>$email])==NULL){
+			if(self::findOne(['nick'=>$nick])==NULL)
+				return NULL;
+			else
+				return self::findOne(['nick'=>$nick]);
+		}
+		else
+			return self::findOne(['email'=>$email]);
+	}
+	
 	public function validatePassword ($password)
 	{
 		return $this->password==$password;
@@ -143,4 +166,6 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return new UsuarioQuery(get_called_class());
     }
+	
+	
 }
