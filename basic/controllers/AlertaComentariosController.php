@@ -8,6 +8,7 @@ use app\models\AlertaComentariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\ControlAcceso;
 
 /**
  * AlertaComentariosController implements the CRUD actions for AlertaComentarios model.
@@ -24,6 +25,22 @@ class AlertaComentariosController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => ControlAcceso::className(),
+                // 'only' => ['index','view','create','update','delete','bloquear'],
+                'rules' =>[
+                    [
+                        'allow'=>true,
+                        'actions'=>['index','view','create','administrar','update','delete','gestionhilos'],
+                        'roles'=>['A'],
+                    ],
+                    [
+                        'allow' =>true,
+                        'actions' =>['comentar'],
+                        'roles' => ['A','N','M'],
+                    ]
                 ],
             ],
         ];
