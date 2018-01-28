@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
 use app\components\ControlAcceso;
 use yii\helpers\Url;
+use yii\data\Pagination;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -33,7 +34,7 @@ class AlertaImagenesController extends Controller
             
             'access' => [
             'class' => ControlAcceso::className(),
-            'only' => ['index','view','create','update','delete'],
+            'only' => ['index','view','create','update','delete','revisar'],
             'rules' =>[ 
                 [
                 'allow'=>true,
@@ -42,7 +43,7 @@ class AlertaImagenesController extends Controller
                 ],
                 [
                 'allow'=>true,
-                'actions'=>['index','view','create','update','delete'],
+                'actions'=>['index','view','create','update','delete','revisar'],
                 'roles'=>['A','M'],
                 ],
             ],
@@ -60,6 +61,47 @@ class AlertaImagenesController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionRevisar($opv=1, $vis=0)
+    {
+        $searchModel = new AlertaImagenSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        switch($opv)
+        {
+            case 2:
+               // Ultimos 7 dias
+                $ultimosDias = mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));  
+                $dataProvider->query->andWhere( 'DATE_FORMAT([[crea_fecha]], \'%Y-%m-%d\') BETWEEN \''.date("Y",$ultimosDias).'-'.date("m",$ultimosDias).'-'.date("d",$ultimosDias).'\' AND \''.date("Y").'-'.date("m").'-'.date("d").'\'');
+                break;
+            case 3:
+                $dataProvider->query->andWhere(['imagen_revisada' => 0]);
+                break;
+            case 4:
+                $dataProvider->query->andWhere('[[notas_admin]] IS NOT NULL AND [[notas_admin]] NOT IN ("")');
+                break;
+        }
+
+        if($vis == 1)
+        {
+            $countQuery = clone $dataProvider->query;
+            $pages = new Pagination(['totalCount' => $countQuery->count()]);
+            $models = $dataProvider->query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+
+            return $this->render('revisar', [
+                 'models' => $models,
+                 'pages' => $pages,
+            ]);
+        }
+        
+        
+        return $this->render('revisar', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

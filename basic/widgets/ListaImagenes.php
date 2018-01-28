@@ -64,7 +64,7 @@ class ListaImagenes extends Widget
             }
           
     
-            $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'","'.$this->id_alerta.'", "'.$creador.'","'.$admin.'");', 4);    
+            $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'", "'.$creador.'","'.$admin.'", "1");', 4);    
        }
        
 

@@ -17,29 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Agregar imagenes'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Agregar imágenes'), ['create'], ['class' => 'btn btn-success', 'style' => 
+            'height: 70px; text-align: center; vertical-align: middle; line-height: 50px; width: 200px; font-size: 18px;']) ?>
+         <?= Html::a(Yii::t('app', 'Revisar imágenes'), ['revisar'], ['class' => 'btn btn-success', 'style' => 
+            'height: 70px; text-align: center; vertical-align: middle; line-height: 50px; width: 200px; font-size: 18px;']) ?>   
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'alerta_id',
-            'orden',
-            'imagen_id',
-            'imagen_revisada',
-            // 'crea_usuario_id',
-            // 'crea_fecha',
-            // 'modi_usuario_id',
-            // 'modi_fecha',
-            // 'notas_admin:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); 
-        ?>
     
    <?php Url::remember(); ?>
 

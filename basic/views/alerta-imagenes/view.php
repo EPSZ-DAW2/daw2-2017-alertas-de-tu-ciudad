@@ -3,14 +3,19 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\widgets\ImagenUnica; 
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagens'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Imagen con la ID: '. $model->id.', perteneciente a la alerta '. $model->alerta_id;
+//$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagens'), 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
+ $url = Url::previous();
+  if(!isset($url))
+     $url= Yii::$app->request->referrer;         
 ?>
+  <?= Html::a(Yii::t('app', 'Volver'), $url, ['class' => 'btn btn-success']) ?>
 <div class="alerta-imagen-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -47,6 +52,5 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     
     <?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>  
-    
-    <?php Url::remember();?>
+
 </div>
