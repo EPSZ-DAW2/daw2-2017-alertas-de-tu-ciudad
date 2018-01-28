@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             echo Html::a(Yii::t('app', 'Categorías-Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']);
         }else{
+            CategoriasSearch::arbolCategorias();
             $template='{view}';
         }?>
     </p>
