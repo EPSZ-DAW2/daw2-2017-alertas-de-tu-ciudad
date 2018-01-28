@@ -31,6 +31,7 @@
 	line-height: 1.42857143;
 	min-height: 196px;
 }
+
 .imagen_miniatura:hover{ text-decoration:underline; color:#039;}
 
 .imagen_miniatura_lnk
@@ -83,7 +84,7 @@
 
 .ul_imagen{
 	border: 1px solid #bdbec3;
-	padding-top: 15px;
+	padding-top: 35px;
 	clear: both;
 	content: " ";
 	display: table;

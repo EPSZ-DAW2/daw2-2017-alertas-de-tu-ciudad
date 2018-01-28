@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\widgets\ImagenUnica; 
 use yii\helpers\Url;
+use app\models\AlertaImagen;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
@@ -44,6 +45,15 @@ $this->title = 'Imagen con la ID: '. $model->id.', perteneciente a la alerta '. 
             'modi_usuario_id',
             'modi_fecha',
             'notas_admin:ntext',
+            [                    
+            'label' => 'Ruta física de la imagen:',
+            'value' => $model->obtenerRutaFisica(),
+            ],
+            [                    
+            'label' => 'Tamaño en disco de la imagen:',
+            'value' => AlertaImagen::transformarSize(get_headers($model->obtenerRutaFisica(), 1)["Content-Length"]),
+            ],
+
         ],
     ]) ?>
     
