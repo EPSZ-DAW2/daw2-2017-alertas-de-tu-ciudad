@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <!--Botón para ir a la vista de creción de comentarios-->
     <p>
         <?= Html::a(Yii::t('app', 'Create Alerta Comentarios'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+    <!--Botón para ir a la vista de administrar hilos-->
     <p>
         <?= Html::a(Yii::t('app', 'Administrar Hilos'), ['administrar'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <h1 id="Comentar">Comentarios Prueba</h1>
+    <!--Renderizado de la vista de comentarios-->
     <?= $this->render("comentarios.php",[
             'searchModel'=>$searchModel,
         'dataProvider2'=>$dataProvider2,

@@ -32,45 +32,45 @@ use kartik\datetime\DateTimePicker;
             'autoclose' => true
         ]
     ]);?>
-
+    <!--Fecha última modificación del comentario-->
     <?=$form->field($model, 'modi_fecha')->widget(DateTimePicker::classname(), [
         'options' => ['placeholder' => 'Introduce la hora y la fecha ...'],
         'pluginOptions' => [
             'autoclose' => true
         ]
     ]);?>
-
+    <!--Texto del comentario-->
     <?= $form->field($model, 'texto')->textarea(['rows' => 6]) ?>
 
-
+    <!--El hilo de ese comentario estará abierto en caso de que sea 0 y cerrado en caso de que sea 1-->
     <?= $form->field($model, 'cerrado')->radioList([
         0 => 'Abierto',
         1 => 'Cerrado',
     ]); ?>
-
+    <!--Número de denuncias para cada comentario-->
     <?= $form->field($model, 'num_denuncias')->textInput(['type'=>'number','min'=>0, 'maxlength' => true]) ?>
-
+    <!--fecha de la primera denuncia-->
     <?=$form->field($model, 'fecha_denuncia1')->widget(DateTimePicker::classname(), [
         'options' => ['placeholder' => 'Introduce la hora y la fecha ...'],
         'pluginOptions' => [
             'autoclose' => true,
         ]
     ]);?>
-
+    <!--El hilo de ese comentario estará desbloqueado en caso de que sea 0 y bloqueado en caso de que sea 1-->
     <?= $form->field($model, 'bloqueado')->radioList([
         0 => 'Desbloqueado',
         1 => 'Bloqueado',
     ]); ?>
-
+    <!--Id del usuario que ha relizado el bloqueo-->
     <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>
-
+    <!--Fecha del bloqueo de comentario-->
     <?=$form->field($model, 'bloqueo_fecha')->widget(DateTimePicker::classname(), [
         'options' => ['placeholder' => 'Introduce la hora y la fecha ...'],
         'pluginOptions' => [
             'autoclose' => true
         ]
     ]);?>
-
+    <!--Motivo por el cual se ha relaizado el bloqueo de un comentario-->
     <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

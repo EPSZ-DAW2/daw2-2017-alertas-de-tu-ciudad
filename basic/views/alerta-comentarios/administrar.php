@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'bloqueo_fecha',
             // 'bloqueo_notas:ntext',
 
+            //Creación de nuevos botones para las funcionalidades de los hilos: cerrar/abrir bloquear/desbloquear
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{gestionhilos}',
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'gestionhilos' => function ($url) {
                         return Html::a(
                             'Cerrar<span class="glyphicon glyphicon-remove"></span>',
-                            $url."&accion=cerrar",
+                            $url."&accion=cerrar",//El botón recoge el id del padre de la tupla correspondiente, y se le pasa al controlador junto con el parámetro de acción correspondiente.
                             [
                                 'title' => 'Cerrar Hilo',
                             ]

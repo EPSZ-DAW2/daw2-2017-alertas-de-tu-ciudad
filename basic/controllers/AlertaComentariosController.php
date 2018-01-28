@@ -18,6 +18,7 @@ class AlertaComentariosController extends Controller
     /**
      * @inheritdoc
      */
+    //Control de accesos
     public function behaviors()
     {
         return [
@@ -52,12 +53,13 @@ class AlertaComentariosController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AlertaComentariosSearch();
-        $searchModel2 = new AlertaComentariosSearch();
+        $searchModel = new AlertaComentariosSearch();//Datos para el Gridview de la vista inicial de la tabla
+        $searchModel2 = new AlertaComentariosSearch();//Datos ordenados por fecha de modificación, para mostrar los comentarios en orden
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $idAlerta = "";
         $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc($idAlerta);
 
+        //Renderizado de la vista index con los parámetros necesarios
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -100,8 +102,9 @@ class AlertaComentariosController extends Controller
     public function actionAdministrar()
     {
         $searchModel = new AlertaComentariosSearch();
-        $dataProvider = $searchModel->obtenerComentariosPadres("");
+        $dataProvider = $searchModel->obtenerComentariosPadres("");//Obtienes sólo los datos de los cometarios Raíz
 
+        //Renderiza la vista para la administración de los hilos, la cual sólo contine comentarios padre.
         return $this->render('administrar', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
