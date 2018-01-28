@@ -42,18 +42,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 	<h2>Alertas enlazadas: </h2>
-	 <?=        
+	 <?= 
         GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
-			//['class' => 'yii\grid\SerialColumn'],
+			['class' => 'yii\grid\SerialColumn'],
             ['attribute'=>'titulo',
                 'filter' => AutoComplete::widget([
                     'model' => $searchModel,
                     'attribute' => 'titulo',
                     'clientOptions' => [
-                    'source' => Alerta::find()->select(['titulo AS value'])->orderBy('titulo')->asArray()->all(),
+                    'source' => Alerta::find()->andWhere(['categoria_id'=>$model->id])->select(['titulo AS value'])->orderBy('titulo')->asArray()->all(),
                     ],
                     'options' => [
                         'class' => 'form-control'
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
             ],
             'descripcion:ntext',
-            //['class' => 'yii\grid\ActionColumn' ],
+            ['class' => 'yii\grid\ActionColumn' ],
         ],
         ]);  
     ?>

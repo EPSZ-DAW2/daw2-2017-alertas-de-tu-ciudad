@@ -6,6 +6,8 @@ use Yii;
 use app\components\ControlAcceso;
 use app\models\Categorias;
 use app\models\CategoriasSearch;
+use app\models\Alerta;
+use yii\data\ActiveDataProvider;
 use app\models\AlertaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -71,11 +73,28 @@ class CategoriasController extends Controller
      * @param string $id
      * @return mixed
      */
+  //   public function actionView($id)
+  //   {
+		// $searchModel = new AlertaSearch();
+  //       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+  //       return $this->render('view', [
+  //           'model' => $this->findModel($id),'searchModel' =>$searchModel, 'dataProvider'=>$dataProvider
+  //       ]);
+  //   }
+
     public function actionView($id)
     {
-		$searchModel = new AlertaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
+        $query=Alerta::find()->where(['categoria_id'=>$id]);
+                $searchModel = new AlertaSearch();
+        if ( isset(Yii::$app->request->get()['AlertaSearch']['titulo']) && Yii::$app->request->get()['AlertaSearch']['titulo'] != null)  {
+                    $dataProvider=$searchModel->search(Yii::$app->request->get());
+        }else{
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+        }
+       
         return $this->render('view', [
             'model' => $this->findModel($id),'searchModel' =>$searchModel, 'dataProvider'=>$dataProvider
         ]);
