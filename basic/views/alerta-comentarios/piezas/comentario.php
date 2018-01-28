@@ -34,23 +34,27 @@ use yii\helpers\Html;
                 echo date_format($date, 'H:i:s (d-m-Y)');
                 ?>
             </div>
-            <ul class="comment-actions">
-                <?php if(!$dataComentario->bloqueado) {?>
-                    <a href="?idComentarioPadre=<?=$dataComentario->id?>&id=<?=$dataComentario->alerta_id?>#Comentar">
-                        <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
-                    </a>
-                <?php }else{?>
-                    <li class="complain redFont">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Bloqueado
-                    </li>
-               <?php } ?>
+            <!--Si el usuario está logeado entonces le mostramoslas acciones sino no-->
+            <?php if(!empty($usuario)){ ?>
+                <ul class="comment-actions">
 
-                <a href="<?=Yii::getAlias('@web')?>/usuario-incidencias/createdenuncia?id=<?=$dataComentario->id?>&tipo=comentario">
-                    <li class="complain yellowFont">
-                        <span class="glyphicon glyphicon-warning-sign"></span> Denunciar
-                    </li>
-                </a>
-            </ul>
+                    <?php if(!$dataComentario->bloqueado) {?>
+                        <a href="?idComentarioPadre=<?=$dataComentario->id?>&id=<?=$dataComentario->alerta_id?>#Comentar">
+                            <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
+                        </a>
+                    <?php }else{?>
+                        <li class="complain redFont">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Bloqueado
+                        </li>
+                   <?php } ?>
+
+                    <a href="<?=Yii::getAlias('@web')?>/usuario-incidencias/createdenuncia?id=<?=$dataComentario->id?>&tipo=comentario">
+                        <li class="complain yellowFont">
+                            <span class="glyphicon glyphicon-warning-sign"></span> Denunciar
+                        </li>
+                    </a>
+                </ul>
+            <?php } ?>
         </div>
     </div>
 
