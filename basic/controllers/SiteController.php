@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\RegistroForm;
 use app\models\ContactForm;
 use app\models\Usuario;
 
@@ -91,6 +92,55 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+	
+	public function actionRegistro()
+    {
+        $model = new RegistroForm();
+        if ($model->load(Yii::$app->request->post()) && $model->registro()) {
+			$model2= new Usuario;
+			$model2->email= $model->email;
+			$model2->password= $model->password;
+			$model2->nick= $model->nick;
+			$model2->nombre= $model->nombre;
+			$model2->apellidos= $model->apellidos;
+			$model2->fecha_nacimiento= $model->fecha_nacimiento;
+			$model2->direccion= $model->direccion;
+			$model2->area_id= $model->area_id;
+			$model2->rol= 'N';
+			
+			$dia=getdate();
+			$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+			$model2->fecha_registro= $fecha;
+			$model2->confirmado= 0;
+			$model2->fecha_acceso= NULL;
+			$model2->bloqueado= 0;
+			$model2->num_accesos= 0;
+			
+			$model2->save();
+			
+			//return $this->redirect(['confirmar', 'nick' => $model->nick]);
+            return $this->render('confirmar', [
+            'model' => $model2,
+        ]);
+        }
+		
+		
+        return $this->render('registro', [
+            'model' => $model,
+        ]);
+    }
+	
+	/*public function actionConfirmar(){
+		$model=Usuario::findOne($email);
+		$model->confirmar=1;
+		$model->save();
+		return $this->render('login', [
+            'model' => $model,
+        ])
+		
+	}*/
+	
+	
 
     /**
      * Logout action.
