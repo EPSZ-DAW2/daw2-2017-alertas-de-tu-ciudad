@@ -28,7 +28,8 @@
 	list-style: none;
 	color: #EEE;
 	font-size: 14px;
-	line-height: 1.42857143;	
+	line-height: 1.42857143;
+	min-height: 196px;
 }
 .imagen_miniatura:hover{ text-decoration:underline; color:#039;}
 
