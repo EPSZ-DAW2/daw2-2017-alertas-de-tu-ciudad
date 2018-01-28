@@ -99,6 +99,10 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 
 			div.innerHTML = '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/delete?id='+r_id[0]+'" title="Eliminar" aria-label="Eliminar" data-pjax="0" data-confirm="¿Está seguro de eliminar esta imagen?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>';
 			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/update?id='+r_id[0]+'" title="Actualizar" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+			if(admin==1)
+			{
+				div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/view?id='+r_id[0]+'" title="Ver" aria-label="Ver" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
+			}
 		}			
 		x[i].appendChild(div);	
 
