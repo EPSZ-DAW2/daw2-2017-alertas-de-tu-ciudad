@@ -46,8 +46,12 @@ $this->title = 'Imagen con la ID: '. $model->id.', perteneciente a la alerta '. 
             'modi_fecha',
             'notas_admin:ntext',
             [                    
-            'label' => 'Ruta física de la imagen:',
+            'label' => 'URL de la imagen:',
             'value' => $model->obtenerRutaFisica(),
+            ],
+            [                    
+            'label' => 'Ruta física en disco de la imagen:',
+            'value' => $model->obtenerRutaDisco(),
             ],
             [                    
             'label' => 'Tamaño en disco de la imagen:',

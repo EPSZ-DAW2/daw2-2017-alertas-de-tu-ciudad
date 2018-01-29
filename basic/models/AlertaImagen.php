@@ -65,7 +65,7 @@ class AlertaImagen extends \yii\db\ActiveRecord
     }
 
     /**
-     * Crea la ruta completa de la imagen asociada al modelo a través
+     * Crea la ruta completa (FORMATO URL) de la imagen asociada al modelo a través
      * de su UUID.
      * Una vez generada la ruta la guardara en una variable privada para futuras referencias.
      * @return devuelve la ruta completa de la imagen o nulo, si no se pudo localizar.
@@ -113,6 +113,40 @@ class AlertaImagen extends \yii\db\ActiveRecord
         $ruta_completa = Url::base(true).$ruta_completa;
 
         return $ruta_completa;
+    }
+    
+        /**
+     * Crea la ruta completa (EN DISCO) de la imagen asociada al modelo a través
+     * de su UUID.
+     * Una vez generada la ruta la guardara en una variable privada para futuras referencias.
+     * @return devuelve la ruta completa de la imagen o nulo, si no se pudo localizar.
+     */
+        public function obtenerRutaDisco()
+    {
+        $ruta = $this->obtenerRutaFisica();  
+        
+        //En el caso de por cualquier razón no existe la imagen relacionada.
+        //Entonces se borra solo el registro de la DB.
+        if($ruta == NULL)
+        {
+           return NULL;
+        }
+        
+        $divisiones = explode("/", $ruta);
+        $c = count($divisiones);
+        
+        $ruta_relativa = "\uploads"; 
+        
+        //Obtiene la ruta relativa.
+        for($itr = $c-5; $itr <= $c-1; $itr++)
+            $ruta_relativa .= '\\'.$divisiones[$itr];
+     
+        //Transforma la ruta relativa en una completa.
+        $ruta_relativa = getcwd().$ruta_relativa;
+        
+        return $ruta_relativa;
+        //Devuelve la ruta absoluta a través de la relativa.
+       // return realpath($ruta_relativa);
     }
     
     /**
