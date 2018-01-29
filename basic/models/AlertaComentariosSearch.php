@@ -69,7 +69,6 @@ class AlertaComentariosSearch extends AlertaComentarios
     public function search($params)
     {
 
-
         if(!empty($_SESSION['__id'])){
             $usuario = new Usuarios();//Crea un modelo con la información del usuario
             $usuario=$usuario::findOne($_SESSION["__id"]);
@@ -90,6 +89,9 @@ class AlertaComentariosSearch extends AlertaComentarios
             else{
                 $query = AlertaComentarios::find();
             }
+        }
+        else{
+            $query = AlertaComentarios::find();
         }
 
 
@@ -138,30 +140,37 @@ class AlertaComentariosSearch extends AlertaComentarios
      */
     public function obtenerComentariosPadres()
     {
-        $query = AlertaComentarios::find()
-            ->select(
-                [
-                    'id',
-                    'alerta_id',
-                    'crea_usuario_id',
-                    'crea_fecha',
-                    'modi_usuario_id',
-                    'modi_fecha',
-                    'texto',
-                    'comentario_id',
-                    'cerrado',
-                    'num_denuncias',
-                    'fecha_denuncia1',
-                    'bloqueado',
-                    'bloqueo_usuario_id',
-                    'bloqueo_fecha',
-                    'bloqueo_notas',
+        if(!empty($_SESSION['__id'])){
+            $usuario = new Usuarios();//Crea un modelo con la información del usuario
+            $usuario=$usuario::findOne($_SESSION["__id"]);
+            //Caso de moderador de zona
+            if(($usuario->rol) == 'M'){
 
-                ]
-            )
+                //En caso de que el usaurio sea moderador se le aplica el filtro para que solo vea alertas de su zona.
+                /*
+                SELECT * FROM alerta_comentarios
+                    INNER JOIN alertas ON alerta_comentarios.alerta_id = alertas.id
+                    INNER JOIN usuarios  ON alertas.area_id = usuarios.area_id WHERE usuarios.id = 1
+                */
+                $query = AlertaComentarios::find()
+                    ->from('alerta_comentarios')
+                    ->leftJoin('alertas','alerta_comentarios.alerta_id = alertas.id')
+                    ->leftJoin('usuarios','alertas.area_id = usuarios.area_id')
+                    ->where('usuarios.id = '. $usuario->id)
+                    //Añadimos esta condicion para solo mostrar los hilos abiertos
+                    ->andFilterWhere(['comentario_id' => 0]);
+            }
+            //Caso que sea adminsitrador general
+            else{
+                $query = AlertaComentarios::find()
+                    ->andFilterWhere(['comentario_id' => 0]);
+            }
+        }
+        else{
+            $query = AlertaComentarios::find()
+                ->andFilterWhere(['comentario_id' => 0]);
+        }
 
-            //Añadimos esta condicion para solo mostrar los hilos abiertos
-            ->andFilterWhere(['comentario_id' => 0]);
 
         //Creamos el data provider para obtener los comentarios padres ordenados por fecha
         $dataProvider = new ActiveDataProvider([
@@ -191,32 +200,43 @@ class AlertaComentariosSearch extends AlertaComentarios
      * @param $idIncidencia
      * @return ActiveDataProvider
      */
-    public function ordenarComentariosFechaDesc($idIncidencia){
+    public function ordenarComentariosFechaDesc($idIncidencia)
+    {
 
-        $query = AlertaComentarios::find()
-            ->select(
-                [
-                'alerta_comentarios.id',
-                'alerta_comentarios.alerta_id',
-                'alerta_comentarios.crea_usuario_id',
-                'alerta_comentarios.crea_fecha',
-                'alerta_comentarios.modi_usuario_id',
-                'alerta_comentarios.modi_fecha',
-                'alerta_comentarios.texto',
-                'alerta_comentarios.comentario_id',
-                'alerta_comentarios.cerrado',
-                'alerta_comentarios.num_denuncias',
-                'alerta_comentarios.fecha_denuncia1',
-                'alerta_comentarios.bloqueado',
-                'alerta_comentarios.bloqueo_usuario_id',
-                'alerta_comentarios.bloqueo_fecha',
-                'alerta_comentarios.bloqueo_notas',
-                'usuarios.nick',
-                ]
-                )
-                ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ')
-                //Añadimos esta condicion para solo mostrar los hilos abiertos
+        //Si el administrador esta en sesion y esta vacio el id de incidencia
+        if(!empty($_SESSION['__id']) && empty($idIncidencia)){
+            $usuario = new Usuarios();//Crea un modelo con la información del usuario
+            $usuario=$usuario::findOne($_SESSION["__id"]);
+            //Si es moderador solo mostramos los de su zona
+            if(($usuario->rol) == 'M'){
+
+                //En caso de que el usaurio sea moderador se le aplica el filtro para que solo vea alertas de su zona.
+                /*
+                SELECT * FROM alerta_comentarios
+                    INNER JOIN alertas ON alerta_comentarios.alerta_id = alertas.id
+                    INNER JOIN usuarios  ON alertas.area_id = usuarios.area_id WHERE usuarios.id = 1
+                */
+                $query = AlertaComentarios::find()
+                    ->leftJoin('alertas','alerta_comentarios.alerta_id = alertas.id')
+                    ->leftJoin('usuarios','alertas.area_id = usuarios.area_id')
+                    ->where('usuarios.id = '. $usuario->id)
                 ->andFilterWhere(['alerta_comentarios.cerrado' => 0]);
+
+            }
+            //si es moderador general mostramos todos los comentarios
+            else{
+                $query = AlertaComentarios::find()
+                    ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ')
+                    ->andFilterWhere(['alerta_comentarios.cerrado' => 0]);
+            }
+        }
+        //Caso de que no esté en sesion o de que esté en una alerta especifica entonces se muestran todos los comentarios de esa alerta
+        else{
+            $query = AlertaComentarios::find()
+                ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ')
+                ->andFilterWhere(['alerta_comentarios.cerrado' => 0]);
+
+        }
 
 
 

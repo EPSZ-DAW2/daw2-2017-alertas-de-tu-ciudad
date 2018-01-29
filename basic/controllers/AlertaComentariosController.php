@@ -161,10 +161,19 @@ class AlertaComentariosController extends Controller
         $model->modi_fecha = $dateTimeNow;
         $model->modi_usuario_id = 0; //Se pone a 0 por haberse hecho por un administrador
 
-
+        $bloqueoEstadoActual = $model->bloqueado; //Nos dice el estado antes de guardar los parametros post
 
         //Si se cargan los nuevos parametros del formulario y se guardan de forma correcta
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
+            if($bloqueoEstadoActual == 0
+                && $model->bloqueado != 0
+                && 0 == strcmp($model->bloqueo_notas,"0")){
+                $model->bloqueo_notas = "bloqueado";
+                $model->save();
+
+            }
             //se redirige a la vista
             return $this->redirect(['view', 'id' => $model->id]);
         }
