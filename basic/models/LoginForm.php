@@ -59,7 +59,7 @@ class LoginForm extends Model
 			if (!$user)
 				$this->addError($attribute, 'Usuario no confirmado, usuario bloqueado o usuario no registrado');
 				//break;
-			else if (!$user->validatePassword($this->password)) 
+			else if (!Yii::$app->getSecurity()->validatePassword($this->password, $user->password)) 
 			{
 				//$this->inc_NumAccesos($user);
 				$user->num_accesos= $user->num_accesos + 1;
