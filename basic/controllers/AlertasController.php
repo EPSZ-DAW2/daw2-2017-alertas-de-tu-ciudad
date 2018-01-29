@@ -77,6 +77,13 @@ class AlertasController extends Controller
 	{
 		$model = $this->findModel($id);
 		
+		if( $model->bloqueada == '1')
+		{
+			 return $this->render('finblock', [
+                'model' => $model,
+            ]);
+		}
+		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 		
 		$model->fecha_inicio= date("Y-m-d H:i:s");
@@ -98,7 +105,9 @@ class AlertasController extends Controller
         $model = new Alerta();
 		
 		$us=Yii::$app->user->identity->id; //solo pueden crear alertas nuevas usuarios registrados
-
+		
+		$model->crea_usuario_id=Yii::$app->user->identity->id; //usuario que crea la alerta
+		$model->crea_fecha= date("Y-m-d H:i:s"); //Fecha en que se crea
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -122,6 +131,8 @@ class AlertasController extends Controller
 		$us=Yii::$app->user->identity->id; //solo pueden Modificar alertas nuevas usuarios registrados
 		
 		
+		$model->modi_usuario_id=Yii::$app->user->identity->id; //usuario que modifica la alerta
+		$model->modi_fecha= date("Y-m-d H:i:s"); //Fecha en que se modifica
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -173,6 +184,15 @@ class AlertasController extends Controller
 	public function actionFicha($id)
     {
         $model = $this->findModel($id);
+		
+		
+		if($model->terminada == '1' || $model->bloqueada == '1')
+		{
+			 return $this->render('finblock', [
+                'model' => $model,
+            ]);
+		}
+		
 
         $searchModelAlertaComentarios =  new AlertaComentariosSearch();
         $dataProviderAlertaComentarios = $searchModelAlertaComentarios->ordenarComentariosFechaDesc($id);
@@ -201,7 +221,8 @@ class AlertasController extends Controller
 		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 		
-		
+		$model->bloqueo_usuario_id=Yii::$app->user->identity->id; //usuario que la bloquear	
+		$model->bloqueo_fecha= date("Y-m-d H:i:s"); //Fecha en que la bloquea
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -237,10 +258,8 @@ class AlertasController extends Controller
             return $this->redirect(['index']);
         } else {
 			$model->save();
-            return $this->render('denunciar', [
-                'model' => $model,
-				
-            ]);
+           return $this->redirect(['usuario-incidencias/createdenuncia', 'id'=>$model->id, 'tipo'=>"alerta"]);
+
         }
 		
 		
