@@ -37,6 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo Html::a(Yii::t('app', 'Responder Consulta'), ['createmensaje', 'id' => $model->origen_usuario_id], ['class' => 'btn btn-success']);
 	}
 	
+	if($model->destino_usuario_id == Yii::$app->user->identity->id ){
+		echo Html::a(Yii::t('app', 'Marcar como no leida'), ['view', 'id' => $model->id, 'noleida' => true], ['class' => 'btn btn-success']);
+	
+	}
 	?> 
 
 </div>
