@@ -367,7 +367,28 @@ class UsuarioIncidenciasController extends Controller
         }
     }
 	
-
+	public function actionSolicitabaja()
+    {
+	
+        $model = new UsuarioIncidencia();
+		$bien=true;
+		//comprobar si existe
+		$model->crea_fecha=date("Y-m-d H:i:s");
+		$model->clase_incidencia_id='C';
+		$model->origen_usuario_id=Yii::$app->user->identity->id;
+		if($model->origen_usuario_id==NULL){
+			$bien=false;
+			
+		}
+		$model->texto="Solicitud de Baja";
+		
+		if($bien){
+			$model->save();
+		}
+			
+		return $this->redirect(Yii::$app->request->referrer);
+		
+    }
 	
 	public function actionCreatenotificacion()
     {
