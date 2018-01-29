@@ -111,8 +111,10 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+			$model->password= Yii::$app->getSecurity()->generatePasswordHash($model->password);
+			if($model->save())
+				return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -125,6 +127,8 @@ class UsuariosController extends Controller
         $model = $this->findModel($_SESSION["__id"]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$model->password= Yii::$app->getSecurity()->generatePasswordHash($model->password);
+			if($model->save())	
             return $this->redirect(['perfil', 'id' => $model->id]);
         } else {
             return $this->render('updatePerfil', [

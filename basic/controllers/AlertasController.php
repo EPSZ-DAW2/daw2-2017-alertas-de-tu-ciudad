@@ -11,6 +11,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\ControlAcceso;
+use app\models\Categorias;
+use app\models\CategoriasSearch;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * AlertasController implements the CRUD actions for Alerta model.
@@ -26,7 +30,7 @@ class AlertasController extends Controller
         return [
             'access' => [
                 'class' => ControlAcceso::className(),
-                'only' => ['view','create','update','delete','finalizar','ficha', 'bloquear','denunciar'],
+                'only' => ['view','create','update','delete','finalizar','ficha', 'bloquear','denunciar','imagenes','categorias'.'areas'],
                 'rules' => [
                     [
                         'actions' => ['create','update','delete','finalizar','view','bloquear','ficha','denunciar'],
@@ -37,6 +41,11 @@ class AlertasController extends Controller
                         'actions' => ['ficha'],
                         'allow' => true,
                         'roles' => ['A','M','N','?'],
+                    ],
+					[
+                        'actions' => ['imagenes','categorias','areas'],
+                        'allow' => true,
+                        'roles' => ['A'],
                     ],
                     
                 ],
@@ -265,7 +274,71 @@ class AlertasController extends Controller
 		
 		
     }
+	
+		/*Funcion para Enlazar con el mantenimiento de imagenes de una alerta*/
+		public function actionImagenes($id)
+    {
+        $model = $this->findModel($id);
+		
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+			//$model->save();
+		    return $this->render('Mant_imagenes', [
+                'model' => $model,
+            ]);
+
+        }
+		
+		
+	}
+	
+	/*Funcion para Enlazar con el mantenimiento de categorias de una alerta*/
+		public function actionCategorias($id)
+    {
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
+		
+		$query=Categorias::find()->where(['id'=>$id]);
+                $searchModel = new CategoriasSearch();
+        if ( isset(Yii::$app->request->get()['CategoriasSearch']['nombre']) && Yii::$app->request->get()['CategoriasSearch']['nombre'] != null)  {
+                    $dataProvider=$searchModel->search(Yii::$app->request->get());
+        }else{
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+        }
+       
+        return $this->render('Mant_categorias', [
+            'model' => $this->findModel($id),
+			'searchModel' =>$searchModel, 
+			'dataProvider'=>$dataProvider
+        ]);
+		
+		
+	}
+	
+		/*Funcion para Enlazar con el mantenimiento del Area de una alerta*/
+		public function actionAreas($id)
+    {
+		$model = $this->findModel($id);
+		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
+
+		
+		 if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id'=>$model->id]);
+        } else {
+			$model->save();
+           return $this->redirect(['area/view', 'id'=>$id]);
+
+        }
+		
+		
+	}
+	
     /**
      * Finds the Alerta model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

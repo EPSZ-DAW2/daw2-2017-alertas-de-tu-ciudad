@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		
         echo Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
 		echo Html::a(Yii::t('app', 'Añadir etiqueta a la alerta'), ['alerta-etiquetas/create'], ['class' => 'btn btn-success']);
-		echo Html::a(Yii::t('app', 'Mant. Categorias'), ['categorias/index'], ['class' => 'btn btn-success']);
+		echo Html::a(Yii::t('app', 'Mant. Categorias'), ['categorias', 'id' => $model->id], ['class' => 'btn btn-success']);
 		echo Html::a(Yii::t('app', 'Mant. comentarios'), ['alerta-comentarios/index'], ['class' => 'btn btn-success']);
-		 echo Html::a(Yii::t('app', 'Mant. imagenes'), ['alerta-imagenes/index'], ['class' => 'btn btn-success']);
-		 echo Html::a(Yii::t('app', 'Mant. Areas'), ['area/index'], ['class' => 'btn btn-success']);
+		 echo Html::a(Yii::t('app', 'Mant. imagenes'), ['imagenes', 'id' => $model->id], ['class' => 'btn btn-success']);
+		 echo Html::a(Yii::t('app', 'Mant. Areas'), ['areas', 'id' => $model->area_id], ['class' => 'btn btn-success']);
 		 echo Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'duracion_estimada',
             'direccion:ntext',
             'notas_lugar:ntext',
-            'area.nombre:text:Nombre del Área',
+            'area_id',
             'detalles:ntext',
             'notas:ntext',
             'url:ntext',
