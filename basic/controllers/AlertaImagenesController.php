@@ -29,6 +29,7 @@ class AlertaImagenesController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'ordenar' => ['POST'],
                 ],
             ],
             

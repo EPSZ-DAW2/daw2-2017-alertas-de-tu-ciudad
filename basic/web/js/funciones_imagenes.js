@@ -124,7 +124,7 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add,
 		btn2.className = 'btn btn-primary btn-right';
 		btn2.innerHTML = 'Guardar orden de las imágenes';
 		btn2.setAttribute('onclick', 'guardar_orden(\''+url_base+'\', \''+token+'\');');
-		btn2.setAttribute('style', 'margin-left:10px;');
+		btn2.setAttribute('style', 'margin-left:45px;');
 		div_padre.appendChild(btn2);
 		}
 		
@@ -165,7 +165,7 @@ function guardar_orden(url_base, token)
 	   type: "POST",
 	   data: {
 			 ids:array_ids,
-			 _csrf : token //Parece funcionar sin token...
+			 _csrf : token 
 	   },
 	   url: url,
 	   success: function(msg){
@@ -175,7 +175,16 @@ function guardar_orden(url_base, token)
 }
 
 
-
+function revisar($url)
+{
+	$.ajax({
+	   type:'GET',
+	   url: url,
+	   success: function(msg){
+		 location.reload();
+	   }
+	});
+}	
 
 
 
