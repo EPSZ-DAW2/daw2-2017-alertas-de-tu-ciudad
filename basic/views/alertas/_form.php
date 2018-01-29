@@ -16,7 +16,7 @@ $categorias = Categorias::find()->all();
 $categoriaslista=ArrayHelper::map($categorias,'id','nombre');
 
 $areas = Area::find()->all();
-$areaslista=ArrayHelper::map($areas,'id','nombre');
+$areaslista=ArrayHelper::map($areas,'id','nombre', 'claseArea');
 
 ?>
 
