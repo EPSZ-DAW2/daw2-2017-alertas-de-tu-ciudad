@@ -3,14 +3,16 @@
 use yii\helpers\Html;
 
 ?>
+<div class="bocadillo<?=$dataComentario->id?>">
 
-<div class="comments">
+</div>
+<div class="comments ">
 
     <div class="photo">
         <div class="avatar" style="background-image:url('<?= Yii::$app->request->baseUrl ?>/img/dummy.jpg')";>
         </div>
     </div>
-    <div class="comment-block">
+    <div class="comment-block ">
         <div class="comment-name">
             <h1><?=$dataComentario->nick?></h1>
             <h4 class="<?="Respuesta".$dataComentario->id?>"> <b>#<?=$dataComentario->id?></b>
@@ -62,21 +64,31 @@ use yii\helpers\Html;
 <?php
     $urlControladorAjax = Yii::getAlias('@web')."/alerta-comentarios/ajax?id=$dataComentario->comentario_id";
     $identificadorComentario = "\".Respuesta".$dataComentario->id."\"";
+    $bocadillo = "\".bocadillo".$dataComentario->id."\"";
     $this->registerJs( <<< EOT_JS
-
+        var flag = 0;
         $($identificadorComentario).hover(function(){
-         
-                    jQuery.ajax({
-                        url:'$urlControladorAjax',
-                        type:'GET',
-                        success:function(mensaje) {
-                            
-                            console.log(mensaje);
-                        },
-                        error : function(){
-                            console.log("error");
-                        }
-                    });
+            if(flag == 0){
+               
+                jQuery.ajax({
+                    url:'$urlControladorAjax',
+                    type:'GET',
+                    success:function(mensaje) {
+                            if(flag == 0)
+                                $($bocadillo).append(mensaje);
+                            flag = 1;
+                    },
+                    error : function(){
+                        console.log("error");
+                    }
+                });
+            }
+                    
+        },function(){
+                  
+                   $(".bubble").remove();    
+                   flag = 0;       
+                  
         });
 
 EOT_JS

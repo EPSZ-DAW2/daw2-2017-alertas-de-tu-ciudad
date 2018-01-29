@@ -48,7 +48,7 @@ class AlertaComentariosController extends Controller
                     [
                         'allow' =>true,
                         'actions'=>['ajax'],
-                        'roles'=> ['@']
+                        'roles'=> ['?','@'],
                     ]
 
                 ],
@@ -292,7 +292,10 @@ class AlertaComentariosController extends Controller
         //Si el comentario no es padre devolvemos su informacion
         if($id != 0) {
             if (($model = AlertaComentarios::findOne($id)) !== null) {
-                var_dump($model->attributes);
+                echo '<div class="bubble">';
+                echo($model->texto);
+                
+                echo "<div>";
             }
         }
 
