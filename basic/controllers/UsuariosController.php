@@ -31,7 +31,7 @@ class UsuariosController extends Controller
                // 'only' => ['index','view','create','update','delete','bloquear'],
                 'rules' =>[ [
 					'allow'=>true,
-					'actions'=>['index','perfil','updatePerfil'],
+					'actions'=>['index','perfil','updateperfil'],
 					'roles'=>['N'],
 				],
 				[
