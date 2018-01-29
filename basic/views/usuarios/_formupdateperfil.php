@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'apellidos')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'fecha_nacimiento')->textInput() ?>
+    <?= $form->field($model, 'fecha_nacimiento')->widget(\yii\jui\DatePicker::className(),['language'=>'es', 'dateFormat'=>'yyyy-MM-dd']) ?>
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
