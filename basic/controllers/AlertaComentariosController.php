@@ -37,7 +37,7 @@ class AlertaComentariosController extends Controller
                         'allow'=>true,
                         //Al administrador se le permiten plenos poderes
                         'actions'=>['index','view','create','administrar','update','delete','gestionhilos'],
-                        'roles'=>['A'],
+                        'roles'=>['A','M'], //El adminsitrador es igual al moderador pero por zonas
                     ],
                     [
                         //Acciones permitidas para el administrador, el usuario normal y el moderador
