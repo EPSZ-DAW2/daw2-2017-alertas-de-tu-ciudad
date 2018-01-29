@@ -57,9 +57,14 @@
 
 .imagen_miniatura:hover{ text-decoration:underline; color:#039;}
 
-.imagen_miniatura:first-child  .imagen_miniatura_lnk
+.imagen_miniatura:first-child .imagen_miniatura_lnk
 {
 		border: 3px solid #58d545;
+}
+
+.imagen_miniatura:first-child .no_color
+{
+		border: 3px solid #000 !important;
 }
 
 .imagen_miniatura_lnk

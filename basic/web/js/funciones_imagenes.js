@@ -32,7 +32,7 @@ function previsualizacion_img(input_file)
 	});
 }
 
-function previsualizar_imagen(ruta_imagen, id, user_ID, div_padre) 
+function previsualizar_imagen(ruta_imagen, id, user_ID, div_padre, clases_adicionales ='') 
 {	
    //$('#previsualizador').html(''); 
 
@@ -41,11 +41,10 @@ function previsualizar_imagen(ruta_imagen, id, user_ID, div_padre)
     div.className = 'imagen_miniatura';
 	div.setAttribute('draggable', 'true');
    //Agregamos el código referente a la imagen como html.
-   div.innerHTML ='<a class="imagen_miniatura_lnk" href="javascript:void(0)" onclick="ver_imagen(this);"><img id="img_'+id+':'+user_ID+'" class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
+   div.innerHTML ='<a class="imagen_miniatura_lnk '+clases_adicionales+'" href="javascript:void(0)" onclick="ver_imagen(this);"><img id="img_'+id+':'+user_ID+'" class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
  
 	//Insertamos este nuevo div, en el previsualizador.
    document.getElementById(div_padre).appendChild(div);
-
 }
 
 function ver_imagen(imagen) 

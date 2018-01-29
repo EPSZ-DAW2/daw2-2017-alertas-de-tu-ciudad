@@ -83,8 +83,8 @@ $this->params['breadcrumbs'][] = $this->title;
            if($i != NULL)
            {
             if(Yii::$app->user->identity->rol === 'A')
-                $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador");', 4);  
-            else  $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);  
+                $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador", "no_color");', 4);  
+            else  $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador", "no_color");', 4);  
             
            }
            }
