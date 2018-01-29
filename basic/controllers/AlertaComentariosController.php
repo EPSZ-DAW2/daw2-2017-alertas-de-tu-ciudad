@@ -48,7 +48,7 @@ class AlertaComentariosController extends Controller
                     [
                         'allow' =>true,
                         'actions'=>['ajax'],
-                        'roles'=> ['?','@'],
+                        'roles'=> ['?','@'], //las peticiones ajax son validas para todos
                     ]
 
                 ],
@@ -98,6 +98,21 @@ class AlertaComentariosController extends Controller
     public function actionCreate()
     {
         $model = new AlertaComentarios(); //Crea un nuevo comentario
+        //Establecemos la zona horaria para obtener la hora y la fecha
+        date_default_timezone_set('Europe/Amsterdam');
+        //Obtenemos la hora y fecha actual
+        $dateTimeNow = date('Y/m/d H:i:s', time()); //Formato de la hora
+        if($dateTimeNow === false ) $dateTimeNow = null; // Si se desconoce la hora y fecha de creacion ponemos a falso el valor
+
+        $model->crea_fecha = $dateTimeNow; //Será la fecha de creación
+        $model->modi_fecha = $model->crea_fecha; //En un primer momento la fecha de modificacion es igual a la de creacion
+        $model->comentario_id = 0; //Id padre iniciado en 0
+
+        $model->fecha_denuncia1 = 0; //Fecha denuncia1 se inicia 0
+        $model->bloqueo_fecha = 0; //la fecha de bloqueo inciial es 0
+        $model->bloqueo_notas = "0"; //la nota incial es 0 o null**/
+        $model->modi_usuario_id = 0; //Ponemos a 0 porque lo modifica un administrador
+        $model->crea_usuario_id = 0; //Ponemos a 0 porque lo crea un administrador
 
         //Si se cargan los parametros del formulario por post y se guardan correctamete entonces
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -137,6 +152,16 @@ class AlertaComentariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id); //Se encuentra el modelo a través de su id
+        //Actualizar fecha de modificacion
+        //Establecemos la zona horaria para obtener la hora y la fecha
+        date_default_timezone_set('Europe/Amsterdam');
+        //Obtenemos la hora y fecha actual
+        $dateTimeNow = date('Y/m/d H:i:s', time()); //Formato de la hora
+
+        $model->modi_fecha = $dateTimeNow;
+        $model->modi_usuario_id = 0; //Se pone a 0 por haberse hecho por un administrador
+
+
 
         //Si se cargan los nuevos parametros del formulario y se guardan de forma correcta
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -213,11 +238,11 @@ class AlertaComentariosController extends Controller
         $nuevoComentario->comentario_id = $idComentarioPadre; //Metemos el padre al que responde
         $nuevoComentario->cerrado = 0; //Comienza en abierto
         $nuevoComentario->num_denuncias = 0; //En un primer momento no hay denuncias
-        $nuevoComentario->fecha_denuncia1 = null; //En un primer momento si no hay denuncia no hay fecha de denuncia
+        $nuevoComentario->fecha_denuncia1 = 0; //En un primer momento si no hay denuncia no hay fecha de denuncia
         $nuevoComentario->bloqueado = 0; //Comienza en desbloquedo
-        $nuevoComentario->bloqueo_usuario_id = null; //No pose usuarios bloqueados
-        $nuevoComentario->bloqueo_fecha = null; //No tiene la fecha de bloqueo
-        $nuevoComentario->bloqueo_notas = null; //No tiene notas
+        $nuevoComentario->bloqueo_usuario_id = 0; //No pose usuarios bloqueados
+        $nuevoComentario->bloqueo_fecha = 0; //No tiene la fecha de bloqueo
+        $nuevoComentario->bloqueo_notas = "0"; //No tiene notas
 
 
         //Guardamos el nuevo comentario en bases de datos
@@ -297,8 +322,6 @@ class AlertaComentariosController extends Controller
                 echo "<div>";
             }
         }
-
-
 
     }
 

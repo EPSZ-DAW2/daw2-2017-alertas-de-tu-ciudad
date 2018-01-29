@@ -144,6 +144,7 @@ p.comment-text {
 
 #comment_form div {
  margin-bottom: 8px;
+
 }
 li.complain.redFont{
 	color:red;
@@ -154,14 +155,10 @@ li.complain.redFont{
     min-width: 115rem;
 }
 
-.form_oculto{
-    height: 0rem;
-    width: 0rem;
-}
-
 .btn-right{
     float:right;
     margin-bottom:1rem;
+    margin-right: -3%;
 }
 li.complain.yellowFont{
     color: darkorange;
@@ -196,4 +193,7 @@ li.complain.yellowFont{
     border-width: 10px;
     border-style: solid;
     border-color: transparent #FFF #FFF transparent;
+}
+#alertacomentarios-texto{
+	width:103%;
 }

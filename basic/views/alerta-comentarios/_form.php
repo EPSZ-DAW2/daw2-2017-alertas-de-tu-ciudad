@@ -51,11 +51,11 @@ use yii\widgets\ActiveForm;
 
 
         <!--El hilo de ese comentario estará desbloqueado en caso de que sea 0 y bloqueado en caso de que sea 1-->
-        <?= $form->field($model, 'bloqueado')->radioList([
-            0 => 'Desbloqueado',
-            1 => 'Bloqueado',
+            <?= $form->field($model, 'bloqueado')->radioList([
+                0 => 'Desbloqueado',
+                1 => 'Bloqueado',
 
-        ]); ?>
+            ]); ?>
             <!--Motivo por el cual se ha relaizado el bloqueo de un comentario-->
             <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6,
 
