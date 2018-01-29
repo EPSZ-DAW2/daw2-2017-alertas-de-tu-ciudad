@@ -28,7 +28,7 @@ return [
     '(not set)' => '(no definido)',
     'An internal server error occurred.' => 'Hubo un error interno del servidor.',
     'Are you sure you want to delete this item?' => '¿Está seguro de eliminar este elemento?',
-    'Categories' => 'Categorias',
+    'Categories' => 'Categorías',
     'Create' => 'Crear',
     'Create Categorie' => 'Crear Categoría',
     'Delete' => 'Eliminar',

@@ -16,7 +16,7 @@ use app\models\AlertaSearch;
 $this->title = 'Categoria: '.$model->nombre;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categorias'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
+$url ='http://localhost/daw/basic/web/alertas';?>
 <div class="categorias-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -60,8 +60,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]),
             ],
-            'descripcion:ntext',
-            ['class' => 'yii\grid\ActionColumn' ],
+            'descripcion',
+            ['class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'view'=> function ($url, $model) {
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'http://localhost/daw/basic/web/alertas/view?id='.$model->id, [
+                                'title' => Yii::t('app', 'View'),
+                        ]);
+                    },
+                ],
+                'template' => '{view}',
+            ],
         ],
         ]);  
     ?>
