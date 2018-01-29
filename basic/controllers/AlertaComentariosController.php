@@ -294,7 +294,6 @@ class AlertaComentariosController extends Controller
             if (($model = AlertaComentarios::findOne($id)) !== null) {
                 echo '<div class="bubble">';
                 echo($model->texto);
-                
                 echo "<div>";
             }
         }

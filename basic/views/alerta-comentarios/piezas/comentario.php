@@ -66,17 +66,19 @@ use yii\helpers\Html;
     $identificadorComentario = "\".Respuesta".$dataComentario->id."\"";
     $bocadillo = "\".bocadillo".$dataComentario->id."\"";
     $this->registerJs( <<< EOT_JS
-        var flag = 0;
+        var flag = 0; //flag para evitar que se hagan varios appends a la vez
         $($identificadorComentario).hover(function(){
+            //Si esta a 0 permitimos la peticion ajax
             if(flag == 0){
                
                 jQuery.ajax({
                     url:'$urlControladorAjax',
                     type:'GET',
                     success:function(mensaje) {
+                            //Si lo permite la flag lo añade
                             if(flag == 0)
                                 $($bocadillo).append(mensaje);
-                            flag = 1;
+                            flag = 1; //ponemos la flag a 1
                     },
                     error : function(){
                         console.log("error");
@@ -86,8 +88,8 @@ use yii\helpers\Html;
                     
         },function(){
                   
-                   $(".bubble").remove();    
-                   flag = 0;       
+                   $(".bubble").remove();   //quitamos esa clase 
+                   flag = 0;        //reiniciamos la flag
                   
         });
 
