@@ -32,8 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'claseArea'],
             'nombre',
             'parentName',
-            'childrenNames'
+            'childrenNames',
+            'alertasNames:text:Alertas Relacionadas'
         ],
     ]) ?>
+
+<?php
+
+    $lugar = $model->nombre;
+    $mi_key = 'AIzaSyAuMzoOe4_RpKaEnoLvzcg2kV6h9fDJzII';
+    $url = "https://www.google.com/maps/embed/v1/place?key=".$mi_key."&q=".$lugar;
+
+?>
+
+<iframe
+  width="100%"
+  height="550"
+  frameborder="0" style="border:0"
+  src=<?php echo $url; ?> allowfullscreen>
+</iframe>
 
 </div>

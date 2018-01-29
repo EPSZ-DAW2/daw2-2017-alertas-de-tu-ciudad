@@ -20,13 +20,13 @@ use yii\widgets\ActiveForm;
     <?php 
     $posible_parents = null;
     if ($model->isNewRecord) {
-        $posible_parents = $model::find()->asArray()->all();
+        $posible_parents = $model::find()->all();
     }
     else {
-        $posible_parents = $model::find()->where(['<', 'clase_area_id', $model->clase_area_id])->asArray()->all();
+        $posible_parents = $model::find()->where(['<', 'clase_area_id', $model->clase_area_id])->all();
     }
     ?>
-    <?= $form->field($model, 'area_id')->dropDownList(ArrayHelper::map($posible_parents, 'id', 'nombre')) ?>
+    <?= $form->field($model, 'area_id')->dropDownList(ArrayHelper::map($posible_parents, 'id', 'nombre', 'claseArea')) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
