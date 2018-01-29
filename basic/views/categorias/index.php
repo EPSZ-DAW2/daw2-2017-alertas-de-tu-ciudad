@@ -24,21 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php 
-        if ( isset(Yii::$app->user->identity->rol)){
-            if(Yii::$app->user->identity->rol === 'A'){
-                echo Html::a(Yii::t('app', 'Create Categorie'), ['create'], ['class' => 'btn btn-success']).' ';
-                $template='{view} {update} {delete}';
-            }else if(Yii::$app->user->identity->rol === 'M'){
-                $template='{view}';
-            }
+        //Botones de creación de etiquetas y Categorías-Etiquetas según rol de usuario
+        if ( isset($rol) && $rol === 'A'){
+            echo Html::a(Yii::t('app', 'Create Categorie'), ['create'], ['class' => 'btn btn-success']).' ';
+            echo Html::a(Yii::t('app', 'Categorías-Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']);
+        }else if(isset($rol) && $rol === 'M'){
             echo Html::a(Yii::t('app', 'Categorías-Etiquetas'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']);
         }else{
             CategoriasSearch::arbolCategorias();
-            $template='{view}';
-        }?>
+        }
+
+        ?>
     </p>
 <?php Pjax::begin();?>    
-
+    
     <?=        
         GridView::widget([
         'dataProvider' => $dataProvider,
@@ -62,12 +61,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'categoria_id',
             ['attribute' => 'nombCatId',
                 'label' => 'Nombre Categoria ID',
-                'value' => 'categoria.nombre',
+                'value' => 'padre.nombre',
                 'filter' => AutoComplete::widget([
                     'model' => $searchModel,
                     'attribute' => 'nombCatId',
                     'clientOptions' => [
-                    'source' => array_merge(array(),array_unique(Categorias::find()->joinWith('categoria AS categoria',false)->select(['categoria.nombre AS value'])->orderBy('categoria.nombre')->asArray()->all(),SORT_REGULAR)),
+                    'source' => array_merge(array(),array_unique(Categorias::find()->joinWith('categoria AS padre',false)->select(['padre.nombre AS value'])->orderBy('padre.nombre')->asArray()->all(),SORT_REGULAR)),
                     ],
                     'options' => [
                         'class' => 'form-control'
