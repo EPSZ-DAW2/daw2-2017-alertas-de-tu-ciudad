@@ -2,10 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Area;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 /* @var $form yii\widgets\ActiveForm */
+$areas = Area::find()->all();
+$areaslista=ArrayHelper::map($areas,'id','nombre');
 ?>
 
 <div class="usuario-form">
@@ -22,32 +26,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'apellidos')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'fecha_nacimiento')->textInput() ?>
+    <?= $form->field($model, 'fecha_nacimiento')->widget(\yii\jui\DatePicker::className(),['language'=>'es', 'dateFormat'=>'yyyy-MM-dd']) ?>
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'area_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'area_id')->dropdownList(
+			$areaslista,
+	    	['prompt'=>'Selecciona un area']); ?>
 
-    <?= $form->field($model, 'rol')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'rol')->dropdownList(['N'=>'Normal', 'M'=>'Moderador', 'A'=>'Administrador'
+		],['prompt'=>'Seleccione una opción...'])?>
 
-    <?= $form->field($model, 'fecha_registro')->textInput() ?>
+    <?= $form->field($model, 'confirmado')->dropdownList([0=>'No confirmado', 1=>'Confirmado'],['prompt'=>'Seleccione una opción...'])?>
 
-    <?= $form->field($model, 'confirmado')->textInput() ?>
-
-    <?= $form->field($model, 'fecha_acceso')->textInput() ?>
-
-    <?= $form->field($model, 'num_accesos')->textInput() ?>
-
-    <?= $form->field($model, 'bloqueado')->textInput() ?>
-
-    <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'bloqueo_fecha')->textInput() ?>
-
-    <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

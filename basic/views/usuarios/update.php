@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Modificar Usuario: ' . $model->nick;
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->nick, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="usuario-update">
 

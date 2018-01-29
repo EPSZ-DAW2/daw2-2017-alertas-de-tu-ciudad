@@ -102,6 +102,8 @@ class AlertaImagenesController extends Controller
             $im->orden = $i;
             $im->save();
         }
+        
+        $this->FijarImagenEnAlerta($alerta);
      // return $this->redirect(Yii::$app->request->referrer ?: 'index');
     }
     
@@ -154,6 +156,10 @@ class AlertaImagenesController extends Controller
         if(!isset(Yii::$app->user->identity->rol))
             return $this->redirect(Yii::$app->request->referrer ?: 'index');
         
+        if(Yii::$app->user->identity->rol !== 'A')
+          return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! Debes ser administrador.', Yii::$app->request->referrer, true);
+        
+        
          $model = $this->findModel($id);
         
         if(!$change)
@@ -164,6 +170,15 @@ class AlertaImagenesController extends Controller
                 $model->save();
             }
         }
+        
+        $modelo_alerta= Alerta::findOne($model->alerta_id);
+        
+        if($modelo_alerta->imagen_id == $model->imagen_id)
+        {
+            $modelo_alerta->imagen_revisada = 1;
+            $modelo_alerta->save();
+        }
+        
         
         $url = Url::previous();
              
@@ -283,9 +298,11 @@ class AlertaImagenesController extends Controller
                     $alerta_id = $model->alerta_id;
                  else $alerta_id = $a_id;
 
-                $orden = 0; //Aún no funcional!!
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
 
+                $modelo_orden_ultimo = AlertaImagen::find()->tomarImagenesDesdeAlertaDESC($alerta_id)->one();
+                $orden = $modelo_orden_ultimo->orden+1;
+                
              // En el caso de que no se haya producido un error, procedemos a sacar las imagenes
              //de la carpeta temporal y crear los registros en la base de datos.
              for($i=0; $i<$total; $i++) 
@@ -334,6 +351,8 @@ class AlertaImagenesController extends Controller
                 $orden = $orden + 1;//No está del todo implementado.     
  
              }
+             
+           $this->FijarImagenEnAlerta($a_id);
              
              $url = Url::previous();
              
@@ -560,6 +579,7 @@ class AlertaImagenesController extends Controller
             return $this->redirect(Yii::$app->request->referrer ?: 'index');
         
        $model = $this->findModel($id);
+       $alerta_id =  $model->alerta_id;
        
        if(!isset($model))
            return $this->redirect(Yii::$app->request->referrer ?: 'index');
@@ -616,6 +636,9 @@ class AlertaImagenesController extends Controller
         
         //Borra el registro de la base de datos.
         $this->findModel($id)->delete();
+        
+        $this->FijarImagenEnAlerta($alerta_id);
+        
         return $this->redirect(Yii::$app->request->referrer ?: 'index');
       //  return $this->redirect(['index']);
     }
@@ -634,6 +657,20 @@ class AlertaImagenesController extends Controller
         return true;
     }
 
+    
+    
+    private function FijarImagenEnAlerta($alerta_id)
+    {
+       $modelo_alerta= Alerta::findOne($alerta_id);
+       
+       $modelo_pre = AlertaImagen::find()->tomarImagenesDesdeAlerta($alerta_id)->one(); 
+       
+       $modelo_alerta->imagen_id =  $modelo_pre->imagen_id;
+       $modelo_alerta->imagen_revisada =  $modelo_pre->imagen_revisada;
+       $modelo_alerta->save();
+    }
+    
+    
     /**
      * Finds the AlertaImagen model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

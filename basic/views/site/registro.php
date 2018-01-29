@@ -6,9 +6,13 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use app\models\Area;
+use yii\helpers\ArrayHelper;
 
 $this->title = 'Registro';
 $this->params['breadcrumbs'][] = $this->title;
+$areas = Area::find()->all();
+$areaslista=ArrayHelper::map($areas,'id','nombre');
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -32,15 +36,17 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 		<?= $form->field($model, 'nombre')->textInput(['autofocus' => true]) ?>
 		<?= $form->field($model, 'apellidos')->textInput(['autofocus' => true]) ?>
-		<?= $form->field($model, 'fecha_nacimiento')->textInput(['autofocus' => true]) ?>
+		<?= $form->field($model, 'fecha_nacimiento')->widget(\yii\jui\DatePicker::className(),['language'=>'es', 'dateFormat'=>'yyyy-MM-dd']) ?>
 		<?= $form->field($model, 'direccion')->textInput(['autofocus' => true]) ?>
-		<?= $form->field($model, 'area_id')->textInput(['autofocus' => true]) ?>
+		<?= $form->field($model, 'area_id')->dropdownList(
+			$areaslista,
+	    	['prompt'=>'Selecciona un area']); ?>
 
   
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Registrate', ['class' => 'btn btn-primary', 'name' => 'registro-button']) ?>
+                <?= Html::submitButton('Regístrate', ['class' => 'btn btn-primary', 'name' => 'registro-button']) ?>
             </div>
         </div>
 

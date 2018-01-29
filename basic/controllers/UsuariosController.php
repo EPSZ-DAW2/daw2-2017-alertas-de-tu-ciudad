@@ -31,7 +31,7 @@ class UsuariosController extends Controller
                // 'only' => ['index','view','create','update','delete','bloquear'],
                 'rules' =>[ [
 					'allow'=>true,
-					'actions'=>['index','perfil','updatePerfil'],
+					'actions'=>['index','perfil','updateperfil'],
 					'roles'=>['N'],
 				],
 				[
@@ -86,7 +86,9 @@ class UsuariosController extends Controller
     public function actionCreate()
     {
         $model = new Usuario();
-
+		$dia=getdate();
+		$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
+		$model->fecha_registro=$fecha;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -105,7 +107,6 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -173,7 +174,7 @@ class UsuariosController extends Controller
 					$model->bloqueo_fecha=$fecha;
 					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
 					$model->bloqueado=3;
-					$model->bloqueo_notas="Usuario bloqueado de forma manual por un Moderador";
+					//$model->bloqueo_notas="Usuario bloqueado de forma manual por un Moderador";
 				}
 			}else if($model2->rol=='A'){ 
 				if($model2->id!=$model->id)//El administrador no se puede bloquear a sí mismo
@@ -183,8 +184,18 @@ class UsuariosController extends Controller
 					$model->bloqueo_fecha=$fecha;
 					$model->bloqueo_usuario_id=$model2->id;//Se guarda el id del que bloqueaa
 					$model->bloqueado=2;
-					$model->bloqueo_notas="Usuario bloqueado de forma manual por un Administrador";
+					//$model->bloqueo_notas="Usuario bloqueado de forma manual por un Administrador";
 				}
+			}
+			
+			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				return $this->redirect(['index']);
+			} else {
+				
+				//$model->bloqueada='1';
+				return $this->render('bloqueo', [
+					'model' => $model,
+				]);
 			}
 		
 		}else{
@@ -192,16 +203,13 @@ class UsuariosController extends Controller
 			$model->bloqueo_fecha=NULL;
 			$model->bloqueo_notas=NULL;
 			$model->bloqueado=0;
+			
+			$model->save();
+			
+			return $this->redirect(['index']);
+			
 		}
 		
-        if ( $model->save()) {
-            //return $this->redirect(['bloquear', 'id' => $model->id]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        } 
-		else {
-            return $this->render('index', [
-                'model' => $model,
-            ]);
-        }
+        
     }
 }

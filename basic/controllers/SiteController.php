@@ -122,23 +122,31 @@ class SiteController extends Controller
             return $this->render('confirmar', [
             'model' => $model2,
         ]);
-        }
+        }else{
 		
-		
+
         return $this->render('registro', [
             'model' => $model,
         ]);
+		}
     }
 	
-	/*public function actionConfirmar(){
-		$model=Usuario::findOne($email);
-		$model->confirmar=1;
-		$model->save();
-		return $this->render('login', [
-            'model' => $model,
-        ])
+	public function actionConfirmar($id){
+		//$id= $_POST[confirmar-button];
+		$model=Usuario::findOne($id);
+		$model->confirmado=1;
+		if ($model->save()) {
+				return $this->redirect(['login']);
+			} else {
+				
+				//$model->bloqueada='1';
+				return $this->render('confirmar', [
+					'model' => $model,
+				]);
+			}
+
 		
-	}*/
+	}
 	
 	
 
