@@ -39,10 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 
-    foreach ($model->alertasRelacionadas as $alerta) {
-        echo $alerta->titulo."<br>";
-    }
-
     $lugar = $model->nombre;
     $mi_key = 'AIzaSyAuMzoOe4_RpKaEnoLvzcg2kV6h9fDJzII';
     $url = "https://www.google.com/maps/embed/v1/place?key=".$mi_key."&q=".$lugar;

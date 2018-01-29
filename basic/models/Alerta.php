@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Area;
 
 /**
  * This is the model class for table "alertas".
@@ -108,5 +109,10 @@ class Alerta extends \yii\db\ActiveRecord
     public static function find()
     {
         return new AlertaQuery(get_called_class());
+    }
+
+    public function getArea() {
+        // la clave primaria es id (primera) y la clave foranea es area_id(segunda)
+        return $this->hasOne(Area::className(), ['id' => 'area_id'])->inverseOf('alertasRelacionadas');
     }
 }

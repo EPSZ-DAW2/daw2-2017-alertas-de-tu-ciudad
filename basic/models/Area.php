@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use Yii\Helpers\ArrayHelper;
 use app\models\Alerta;
+
 /**
  * This is the model class for table "areas".
  *
@@ -111,5 +112,4 @@ class Area extends \yii\db\ActiveRecord
         }
     }
 
-    //public get area(): dentro de la alerta
 }
