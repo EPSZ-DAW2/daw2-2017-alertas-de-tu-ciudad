@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = 'Finalizar';
     ]) ?>
 	<?php $form = ActiveForm::begin(); ?>
 	
-	<?= $form->field($model, 'terminada')->textInput() ?>
+	<?= $form->field($model, 'terminada')->checkBox() ?>
 	
 	<div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Confirmar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
