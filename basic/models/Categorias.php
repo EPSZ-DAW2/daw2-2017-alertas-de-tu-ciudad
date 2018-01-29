@@ -59,6 +59,11 @@ class Categorias extends \yii\db\ActiveRecord
      */
     public function getCategoria()
     {
+        echo 'MANDINGO';
+        return $this->hasOne(Categorias::className(), ['id' => 'id']);
+    }
+        public function getPadre()
+    {
         return $this->hasOne(Categorias::className(), ['id' => 'categoria_id']);
     }
 

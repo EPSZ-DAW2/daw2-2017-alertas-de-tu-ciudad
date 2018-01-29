@@ -60,11 +60,14 @@ class CategoriasController extends Controller
     {   
         $searchModel = new CategoriasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->get());
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        (isset(Yii::$app->user->identity->rol))?$rol=Yii::$app->user->identity->rol:$rol=NULL;
+        (isset($rol) && $rol === 'A')? $template='{view} {update} {delete}':$template='{view}';
+    
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'template' => $template,
+            'rol' => $rol,
         ]);
     }
 
@@ -73,15 +76,6 @@ class CategoriasController extends Controller
      * @param string $id
      * @return mixed
      */
-  //   public function actionView($id)
-  //   {
-		// $searchModel = new AlertaSearch();
-  //       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
-  //       return $this->render('view', [
-  //           'model' => $this->findModel($id),'searchModel' =>$searchModel, 'dataProvider'=>$dataProvider
-  //       ]);
-  //   }
 
     public function actionView($id)
     {

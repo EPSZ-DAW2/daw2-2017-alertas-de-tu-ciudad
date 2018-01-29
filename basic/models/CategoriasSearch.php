@@ -46,10 +46,10 @@ class CategoriasSearch extends Categorias
      */
     public function search($params)
     {
-        $query = Categorias::find()->joinWith('categoria AS categoria');
+        // $query = Categorias::find()->joinWith('categoria AS padre');
+        $query = Categorias::find()->joinWith(['categoria categoria','padre padre']);
 
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             // 'pagination' => false,
@@ -57,25 +57,26 @@ class CategoriasSearch extends Categorias
             // 'pageSize' =>30,
             // ],
         ]);
+
         $dataProvider->getSort()->attributes['nombCatId']= [
-            'asc' => [  
+            'asc' => [ 
+                'padre.nombre' => SORT_ASC,
                 'id' => SORT_ASC, 
                 'nombre' => SORT_ASC,
                 'descripcion' => SORT_ASC,
                 'categoria_id' => SORT_ASC,
-                'categoria.nombre' => SORT_ASC,
                 ],
             'desc' => [
+                'padre.nombre' => SORT_DESC,
                 'id' => SORT_DESC, 
                 'nombre' => SORT_DESC,
                 'descripcion' => SORT_DESC,
                 'categoria_id' => SORT_DESC,
-                'categoria.nombre' => SORT_DESC,
                 ],
 
             'default' => SORT_ASC,
-            //'label' => 'Nombre CAT',
         ];
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -83,27 +84,28 @@ class CategoriasSearch extends Categorias
             // $query->where('0=1');
             return $dataProvider;
         }
+
         // Busca categoria_id NULAS
         if($this->categoria_id==='0'){
             $this->categoria_id=NULL;
             $query->andFilterWhere([
-                'id' => $this->id,
+                'categoria.id' => $this->id,
             ]); 
             $query->andWhere([
-                'categoria_id' => $this->categoria_id,
+                'categoria.categoria_id' => $this->categoria_id,
             ]);
         }else{
             // Si la categoria_id no es NULA
             $query->andFilterWhere([
-               'id' => $this->id,
-               'categoria_id' => $this->categoria_id,
+               'categoria.id' => $this->id,
+               'categoria.categoria_id' => $this->categoria_id,
             ]);
         }
         
        
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion])
-            ->andFilterWhere(['like','categoria.nombre,',$this->nombCatId]);
+        $query->andFilterWhere(['like', 'categoria.nombre', $this->nombre])
+            ->andFilterWhere(['like', 'categoria.descripcion', $this->descripcion])
+            ->andFilterWhere(['like','padre.nombre',$this->nombCatId]);
 
         return $dataProvider;
     }
