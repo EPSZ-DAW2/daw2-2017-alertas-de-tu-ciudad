@@ -1,4 +1,8 @@
 
+ .wrap > .container {
+	 padding: 70px 15px 20px !important;
+ }
+
 .adjuntar_imagen{ 
 	font-weight:bold; 
 	font-size:14px;
