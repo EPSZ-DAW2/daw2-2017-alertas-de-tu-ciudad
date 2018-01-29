@@ -83,14 +83,18 @@ class UsuariosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+	
+	
+	public function actionCreate()
     {
         $model = new Usuario();
 		$dia=getdate();
 		$fecha=$dia['year']."-".$dia['mon']."-".$dia['mday']." ".$dia['hours'].":".$dia['minutes'].":".$dia['seconds'];
 		$model->fecha_registro=$fecha;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+			$model->password= Yii::$app->getSecurity()->generatePasswordHash($model->password);
+			if($model->save())
+				return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

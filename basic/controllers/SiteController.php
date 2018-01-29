@@ -99,7 +99,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->registro()) {
 			$model2= new Usuario;
 			$model2->email= $model->email;
-			$model2->password= $model->password;
+			$model2->password= Yii::$app->getSecurity()->generatePasswordHash($model->password);
 			$model2->nick= $model->nick;
 			$model2->nombre= $model->nombre;
 			$model2->apellidos= $model->apellidos;
