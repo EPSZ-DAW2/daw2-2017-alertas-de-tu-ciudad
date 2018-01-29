@@ -1,0 +1,31 @@
+Aunque esta info ya se ha puesto en los comentarios de los commits por github, la añado también por aquí.
+
+Las imágenes en principio solo están relacionadas con las alertas, así que sobre todo esto va para el grupo de las Alertas.
+
+El funcionamiento para otras vistas se basan en dos Widgets.
+
+El primero de ellos es la ListaImagenes, que se encargará de todo lo necesario para que el usuario pueda trabajar con las imagenes en 
+una alerta, este widget iría en la ficha de la alerta o donde más os guste. El usuario creador de la alerta podrá modificar, borrar,
+agregar o mover/ordenar imágenes, los administradores además de eso podrán ver información privada de la misma y revisarlas.
+El resto de usuario solo podrá verlas.
+
+Para agregarlo a una vista usamos:
+
+<?= ListaImagenes::widget(['id_alerta' => $alerta->id, 'view' => $this]) ?>
+
+Donde id_alerta será la id de la alerta y view la vista actual, que será $this, si se ejecuta desde una vista.
+
+
+Para mostrar imágenes en solitario se podrá usar:
+
+<?= ImagenUnica::widget(['id_imagen' => $model->id, 'div_render' => 'previsualizador', 'view' => $this]) ?>  
+
+Donde id_imagen será la id de la imagen, 'div_render' la ID del div donde deseamos que aparezca y view la vista actual.
+
+Podremos también mostrar imagenes por su UUID de esta forma:
+
+<?= ImagenUnica::widget(['UUID' => '15d21479-0195-11e8-bad0-bc5ff4441904', 'div_render' => 'previsualizador', 'view' => $this]) ?>
+
+Donde cambiaremos la id_imagen  por la UUID.
+Esto puede servir para mostrar la imagen de previsualización de la alerta, que en la DB, por alguna razón parece guardarse con este formato en
+lugar de con la ID de la imagen.
