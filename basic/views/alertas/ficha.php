@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\widgets\ListaImagenes;
 /* @var $this yii\web\View */
 /* @var $model app\models\Alerta */
 
@@ -73,7 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	 <h3>Apartado para imagenes:</h3>
    
     <div>
-        <textarea  rows="10" name="comment" id="comment" placeholder="Imagenes" ></textarea>
+        <!--<textarea  rows="10" name="comment" id="comment" placeholder="Imagenes" ></textarea>-->
+            <?= ListaImagenes::widget(['id_alerta' => $model->id, 'view' => $this]) ?>
     </div>
   
 </div>
