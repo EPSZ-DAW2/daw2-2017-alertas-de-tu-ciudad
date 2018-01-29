@@ -17,6 +17,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\SqlDataProvider;
+use app\models\Usuarios;
 
 /**
  * UsuarioIncidenciasController implements the CRUD actions for UsuarioIncidencia model.
@@ -41,7 +42,7 @@ class UsuarioIncidenciasController extends Controller
                         'only' => ['index','index2','indexadmin','createconsulta','createmensaje','createnotificacion','createdenuncia','createaviso','view','delete', 'solicitabaja'],
                         'rules' => [
 							[
-							    'actions' => ['index','createconsulta','createmensaje','view','solicitabaja'],
+							    'actions' => ['index','createconsulta','createmensaje','view','solicitabaja','createdenuncia'],
                                 'allow' => true,
                                 'roles' => ['@'],
                             ],
@@ -189,6 +190,7 @@ class UsuarioIncidenciasController extends Controller
     {
 		
 		$model = $this->findModel($id); //Se igual al modelo toda la información de dicha incidencia 
+		
 		$yo = Yii::$app->user->identity->id;
 		$permisoUsuarioNormal = ($model->clase_incidencia_id=='N' or 
 	   ($model->clase_incidencia_id=='M' and ($model->destino_usuario_id=$yo or $model->origen_usuario_id==$yo)) or 
@@ -205,7 +207,8 @@ class UsuarioIncidenciasController extends Controller
 				$model->save();
 				return $this->redirect(['index']);
 			}else{
-				if($model->fecha_lectura==null && $model->destino_usuario_id==$yo){
+				
+				if($model->fecha_lectura==null /*&& $model->destino_usuario_id==$yo*/){
 					$model->fecha_lectura=date("Y-m-d H:i:s");
 					$model->save();
 						
