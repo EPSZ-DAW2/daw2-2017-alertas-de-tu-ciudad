@@ -14,6 +14,7 @@ use app\models\CategoriasSearch;
 $this->title = Yii::t('app','Categorias de la Alerta '. $model->id);
 $this->params['breadcrumbs'][] = ['label' => 'Alertas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="alerta-view">
 
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
                 'buttons' => [
                     'view'=> function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'http://localhost/Alertas/daw2-2017-alertas-de-tu-ciudad-master/basic/web/categorias/view?id='.$model->id, [
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'http://localhost/daw2-2017-alertas-de-tu-ciudad-master/basic/web/categorias/view?id='.$model->id, [
                                 'title' => Yii::t('app', 'View'),
                         ]);
                     },
