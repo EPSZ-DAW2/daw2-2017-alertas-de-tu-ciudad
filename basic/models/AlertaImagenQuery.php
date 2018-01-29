@@ -12,11 +12,11 @@ class AlertaImagenQuery extends \yii\db\ActiveQuery
     /*public function active()
     {
         return $this->andWhere('[[status]]=1');
-    }*/
+    }*/   
     
     public function tomarImagenesDesdeAlerta($id_alerta)
     {
-        return $this->andWhere('[[alerta_id]] = '.$id_alerta);
+        return $this->andWhere('[[alerta_id]] = '.$id_alerta)->orderBy(['orden'=>SORT_ASC]);
     }
 
     /**

@@ -32,8 +32,28 @@ class ListaImagenes extends Widget
         $this->view->registerCssFile(Url::base(true).'/css/imagenes.css');
         
         $form = ActiveForm::begin(['action' => Url::base(true).'/alerta-imagenes/create?a_id='.$this->id_alerta, 'options' => ['enctype' => 'multipart/form-data']]); // IMPORTANTE! 
+
+       $admin = 0;
+       $creador = 0;
+       
+       if(!Yii::$app->user->isGuest)
+       {
+            if(Yii::$app->user->identity->rol === 'A')
+                    $admin = 1;
+            else
+            {
+                  $modelo_alerta= Alerta::findOne($this->id_alerta);
+                 if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())
+                       $creador = 1;
+            }
+       }
+        
+       if($creador || $admin)
+         echo '<div style="font-size: 17px; margin-top:10px;">Para especificar el orden de las imágenes, puedes '
+            . 'arrástralas y luego guardar el orden.</div>';
+        
         //Agregamos el div de previsualización en la vista.
-        echo '<div style="margin-top: 30px; margin-bottom: 30px;">'
+        echo '<div style="margin-top: 10px; margin-bottom: 30px;">'
        . '<ul id="previsualizador" class="ul_imagen"></ul></div>';
         // Registramos en la fista el fichero de javascript donde están las funciones asociadas con las imagenes.
         // Lo haremos usando una ruta global, para evitar posibles problemas.
@@ -48,32 +68,20 @@ class ListaImagenes extends Widget
            //Pasándole como dato la ruta de la imagen
            if($i != NULL)
            {
-            if(Yii::$app->user->identity->rol === 'A')
+            if(!Yii::$app->user->isGuest && Yii::$app->user->identity->rol === 'A')
                 $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador");', 4);  
             else  $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);  
             
            }
        }
-       $admin = 0;
-       $creador = 0;
        
-       if(!Yii::$app->user->isGuest)
+       if($admin || $creador)
        {
-            if(Yii::$app->user->identity->rol === 'A')
-                    $admin = 1;
-            else
-            {
-                  $modelo_alerta= Alerta::findOne($this->id_alerta);
-                 if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())
-                       $creador = 1;
-            }
-          
-    
-            $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'", "'.$creador.'","'.$admin.'", "1");', 4);    
+            $this->view->registerJS('barra_herramientas_imagenes("'.Url::base(true).'","'.Yii::$app->user->getId().'", "'.$creador.'","'.$admin.'", "1", "'.Yii::$app->request->getCsrfToken().'");', 4); 
+            $this->view->registerJS(file_get_contents(Url::base(true).'/js/imagenes_arrastrar.js'));
        }
-       
 
-         Url::remember();
+        Url::remember();
         ActiveForm::end();
     }
 }

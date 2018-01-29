@@ -32,7 +32,31 @@
 	min-height: 196px;
 }
 
+.imagen_miniatura.dragElem {
+  opacity: 0.4;
+}
+
+.imagen_miniatura.over {
+ 
+  border-left: 4px solid red;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Antiguos browser */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
 .imagen_miniatura:hover{ text-decoration:underline; color:#039;}
+
+.imagen_miniatura:first-child  .imagen_miniatura_lnk
+{
+		border: 3px solid #58d545;
+}
 
 .imagen_miniatura_lnk
 { 
@@ -50,6 +74,7 @@
 	box-sizing: border-box;
 	list-style: none;
 }
+
 
 .imagen_style{ 
 	-webkit-box-sizing: border-box;

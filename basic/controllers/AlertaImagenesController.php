@@ -34,16 +34,16 @@ class AlertaImagenesController extends Controller
             
             'access' => [
             'class' => ControlAcceso::className(),
-            'only' => ['index','view','create','update','delete','revisar','imagenrevisar'],
+            'only' => ['index','view','create','update','delete','revisar','imagenrevisar','ordenar'],
             'rules' =>[ 
                 [
                 'allow'=>true,
-                'actions'=>['create','update', 'delete'],
+                'actions'=>['create','update', 'delete','ordenar'],
                 'roles'=>['N'],
                 ],
                 [
                 'allow'=>true,
-                'actions'=>['index','view','create','update','delete','revisar', 'imagenrevisar'],
+                'actions'=>['index','view','create','update','delete','revisar', 'imagenrevisar', 'ordenar'],
                 'roles'=>['A','M'],
                 ],
             ],
@@ -64,6 +64,45 @@ class AlertaImagenesController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    
+    public function actionOrdenar()
+    {
+         if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        $ids = Yii::$app->request->post('ids');
+        
+        if(!isset($ids))
+          return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! IDS malformadas.', Yii::$app->request->referrer, true);
+        
+        $model = $this->findModel($ids[0]);
+        
+        $alerta = $model->alerta_id;
+        $usuario_id = Yii::$app->user->getId();
+        
+        if(Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+         {
+             $modelo_alerta= Alerta::findOne($alerta);
+
+             if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No puedes ordenar imagenes de otra persona.', Yii::$app->request->referrer, true);
+         }
+        
+        for($i=0; $i<count($ids); $i++)
+        {
+            $im = $this->findModel($ids[$i]);
+            
+            if($im->alerta_id != $alerta)
+                continue;
+            
+            $im->orden = $i;
+            $im->save();
+        }
+     // return $this->redirect(Yii::$app->request->referrer ?: 'index');
     }
     
     public function actionRevisar($opv=1, $vis=0)

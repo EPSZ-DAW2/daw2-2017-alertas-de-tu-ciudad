@@ -39,7 +39,7 @@ function previsualizar_imagen(ruta_imagen, id, user_ID, div_padre)
    //Creamos un div, cuya clase sea imagen_miniatura
     var div = document.createElement('li');
     div.className = 'imagen_miniatura';
-   
+	div.setAttribute('draggable', 'true');
    //Agregamos el código referente a la imagen como html.
    div.innerHTML ='<a class="imagen_miniatura_lnk" href="javascript:void(0)" onclick="ver_imagen(this);"><img id="img_'+id+':'+user_ID+'" class="imagen_style" src="' + ruta_imagen + '" /></a><br />';
  
@@ -77,7 +77,7 @@ function auto_submit()
 	 document.getElementById("previsualizador").parentElement.parentElement.submit();
 }
 
-function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add) 
+function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add, token = '') 
 {	
 	var x = document.getElementsByClassName("imagen_miniatura");
 	var i;
@@ -92,13 +92,14 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 		id = id.replace("img_", "");
 		
 		var r_id = id.split(":");
+		div.innerHTML = '';
 		
-		
+			
 		if(id_user == r_id[1] || admin==1)
 		{
 
-			div.innerHTML = '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/delete?id='+r_id[0]+'" title="Eliminar" aria-label="Eliminar" data-pjax="0" data-confirm="¿Está seguro de eliminar esta imagen?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>';
-			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/update?id='+r_id[0]+'" title="Actualizar" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/delete?id='+r_id[0]+'" title="Eliminar" aria-label="Eliminar" data-pjax="0" data-confirm="¿Está seguro de eliminar esta imagen?" data-method="post"><span class="glyphicon glyphicon-trash"></span></a>';
+			div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/update?id='+r_id[0]+'" title="Actualizar" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';			
 			if(admin==1)
 			{
 				var color = '';
@@ -106,7 +107,9 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 				div.innerHTML = div.innerHTML + '<a class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/view?id='+r_id[0]+'" title="Ver" aria-label="Ver" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
 				div.innerHTML = div.innerHTML + '<a style = "float:left; margin-left: 10px;" class="herramienta_imagen" href="'+url_base+'/alerta-imagenes/imagenrevisar?id='+r_id[0]+'" title="Marcar como revisada" aria-label="Revisar" data-pjax="0"><span '+color+' class="glyphicon glyphicon-ok"></span></a>';
 			}
-		}			
+
+		}		
+	
 		x[i].appendChild(div);	
 
 	} 
@@ -116,14 +119,60 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add)
 		var div_padre = document.getElementById("previsualizador").parentElement;
 		div_padre.innerHTML = div_padre.innerHTML + '<input accept="image/*" style="display:none" name="explorar_ficheros[]" id="explorar_ficheros" onchange="auto_submit();" multiple="multiple" type="file">';
 		
+		if(x.length > 1)
+		{
+		var btn2 = document.createElement("a");
+		btn2.className = 'btn btn-primary btn-right';
+		btn2.innerHTML = 'Guardar orden de las imágenes';
+		btn2.setAttribute('onclick', 'guardar_orden(\''+url_base+'\', \''+token+'\');');
+		btn2.setAttribute('style', 'margin-left:10px;');
+		div_padre.appendChild(btn2);
+		}
+		
 		var btn = document.createElement("a");
 		btn.className = 'btn btn-success btn-right';
 		btn.setAttribute('onclick', 'document.getElementById(\'explorar_ficheros\').click();');
-		btn.innerHTML = 'Agregar nuevas imágenes';
-		
+		btn.innerHTML = 'Agregar nuevas imágenes';		
 		div_padre.appendChild(btn);
+	}	
+}
+
+//
+// Con esta función tomaremos todas las imagenes en el orden que estan actualmente
+// dentro de la lista y enviaremos las ids de las mismas en un array por AJAX.
+// Una vez en el controlador, realizaremos la ordenación si todo es correcto y no hay intento
+// de malformación en la secuencia, como pueda ser agregando ids de otros usuarios u otras alertas.
+//
+function guardar_orden(url_base, token) 
+{	
+	 var x = document.getElementsByClassName("imagen_style");	 
+	 var i;
+	
+	 var array_ids = new Array();
+	
+	for (i = 0; i < x.length; i++)
+	{
+		var id = x[i].getAttribute('id');				
+		id = id.replace("img_", "");
+		
+		var r_id = id.split(":");
+		
+		array_ids.push(r_id[0]); //Guardamos la id en el array
 	}
 	
+	url = url_base+"/alerta-imagenes/ordenar";
+
+	$.ajax({
+	   type: "POST",
+	   data: {
+			 ids:array_ids,
+			 _csrf : token //Parece funcionar sin token...
+	   },
+	   url: url,
+	   success: function(msg){
+		 location.reload();
+	   }
+	});
 }
 
 
