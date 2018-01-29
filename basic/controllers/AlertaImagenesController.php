@@ -180,14 +180,6 @@ class AlertaImagenesController extends Controller
             $modelo_alerta->save();
         }
         
-        
-        $url = Url::previous();
-             
-        if(!isset($url))
-         $url= Yii::$app->request->referrer;
-             
-        return $this->redirect($url ?: 'index');                 
-        
     }
     
     
