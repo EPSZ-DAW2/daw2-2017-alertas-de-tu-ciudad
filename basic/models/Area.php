@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use Yii\Helpers\ArrayHelper;
-
+use app\models\Alerta;
 /**
  * This is the model class for table "areas".
  *
@@ -99,4 +99,17 @@ class Area extends \yii\db\ActiveRecord
            return join(ArrayHelper::map($children, 'id', 'nombre'), ', ');
         }
     }
+
+    public function getAlertasRelacionadas() {
+        return $this->hasMany(Alerta::className(), ['area_id' => 'id']);
+    }
+
+    public function getAlertasNames() {
+        $areas = $this->alertasRelacionadas;
+        if ($areas) {
+            return join(ArrayHelper::map($areas, 'area_id', 'titulo'), ', ');
+        }
+    }
+
+    //public get area(): dentro de la alerta
 }
