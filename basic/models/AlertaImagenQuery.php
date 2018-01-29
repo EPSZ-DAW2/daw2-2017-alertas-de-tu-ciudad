@@ -9,6 +9,14 @@ namespace app\models;
  */
 class AlertaImagenQuery extends \yii\db\ActiveQuery
 {
+    
+     public function buscarPorUUID($UUID)
+    {
+        return $this->andWhere('[[imagen_id]] = "'.$UUID.'"');
+    }
+
+    
+    
     /*public function active()
     {
         return $this->andWhere('[[status]]=1');
