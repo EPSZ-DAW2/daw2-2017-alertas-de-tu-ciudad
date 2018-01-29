@@ -3,11 +3,21 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\AlertaSearch;
+use yii\helpers\ArrayHelper;
+use app\models\Categorias;
+use app\models\Area;
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Alerta */
 /* @var $form yii\widgets\ActiveForm */
+
+$categorias = Categorias::find()->all();
+$categoriaslista=ArrayHelper::map($categorias,'id','nombre');
+
+$areas = Area::find()->all();
+$areaslista=ArrayHelper::map($areas,'id','nombre');
+
 ?>
 
 <div class="alerta-form">
@@ -18,15 +28,16 @@ use app\models\AlertaSearch;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'fecha_inicio')->textInput() ?>
-
     <?= $form->field($model, 'duracion_estimada')->textInput() ?>
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'notas_lugar')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'area_id')->textInput(['maxlength' => true]) ?>
+   <?= $form->field($model, 'area_id')->dropdownList(
+			$areaslista,
+	    	['prompt'=>'Selecciona un area']);
+	?>
 
     <?= $form->field($model, 'detalles')->textarea(['rows' => 6]) ?>
 
@@ -34,41 +45,18 @@ use app\models\AlertaSearch;
 
     <?= $form->field($model, 'url')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'imagen_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'imagen_revisada')->checkBox() ?>
-
-    <?= $form->field($model, 'categoria_id')->textInput(['maxlength' => true]) ?> 
+    <?= $form->field($model, 'categoria_id')->dropdownList(
+			$categoriaslista,
+	    	['prompt'=>'Selecciona una categoria']);
+	?>
 
     <?= $form->field($model, 'activada')->checkBox() ?>
 
     <?= $form->field($model, 'visible')->checkBox() ?>
 
-    <?= $form->field($model, 'terminada')->checkBox() ?>
-
     <?= $form->field($model, 'fecha_terminacion')->textInput() ?>
 
     <?= $form->field($model, 'notas_terminacion')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'num_denuncias')->textInput() ?>
-
-    <?= $form->field($model, 'fecha_denuncia1')->textInput() ?>
-
-    <?= $form->field($model, 'bloqueada')->checkBox() ?>
-
-    <?= $form->field($model, 'bloqueo_usuario_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'bloqueo_fecha')->textInput() ?>
-
-    <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'crea_usuario_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'crea_fecha')->textInput() ?>
-
-    <?= $form->field($model, 'modi_usuario_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'modi_fecha')->textInput() ?>
 
     <?= $form->field($model, 'notas_admin')->textarea(['rows' => 6]) ?>
 

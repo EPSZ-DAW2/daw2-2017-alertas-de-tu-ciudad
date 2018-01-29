@@ -21,16 +21,28 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php 			
 		
         echo Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
-        echo Html::a('Borrar', ['delete', 'id' => $model->id], [
+		echo Html::a(Yii::t('app', 'Añadir etiqueta a la alerta'), ['alerta-etiquetas/create'], ['class' => 'btn btn-success']);
+		echo Html::a(Yii::t('app', 'Mant. Categorias'), ['categorias/index'], ['class' => 'btn btn-success']);
+		echo Html::a(Yii::t('app', 'Mant. comentarios'), ['alerta-comentarios/index'], ['class' => 'btn btn-success']);
+		 echo Html::a(Yii::t('app', 'Mant. imagenes'), ['alerta-imagenes/index'], ['class' => 'btn btn-success']);
+		 echo Html::a(Yii::t('app', 'Mant. Areas'), ['area/index'], ['class' => 'btn btn-success']);
+		 echo Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Seguro que desea Borrar la alerta?',
                 'method' => 'post',
             ],
         ]);
-		echo Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-primary']); 
-		echo Html::a(Yii::t('app', 'Añadir etiqueta a la alerta'), ['alerta-etiquetas/create'], ['class' => 'btn btn-success']);
-		echo Html::a('Denunciar', ['denunciar', 'id' => $model->id], ['class' => 'btn btn-danger']);
+		echo Html::a('Finalizar', ['finalizar', 'id' => $model->id], ['class' => 'btn btn-danger']); 
+		//echo Html::a('Denunciar', ['denunciar', 'id' => $model->id], ['class' => 'btn btn-danger']);
+		 echo Html::a('Denunciar', ['denunciar', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Seguro que desea denunciar la alerta?',
+                'method' => 'post',
+            ],
+        ]);
+		
 	
 		?>
     </p>

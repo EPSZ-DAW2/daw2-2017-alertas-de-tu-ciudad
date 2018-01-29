@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = 'Bloquear';
 	<?php $form = ActiveForm::begin(); ?>
 	
 	<?= $form->field($model, 'bloqueada')->checkBox() ?>
+	<?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6]) ?>
 	
 	<div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Confirmar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
