@@ -7,6 +7,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use app\models\AlertaComentarios;
+use app\models\Usuarios;
+
+
 
 /**
  * AlertaComentariosSearch represents the model behind the search form about `app\models\AlertaComentarios`.
@@ -65,7 +68,31 @@ class AlertaComentariosSearch extends AlertaComentarios
      */
     public function search($params)
     {
-        $query = AlertaComentarios::find();
+
+
+        if(!empty($_SESSION['__id'])){
+            $usuario = new Usuarios();//Crea un modelo con la información del usuario
+            $usuario=$usuario::findOne($_SESSION["__id"]);
+            if(($usuario->rol) == 'M'){
+
+                //En caso de que el usaurio sea moderador se le aplica el filtro para que solo vea alertas de su zona.
+                /*
+                SELECT * FROM alerta_comentarios
+                    INNER JOIN alertas ON alerta_comentarios.alerta_id = alertas.id
+                    INNER JOIN usuarios  ON alertas.area_id = usuarios.area_id WHERE usuarios.id = 1
+                */
+                $query = AlertaComentarios::find()
+                    ->from('alerta_comentarios')
+                    ->leftJoin('alertas','alerta_comentarios.alerta_id = alertas.id')
+                    ->leftJoin('usuarios','alertas.area_id = usuarios.area_id')
+                    ->where('usuarios.id = '. $usuario->id);
+            }
+            else{
+                $query = AlertaComentarios::find();
+            }
+        }
+
+
 
         // add conditions that should always apply here
 
