@@ -7,6 +7,7 @@
 namespace app\controllers; 
 
 use Yii;
+use app\components\ControlAcceso;
 use app\models\UsuarioIncidencia;
 use app\models\UsuarioIncidenciaSearch;
 use app\models\Usuario;
@@ -35,6 +36,25 @@ class UsuarioIncidenciasController extends Controller
     public function behaviors()
     {
         return [
+		'access' => [
+                        'class' => ControlAcceso::className(),
+                        'only' => ['index','index2','indexadmin','createconsulta','createmensaje','createnotificacion','createdenuncia','createaviso','view','delete', 'solicitabaja'],
+                        'rules' => [
+							[
+							    'actions' => ['index','createconsulta','createmensaje','view','solicitabaja'],
+                                'allow' => true,
+                                'roles' => ['@'],
+                            ],
+						
+                            // allow admin users
+                            [
+							    'actions' => ['index2','indexadmin','delete','createnotificacion','createaviso'],
+                                'allow' => true,
+                                'roles' => ['A','M'],
+                            ],
+                            // everything else is denied
+                        ],
+             ], 
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -54,6 +74,7 @@ class UsuarioIncidenciasController extends Controller
 	 *						  Se realizará el filtro comprobando el tipo de Usuario al que va 
 	 *						  dirigida esta acción mediante una consulta en SQL. 
      */
+	 //ojo permisos para cualquier usuario
     public function actionIndex()
     {	
 		if(!isset(Yii::$app->user->identity->id)){
@@ -61,7 +82,7 @@ class UsuarioIncidenciasController extends Controller
 		}
 	
 		$paginacion=100;
-		$admin=true;
+		$admin=(Yii::$app->user->identity->rol=='A' || Yii::$app->user->identity->rol=='M');
 		$configuracion= Configuraciones::findOne("numero_lineas_pagina");
 		if($configuracion){
 			$paginacion=$configuracion->valor;
@@ -87,7 +108,7 @@ class UsuarioIncidenciasController extends Controller
 			'admin'=> $admin,
         ]);
     }
-	
+	//ojo permiso de admin 
 	 public function actionIndex2($id)//Función para la revisión de incidencias desde usuarios
     {	
 		if(!isset(Yii::$app->user->identity->id)){
@@ -105,6 +126,7 @@ class UsuarioIncidenciasController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		//$yo=Yii::$app->user->identity->id;
 		$yo= $id;
+		
 	  // $dataProvider= new SqlDataProvider(['sql' => 'SELECT * FROM usuario_incidencias']);
 	   $dataProvider->query->andWhere("(clase_incidencia_id='N' or 
 	   (clase_incidencia_id='M' and (destino_usuario_id=$yo or origen_usuario_id=$yo)) or 
@@ -138,9 +160,10 @@ class UsuarioIncidenciasController extends Controller
         $searchModel = new UsuarioIncidenciaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->pagination = ['pageSize' => $paginacion]; 
-		//modificar para que solo coja unos y dependiendo el rol coger unos parametros un otros
-
-		//
+		$u=Yii::$app->request->get('id');
+		if($u!=null){
+			$dataProvider->query->andWhere("(destino_usuario_id=$u or origen_usuario_id=$u)");
+		}
         return $this->render('indexadmin', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -166,13 +189,35 @@ class UsuarioIncidenciasController extends Controller
     {
 		
 		$model = $this->findModel($id); //Se igual al modelo toda la información de dicha incidencia 
-		if($model->fecha_lectura==null && $model->destino_usuario_id==Yii::$app->user->identity->id){
-			$model->fecha_lectura=date("Y-m-d H:i:s");
-			$model->save();
+		$yo = Yii::$app->user->identity->id;
+		$permisoUsuarioNormal = ($model->clase_incidencia_id=='N' or 
+	   ($model->clase_incidencia_id=='M' and ($model->destino_usuario_id=$yo or $model->origen_usuario_id==$yo)) or 
+	   ($model->clase_incidencia_id=='C' and $model->origen_usuario_id==$yo ) or 
+	   ($model->clase_incidencia_id=='A' and $model->destino_usuario_id==$yo )) and $model->fecha_borrado==null;
+	    $permiso = ($permisoUsuarioNormal || (Yii::$app->user->identity->rol=='A' || Yii::$app->user->identity->rol=='M'));
+		
+		if(!$permiso){
+			return $this-> redirect(['index']);
+		}else{
+			$noleida = Yii::$app->request->get('noleida');
+			if($noleida){
+				$model->fecha_lectura=null;
+				$model->save();
+				return $this->redirect(['index']);
+			}else{
+				if($model->fecha_lectura==null && $model->destino_usuario_id==$yo){
+					$model->fecha_lectura=date("Y-m-d H:i:s");
+					$model->save();
+						
+				}
+				return $this->render('view', [
+					'model' => $model,
+					]);
+				
+				
+			}
+			
 		}
-        return $this->render('view', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -321,6 +366,8 @@ class UsuarioIncidenciasController extends Controller
             ]);
         }
     }
+	
+
 	
 	public function actionCreatenotificacion()
     {
