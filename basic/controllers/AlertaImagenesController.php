@@ -190,6 +190,25 @@ class AlertaImagenesController extends Controller
      */
     public function actionView($id)
     {
+         if(Yii::$app->user->isGuest)
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+       $model = $this->findModel($id);
+       
+       if(!isset($model))
+           return $this->redirect(Yii::$app->request->referrer ?: 'index');
+       
+
+        //Habría que ver si permitimos crear a un moderador, supuestamente
+        //debería tener permisos para la sección de imágenes.
+        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+         {
+            return $this->EnviarMensajeError(new AlertaImagen(), '¡Solo un administrador puede ver los datos datos de una imagen!', Yii::$app->request->referrer, true);
+         }
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
