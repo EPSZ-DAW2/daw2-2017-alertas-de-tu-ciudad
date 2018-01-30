@@ -16,7 +16,7 @@ function previsualizacion_img(input_file)
 			   reader.onload = function(e) 
 			   {
 				   $('#previsualizador').append(
-				   '<li id="id_'+itr+'" class="imagen_miniatura"><a class="imagen_miniatura_lnk" href="javascript:void(0)" onclick="ver_imagen(this);"> \
+				   '<li id="id_'+itr+'" class="imagen_miniatura"><a class="imagen_miniatura_lnk no_color" href="javascript:void(0)" onclick="ver_imagen(this);"> \
 				   <img class="imagen_style" src="' + e.target.result + '" \
 				   title="'+ escape(file.name) +'" /></a><br /></li>');
 			   }
