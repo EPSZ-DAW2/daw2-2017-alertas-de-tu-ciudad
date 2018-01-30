@@ -377,9 +377,19 @@ class AlertaImagenesController extends Controller
                  if(!isset($a_id))
                     $alerta_id = $model->alerta_id;
                  else $alerta_id = $a_id;
-
+                 
                  if(!isset($alerta_id))
                       return $this->EnviarMensajeError(new AlertaImagen(), "Error, ID no encontrada.",Yii::$app->request->referrer, true);
+                 
+                $res_alerta = (new \yii\db\Query())
+                ->select(['id'])
+                ->from('alertas')
+                ->where(['id' => $alerta_id])
+                ->count();
+                
+                if(!isset($res_alerta) || $res_alerta < 1)
+                    return $this->EnviarMensajeError(new AlertaImagen(), "No existe la alerta con la ID: " . $alerta_id,Yii::$app->request->referrer, true);
+                 
                  
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
 
