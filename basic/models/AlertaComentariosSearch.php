@@ -7,9 +7,6 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use app\models\AlertaComentarios;
-use app\models\Usuarios;
-
-
 
 /**
  * AlertaComentariosSearch represents the model behind the search form about `app\models\AlertaComentarios`.
@@ -68,6 +65,7 @@ class AlertaComentariosSearch extends AlertaComentarios
      */
     public function search($params)
     {
+<<<<<<< HEAD
 
             $usuario = new Usuarios();//Crea un modelo con la información del usuario
             $usuario=$usuario::findOne($_SESSION["__id"]);
@@ -87,6 +85,9 @@ class AlertaComentariosSearch extends AlertaComentarios
             else{
                 $query = AlertaComentarios::find();
             }
+=======
+        $query = AlertaComentarios::find();
+>>>>>>> a6f4ffb58b9be3fda7dcd2dd5299c7c6fff2af3d
 
         // add conditions that should always apply here
 
@@ -132,6 +133,7 @@ class AlertaComentariosSearch extends AlertaComentarios
      */
     public function obtenerComentariosPadres()
     {
+<<<<<<< HEAD
 
             $usuario = new Usuarios();//Crea un modelo con la información del usuario
             $usuario=$usuario::findOne($_SESSION["__id"]);
@@ -157,7 +159,32 @@ class AlertaComentariosSearch extends AlertaComentarios
                     ->andFilterWhere(['comentario_id' => 0]);
             }
 
+=======
+        $query = AlertaComentarios::find()
+            ->select(
+                [
+                    'id',
+                    'alerta_id',
+                    'crea_usuario_id',
+                    'crea_fecha',
+                    'modi_usuario_id',
+                    'modi_fecha',
+                    'texto',
+                    'comentario_id',
+                    'cerrado',
+                    'num_denuncias',
+                    'fecha_denuncia1',
+                    'bloqueado',
+                    'bloqueo_usuario_id',
+                    'bloqueo_fecha',
+                    'bloqueo_notas',
+>>>>>>> a6f4ffb58b9be3fda7dcd2dd5299c7c6fff2af3d
 
+                ]
+            )
+
+            //Añadimos esta condicion para solo mostrar los hilos abiertos
+            ->andFilterWhere(['comentario_id' => 0]);
 
         //Creamos el data provider para obtener los comentarios padres ordenados por fecha
         $dataProvider = new ActiveDataProvider([
@@ -187,6 +214,7 @@ class AlertaComentariosSearch extends AlertaComentarios
      * @param $idIncidencia
      * @return ActiveDataProvider
      */
+<<<<<<< HEAD
     public function ordenarComentariosFechaDesc($idIncidencia)
     {
 
@@ -263,6 +291,35 @@ class AlertaComentariosSearch extends AlertaComentarios
 
 
 
+=======
+    public function ordenarComentariosFechaDesc($idIncidencia){
+
+        $query = AlertaComentarios::find()
+            ->select(
+                [
+                'alerta_comentarios.id',
+                'alerta_comentarios.alerta_id',
+                'alerta_comentarios.crea_usuario_id',
+                'alerta_comentarios.crea_fecha',
+                'alerta_comentarios.modi_usuario_id',
+                'alerta_comentarios.modi_fecha',
+                'alerta_comentarios.texto',
+                'alerta_comentarios.comentario_id',
+                'alerta_comentarios.cerrado',
+                'alerta_comentarios.num_denuncias',
+                'alerta_comentarios.fecha_denuncia1',
+                'alerta_comentarios.bloqueado',
+                'alerta_comentarios.bloqueo_usuario_id',
+                'alerta_comentarios.bloqueo_fecha',
+                'alerta_comentarios.bloqueo_notas',
+                'usuarios.nick',
+                ]
+                )
+                ->leftJoin('usuarios','`alerta_comentarios`.`crea_usuario_id`= `usuarios`.`id` ')
+                //Añadimos esta condicion para solo mostrar los hilos abiertos
+                ->andFilterWhere(['alerta_comentarios.cerrado' => 0]);
+
+>>>>>>> a6f4ffb58b9be3fda7dcd2dd5299c7c6fff2af3d
 
 
         //Si existe el id de Incidencia se le hace el filtro sino se mostrarian todos los comentarios como en el caso del adminsitrador
