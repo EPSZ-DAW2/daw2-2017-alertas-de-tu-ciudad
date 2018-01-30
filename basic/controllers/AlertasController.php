@@ -301,7 +301,8 @@ class AlertasController extends Controller
     {
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 
-		
+		if(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A')
+		{
 		$query=Categorias::find()->where(['id'=>$id]);
                 $searchModel = new CategoriasSearch();
         if ( isset(Yii::$app->request->get()['CategoriasSearch']['nombre']) && Yii::$app->request->get()['CategoriasSearch']['nombre'] != null)  {
@@ -317,16 +318,24 @@ class AlertasController extends Controller
 			'searchModel' =>$searchModel, 
 			'dataProvider'=>$dataProvider
         ]);
+		}else{
+			        $model = $this->findModel($id);
+
+			 return $this->redirect(['view','id' => $model->id]);
+		}
 		
 		
 	}
 	
 		/*Funcion para Enlazar con el mantenimiento del Area de una alerta*/
-		public function actionAreas($id)
+		public function actionAreas($id,$area_id)
     {
-		$model = $this->findModel($id);
+		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
-
+	
+		if(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A')
+		{
+			$model = $this->findModel($area_id);
 		
 		 if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id'=>$model->id]);
@@ -334,8 +343,11 @@ class AlertasController extends Controller
 			$model->save();
            return $this->redirect(['area/view', 'id'=>$id]);
 
-        }
-		
+			}
+		}else{
+			$model = $this->findModel($id);
+			return $this->redirect(['view','id' => $model->id]);
+		}
 		
 	}
 	

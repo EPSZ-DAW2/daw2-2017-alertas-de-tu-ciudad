@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo Html::a(Yii::t('app', 'Mant. Categorias'), ['categorias', 'id' => $model->id], ['class' => 'btn btn-success']);
 		echo Html::a(Yii::t('app', 'Mant. comentarios'), ['alerta-comentarios/index'], ['class' => 'btn btn-success']);
 		 echo Html::a(Yii::t('app', 'Mant. imagenes'), ['imagenes', 'id' => $model->id], ['class' => 'btn btn-success']);
-		 echo Html::a(Yii::t('app', 'Mant. Areas'), ['areas', 'id' => $model->area_id], ['class' => 'btn btn-success']);
+		 echo Html::a(Yii::t('app', 'Mant. Areas'), ['areas', 'id' => $model->id, 'area_id' => $model->area_id], ['class' => 'btn btn-success']);
 		 echo Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
