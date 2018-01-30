@@ -42,6 +42,7 @@ p.comment-text {
 	font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
     color: #555f77;
     padding: 1rem;
+
     margin:1rem;
     background-color: #fff;
     display: table-cell;
@@ -158,13 +159,14 @@ li.complain.redFont{
 .btn-right{
     float:right;
     margin-bottom:1rem;
-    margin-right: -3%;
+    margin-right: 1%;
 }
 li.complain.yellowFont{
     color: darkorange;
 }
 
 .bubble {
+
     float:right;
     background: #fff;
     background: -moz-linear-gradient(top, #dedede 0%, #ffffff 100%);
@@ -173,13 +175,13 @@ li.complain.yellowFont{
     background: -o-linear-gradient(top, #dedede 0%, #ffffff 100%);
     background: -ms-linear-gradient(top, #dedede 0%, #ffffff 100%);
     background: linear-gradient(top, #dedede 0%, #ffffff 100%);
-    margin: 1rem;
-    min-width: 200px;
+  	margin: 1rem;
+    min-width: 300px;
     padding: 40px;
     text-align: center;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px ;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .bubble:after {
@@ -189,11 +191,11 @@ li.complain.yellowFont{
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     bottom: -10px;
-    right:4rem;
+    right:4.4rem;
     border-width: 10px;
     border-style: solid;
     border-color: transparent #FFF #FFF transparent;
 }
 #alertacomentarios-texto{
-	width:103%;
+	width:99%;
 }

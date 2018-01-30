@@ -2,11 +2,19 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Usuarios;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaComentarios */
 /* @var $form yii\widgets\ActiveForm */
 
+?>
+
+<?php
+if(!empty($_SESSION['__id'])){
+$usuario = new Usuarios();
+$usuario=$usuario::findOne($_SESSION["__id"]);
+}
 ?>
 
 <div class="alerta-comentarios-form col-md-6 col-md-offset-3">
@@ -44,22 +52,32 @@ use yii\widgets\ActiveForm;
         if($readOnlyAlertaId){
     ?>
         <!--El hilo de ese comentario estará abierto en caso de que sea 0 y cerrado en caso de que sea 1-->
-        <?= $form->field($model, 'cerrado')->radioList([
-            0 => 'Abierto',
-            1 => 'Cerrado'
-        ]); ?>
+            <?= $form->field($model, 'cerrado')->radioList([
+                0 => 'Abierto',
+                1 => 'Cerrado',
+            ]);
+        ?>
 
 
-        <!--El hilo de ese comentario estará desbloqueado en caso de que sea 0 y bloqueado en caso de que sea 1-->
-            <?= $form->field($model, 'bloqueado')->radioList([
+    <!--El hilo de ese comentario estará desbloqueado en caso de que sea 0 y bloqueado en caso de que sea 1-->
+        <?php if(($usuario->rol) == 'M'){
+            echo $form->field($model, 'bloqueado')->radioList([
+                0 => ' Desbloqueado',
+                1 => 'Bloqueado por denuncias',
+                3=>'Bloqueado por moderador'
+            ]);}else{
+            echo $form->field($model, 'bloqueado')->radioList([
                 0 => 'Desbloqueado',
-                1 => 'Bloqueado',
+                1 => 'Bloqueado por denuncias',
+                2=>'Bloqueado por administrador'
+            ]);
+        }?>
 
-            ]); ?>
-            <!--Motivo por el cual se ha relaizado el bloqueo de un comentario-->
-            <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6,
+    <!--Motivo por el cual se ha relaizado el bloqueo de un comentario-->
+    <?= $form->field($model, 'bloqueo_notas')->textarea(['rows' => 6,
 
-            ]) ?>
+    ]) ?>
+
     <?php
         }
     ?>

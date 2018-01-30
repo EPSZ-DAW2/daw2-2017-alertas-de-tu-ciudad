@@ -3,12 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\VerbFilter;
+use app\models\Alerta;
+use app\models\Usuarios;
+use app\components\ControlAcceso;
 use app\models\AlertaComentarios;
 use app\models\AlertaComentariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use app\components\ControlAcceso;
 
 /**
  * AlertaComentariosController implements the CRUD actions for AlertaComentarios model.
@@ -42,7 +44,7 @@ class AlertaComentariosController extends Controller
                     [
                         //Acciones permitidas para el administrador, el usuario normal y el moderador
                         'allow' =>true,
-                        'actions' =>['comentar'], //Se le permite comentar a los 3 usuarios
+                        'actions' =>['comentar','modificarcomentario','actualizarcomentario'], //Se le permite comentar a los 3 usuarios
                         'roles' => ['A','N','M'],
                     ],
                     [
@@ -151,6 +153,9 @@ class AlertaComentariosController extends Controller
      */
     public function actionUpdate($id)
     {
+        $usuario = new Usuarios();
+        $usuario=$usuario::findOne($_SESSION["__id"]);
+
         $model = $this->findModel($id); //Se encuentra el modelo a través de su id
         //Actualizar fecha de modificacion
         //Establecemos la zona horaria para obtener la hora y la fecha
@@ -161,20 +166,38 @@ class AlertaComentariosController extends Controller
         $model->modi_fecha = $dateTimeNow;
         $model->modi_usuario_id = 0; //Se pone a 0 por haberse hecho por un administrador
 
-        $bloqueoEstadoActual = $model->bloqueado; //Nos dice el estado antes de guardar los parametros post
+        $bloqueoEstadoAnterior = $model->bloqueado; //Nos dice el estado antes de guardar los parametros post
 
         //Si se cargan los nuevos parametros del formulario y se guardan de forma correcta
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-
-            if($bloqueoEstadoActual == 0
+            //Si el bloqueo del estado anterior es 0 y el actual es distinto de 0 entoncesse rellena la nota con bloqueado
+            if($bloqueoEstadoAnterior == 0
                 && $model->bloqueado != 0
                 && 0 == strcmp($model->bloqueo_notas,"0")){
+                //Se fija la fecha/hora en la que se aha realizado el bloqueo
+                $model->bloqueo_fecha = $dateTimeNow;
+                //Fija en el texto de comentario notas que está bloqueado por defecto
                 $model->bloqueo_notas = "bloqueado";
+                //Se guarda el id de la persona que lo ha modificado
+                $model->bloqueo_usuario_id = $usuario->id;
                 $model->save();
 
             }
+            //Accion contraria a lo anterior
+            if($bloqueoEstadoAnterior != 0
+                && $model->bloqueado == 0
+            ){
+
+                $model->bloqueo_fecha = '0000-00-00 00:00:00';
+                //Fija en el texto de comentario notas que está bloqueado por defecto
+                $model->bloqueo_notas = "0";
+                //Al desbloquear quitamos la persona que bloqueo
+                $model->bloqueo_usuario_id = '0';
+                $model->save();
+            }
             //se redirige a la vista
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
         //sino
@@ -256,7 +279,7 @@ class AlertaComentariosController extends Controller
 
         //Guardamos el nuevo comentario en bases de datos
         $nuevoComentario->save();
-
+        $redireccion = $redireccion."#cPublicado".$nuevoComentario->id;
         //Redirigimos al index
         return $this->redirect([$redireccion]);
 
@@ -265,6 +288,10 @@ class AlertaComentariosController extends Controller
      * Función que bloquea o cierra a los alerta-comentarios dado un padre
      */
     public function actionGestionhilos($id,$accion){
+
+        $usuario = new Usuarios();
+        $usuario = $usuario::findOne($_SESSION["__id"]);
+
 
         $modeloPadre = $this->findModel($id); //obtenemos el modelo del padre a través de su id
 
@@ -281,13 +308,22 @@ class AlertaComentariosController extends Controller
                     $modelosHijos[$i]->cerrado = 1;
                 }
                 if (strcmp($accion,'bloquear') == 0) {
-                    $modelosHijos[$i]->bloqueado = 1;
+
+                    $modelosHijos[$i]->bloqueo_usuario_id = $usuario->id;
+                    //Ponemos un valor en los hijos atendiendo a quien los bloquee
+                    if($usuario->rol == 'A')
+                        $modelosHijos[$i]->bloqueado = 2;
+                    if($usuario->rol == 'M')
+                        $modelosHijos[$i]->bloqueado = 3;
+
+                    $modelosHijos[$i]->bloqueo_notas = 'bloqueado';
                 }
                 if (strcmp($accion,'abrir') == 0) {
                     $modelosHijos[$i]->cerrado = 0;
                 }
                 if (strcmp($accion,'desbloquear') == 0) {
                     $modelosHijos[$i]->bloqueado = 0;
+                    $modelosHijos[$i]->bloqueo_notas = '0';
                 }
 
                 //Guardamos los datos de los hijos una vez modificados
@@ -302,13 +338,24 @@ class AlertaComentariosController extends Controller
                 $modeloPadre->cerrado = 1;
             }
             if (strcmp($accion,'bloquear') == 0) {
-                $modeloPadre->bloqueado = 1;
+
+                $modeloPadre->bloqueo_usuario_id = $usuario->id;
+                //Ponemos un valor en los hijos atendiendo a quien los bloquee
+
+                if($usuario->rol == 'A')
+                    $modeloPadre->bloqueado = 2;
+                if($usuario->rol == 'M')
+                    $modeloPadre->bloqueado = 3;
+
+                    $modeloPadre->bloqueo_notas = 'bloqueado';
+
             }
             if (strcmp($accion,'abrir') == 0) {
                 $modeloPadre->cerrado = 0;
             }
             if (strcmp($accion,'desbloquear') == 0) {
                 $modeloPadre->bloqueado = 0;
+                $modeloPadre->bloqueo_notas = '0';
             }
 
             $modeloPadre->save(); //Guardamos la información del padre
@@ -327,11 +374,69 @@ class AlertaComentariosController extends Controller
         if($id != 0) {
             if (($model = AlertaComentarios::findOne($id)) !== null) {
                 echo '<div class="bubble">';
+
                 echo($model->texto);
+
+
                 echo "<div>";
             }
         }
 
     }
+    /*
+     * Función que que muestra el comentario del usuario para poder modificarlo
+     */
+    public function actionModificarcomentario($id){
+
+        $modelComentario = AlertaComentarios::findOne($id);
+        $alerta = new Alerta();
+        $alerta = $alerta::findOne($modelComentario->alerta_id);
+        $usuario = new Usuarios();
+        $usuario = $usuario::findOne($_SESSION["__id"]);
+        //Si el usuario es moderador y esta en su area puede modificar cualquier comentario de su area
+        //O
+        //Si el usuario es administrador puede modificar cualquier comentario
+        //O
+        //Si el usuario inscribio el comentario tambien puede modificarlo
+        if( ($usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) ==0)
+            || $usuario->rol == 'A'
+            ||($usuario->id == $modelComentario->crea_usuario_id)
+        ){
+
+            return $this->render("modificarComentarioForm",["model"=>$modelComentario]);
+        }
+
+    }
+    /*
+     * Función que actualiza los datos modificados de los comentarios
+     */
+    public function actionActualizarcomentario($id){
+
+        $model = $this->findModel($id); //Se encuentra el modelo a través de su id
+        //Actualizar fecha de modificacion
+        //Establecemos la zona horaria para obtener la hora y la fecha
+        date_default_timezone_set('Europe/Amsterdam');
+        //Obtenemos la hora y fecha actual
+        $dateTimeNow = date('Y/m/d H:i:s', time()); //Formato de la hora
+
+        $model->modi_fecha = $dateTimeNow;
+        $model->modi_usuario_id = $_SESSION["__id"];
+
+
+
+        //Si se cargan los nuevos parametros del formulario y se guardan de forma correcta
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            return $this->redirect(['/alertas/ficha', 'id' => $model->alerta_id]);
+        }
+        //sino
+        else {
+            //se vuelve a renderizar update
+            return $this->render('', [
+                'model' => $model,
+            ]);
+        }
+    }
+
 
 }
