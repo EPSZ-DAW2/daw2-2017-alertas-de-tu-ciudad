@@ -62,12 +62,12 @@ $usuario=$usuario::findOne($_SESSION["__id"]);
     <!--El hilo de ese comentario estará desbloqueado en caso de que sea 0 y bloqueado en caso de que sea 1-->
         <?php if(($usuario->rol) == 'M'){
             echo $form->field($model, 'bloqueado')->radioList([
-                0 => 'Abierto',
+                0 => ' Desbloqueado',
                 1 => 'Bloqueado por denuncias',
                 3=>'Bloqueado por moderador'
             ]);}else{
             echo $form->field($model, 'bloqueado')->radioList([
-                0 => 'Abierto',
+                0 => 'Desbloqueado',
                 1 => 'Bloqueado por denuncias',
                 2=>'Bloqueado por administrador'
             ]);

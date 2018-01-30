@@ -260,9 +260,6 @@ class AlertaComentariosSearch extends AlertaComentarios
             }
 
 
-
-
-
         //Si existe el id de Incidencia se le hace el filtro sino se mostrarian todos los comentarios como en el caso del adminsitrador
         if(!empty($idIncidencia)){
             $query->andFilterWhere([
@@ -298,9 +295,6 @@ class AlertaComentariosSearch extends AlertaComentarios
 
         //Realizamos una selección con todos los hijos de idPadre
         $query = AlertaComentarios::find()
-
-
-
 
 
         ->andFilterWhere([

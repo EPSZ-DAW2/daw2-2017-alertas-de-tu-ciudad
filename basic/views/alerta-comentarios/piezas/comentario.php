@@ -47,17 +47,27 @@ use yii\helpers\Html;
                         </a>
                     <?php }
                     //Si no si el que ha creado el comentario es el usuario registrado le permitimos su modificacion,
-                    // A los administradores y moderadores les permitimos modificar cualquiera
-                    else if($dataComentario->crea_usuario_id == $usuario->id
-                        || $usuario->rol =='M'
-                        || $usuario->rol == 'A'){
+                    // A los administradores les permitimos modificar todas
+                    // y moderadores les permitimos modificar las de su zona
+                    $alerta = new app\models\Alerta();
+                    $alerta = $alerta::findOne($dataComentario->alerta_id);
+
+                    //Si el usuario es moderador y esta en su area puede modificar cualquier comentario de su area
+                    //O
+                    //Si el usuario es administrador puede modificar cualquier comentario
+                    //O
+                    //Si el usuario inscribio el comentario tambien puede modificarlo
+                    if( ($usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) ==0)
+                        || $usuario->rol == 'A'
+                        ||($usuario->id ==$dataComentario->crea_usuario_id)
+                    ){
                     ?>
-                        <a href="?idComentarioPadre=<?=$dataComentario->id?>&id=<?=$dataComentario->alerta_id?>#Comentar">
+                        <a href="<?=Yii::getAlias('@web')?>/alerta-comentarios/modificarcomentario?id=<?=$dataComentario->id?>">
                             <li class="complain"><span class="glyphicon glyphicon-pencil"></span> Modificar </li>
                         </a>
                     <?php
                     }
-                    else{?>
+                    if($dataComentario->bloqueado){?>
                         <li class="complain redFont">
                             <span class="glyphicon glyphicon-ban-circle"></span> Bloqueado
                         </li>
