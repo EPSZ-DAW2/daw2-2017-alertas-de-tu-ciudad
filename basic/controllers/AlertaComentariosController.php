@@ -279,7 +279,7 @@ class AlertaComentariosController extends Controller
 
         //Guardamos el nuevo comentario en bases de datos
         $nuevoComentario->save();
-
+        $redireccion = $redireccion."#cPublicado".$nuevoComentario->id;
         //Redirigimos al index
         return $this->redirect([$redireccion]);
 
@@ -374,7 +374,10 @@ class AlertaComentariosController extends Controller
         if($id != 0) {
             if (($model = AlertaComentarios::findOne($id)) !== null) {
                 echo '<div class="bubble">';
+
                 echo($model->texto);
+
+
                 echo "<div>";
             }
         }

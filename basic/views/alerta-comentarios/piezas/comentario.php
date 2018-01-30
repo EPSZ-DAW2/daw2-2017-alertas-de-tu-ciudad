@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <div class="bocadillo<?=$dataComentario->id?>">
 
 </div>
-<div class="comments ">
+<div  id="cPublicado<?=$dataComentario->id?>" class="comments <?="Respuesta".$dataComentario->id?>">
     <div class="photo">
         <div class="avatar" style="background-image:url('<?= Yii::$app->request->baseUrl ?>/img/dummy.jpg')";>
         </div>
@@ -14,7 +14,7 @@ use yii\helpers\Html;
     <div class="comment-block ">
         <div class="comment-name">
             <h1><?=$dataComentario->nick?></h1>
-            <h4 class="<?="Respuesta".$dataComentario->id?>"> <b>#<?=$dataComentario->id?></b>
+            <h4> <b>#<?=$dataComentario->id?></b>
                 <?php   if(($dataComentario->comentario_id) == 0){ //Comentario padre/raiz?>
                         <span class="glyphicon glyphicon-asterisk"></span>
 
@@ -59,7 +59,7 @@ use yii\helpers\Html;
                     //Si el usuario inscribio el comentario tambien puede modificarlo
                     if( ($usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) ==0)
                         || $usuario->rol == 'A'
-                        ||($usuario->id ==$dataComentario->crea_usuario_id)
+                        ||(($usuario->id ==$dataComentario->crea_usuario_id) && $dataComentario->bloqueado == 0)
                     ){
                     ?>
                         <a href="<?=Yii::getAlias('@web')?>/alerta-comentarios/modificarcomentario?id=<?=$dataComentario->id?>">
