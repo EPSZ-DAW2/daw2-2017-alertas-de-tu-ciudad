@@ -36,12 +36,16 @@ $this->title = Yii::t('app', 'Modificar Imagen');
         
     <?php }  ?>
         
-    <div align="center" style="width:302px; padding-bottom: 1px;" >
-        <input accept="image/*" style="display:none" type="file" name="explorar_ficheros" id="explorar_ficheros" onchange="previsualizacion_img(this)" />
-        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Modificar imagen</div>
+    <div  align="center">       
+        <div id="arrastrar_soltar" onclick="document.getElementById('explorar_ficheros').click();" class="adjuntar_imagen">
+            <input style="" class="file_input_hack" accept="image/*" type="file" name="explorar_ficheros" id="explorar_ficheros" />
+            <div style="margin-top: 10px; font-size:22px;"> Arrastre y suelte una imagen para subirla</div>
+            <img style="width:200px; margin-top:15px; margin-bottom: 10px" src="<?php echo Url::base(true); ?>/img/upload.png">
+            <div style="margin-top: 10px; font-size:22px;"> o pulse aquí.</div>
+      </div>
     </div>
     
-    <div style="margin-top: 70px; margin-bottom: 30px;">
+    <div style="margin-top: 30px; margin-bottom: 30px;">
          <ul id="previsualizador" class="ul_imagen"></ul>
     </div>
         
@@ -51,7 +55,15 @@ $this->title = Yii::t('app', 'Modificar Imagen');
         <?= Html::submitButton(Yii::t('app', 'Guardar cambios'), ['class' => 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+            <?php
+     $this->registerJs( <<< EOT_JS
+    var element = document.querySelector('#arrastrar_soltar');
+    soltar_objetos(element);            
+EOT_JS
+  );
+        
+        
+  ActiveForm::end(); ?>
 
 
 </div>

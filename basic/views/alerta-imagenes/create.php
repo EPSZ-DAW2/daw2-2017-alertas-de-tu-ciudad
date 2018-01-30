@@ -33,23 +33,37 @@ $this->title = Yii::t('app', 'Adjuntar imagenes en la Alerta');
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); // IMPORTANTE! ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'id'=>'form_submit',]]); // IMPORTANTE! ?>
     <?php if($permisos){?>
     <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
     <?php } ?>     
-    <div  align="center" style="width:302px;padding-bottom: 1px;">
-        <input style="display:none" accept="image/*" type="file" name="explorar_ficheros[]" id="explorar_ficheros" onchange="previsualizacion_img(this)" multiple="multiple" />
-        <div class="adjuntar_imagen" onclick="document.getElementById('explorar_ficheros').click();">Adjuntar Imagenes</div>
+    <div  align="center">       
+        <div id="arrastrar_soltar" onclick="document.getElementById('explorar_ficheros').click();" class="adjuntar_imagen">
+            <input style="" class="file_input_hack" accept="image/*" type="file" name="explorar_ficheros[]" id="explorar_ficheros"  multiple="multiple" />
+            <div style="margin-top: 10px; font-size:22px;"> Arrastre y suelte imágenes para subir</div>
+            <img style="width:200px; margin-top:15px; margin-bottom: 10px" src="<?php echo Url::base(true); ?>/img/upload.png">
+            <div style="margin-top: 10px; font-size:22px;"> o pulse aquí.</div>
+      </div>
     </div>
     
-    <div style="margin-top: 70px; margin-bottom: 30px;">
+    <div style="margin-top: 30px; margin-bottom: 30px;">
          <ul id="previsualizador" class="ul_imagen"></ul>
     </div>
     
     
+    <?php
+     $this->registerJs( <<< EOT_JS
+    var element = document.querySelector('#arrastrar_soltar');
+    soltar_objetos(element);            
+EOT_JS
+  ); 
+     
+    ?>
+      
     <div class="form-group" style="text-align: center;">
+        
         <?= Html::submitButton('Subir todas las imagenes', ['class' => 'btn btn-success']) ?>
-    </div>
+     </div>
         <?php ActiveForm::end(); ?>
 
 

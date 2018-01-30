@@ -8,11 +8,6 @@ function previsualizacion_img(input_file)
 				return true; 
 			else
 			{
-				//Remueve las previsualizadas anteriormente para agregar las nuevas.
-				
-				// Por ahora no tengo muy claro como jugar con el input file (agregando, removiendo), 
-				// ficheros directamente desdes js/ajax usando yii2, pues este no responde demasiado bien
-				// de la forma que lo estoy haciendo...
 				
 			   $('#previsualizador').html(''); 
 			   
@@ -185,6 +180,57 @@ function revisar(url)
 	   }
 	});
 }	
+
+function soltar_objetos(element) {
+
+  var input = document.getElementById("explorar_ficheros")
+	
+  input.addEventListener('change', triggerCallback);
+  
+   var dropZone = $("#arrastrar_soltar");
+    var ooleft = dropZone.offset().left;
+    var ooright = dropZone.outerWidth() + ooleft;
+    var ootop = dropZone.offset().top;
+    var oobottom = dropZone.outerHeight() + ootop;
+	var inputFile = dropZone.find("input");
+  
+  element.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+	
+	var x = e.pageX;
+        var y = e.pageY;
+
+        if (!(x < ooleft || x > ooright || y < ootop || y > oobottom)) {
+            inputFile.offset({ top: y - 15, left: x - 100 });
+        } else {
+            inputFile.offset({ top: -400, left: -400 });
+        }
+    element.classList.add('dragover');
+  });
+
+  element.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    element.classList.remove('dragover');
+  });
+   
+  element.addEventListener('drop', function(e) {
+    element.classList.remove('dragover');
+  });
+  
+  element.addEventListener('click', function() {
+    input.value = null;
+    input.click();
+  });
+
+  function triggerCallback(e) {
+	element.classList.remove('dragover');
+	 previsualizacion_img(input); 
+}
+}
+
+
 
 
 

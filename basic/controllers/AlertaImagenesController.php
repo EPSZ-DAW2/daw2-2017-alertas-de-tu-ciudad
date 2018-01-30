@@ -281,7 +281,7 @@ class AlertaImagenesController extends Controller
              //En el caso de que exista un error al intentar subir las imagenes, volvemos
              //a la view en la que estabamos, pasándole el mensaje de error oportuno.
              if($error)
-               return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code),'create');
+               return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload($code),Yii::$app->request->referrer, true);
 
                           
                 $model->load(Yii::$app->request->post());
@@ -291,10 +291,15 @@ class AlertaImagenesController extends Controller
                     $alerta_id = $model->alerta_id;
                  else $alerta_id = $a_id;
 
+                 if(!isset($alerta_id))
+                      return $this->EnviarMensajeError(new AlertaImagen(), "Error, ID no encontrada.",Yii::$app->request->referrer, true);
+                 
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
 
                 $modelo_orden_ultimo = AlertaImagen::find()->tomarImagenesDesdeAlertaDESC($alerta_id)->one();
-                $orden = $modelo_orden_ultimo->orden+1;
+                if(isset($modelo_orden_ultimo))
+                    $orden = $modelo_orden_ultimo->orden+1;
+                else $orden = 1;
                 
              // En el caso de que no se haya producido un error, procedemos a sacar las imagenes
              //de la carpeta temporal y crear los registros en la base de datos.
@@ -338,14 +343,14 @@ class AlertaImagenesController extends Controller
                $ruta .= '/'.$hashes[0].'.'.$extension_imagen;
 
                 if(!move_uploaded_file($fichero_temporal, $ruta))
-                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), 'create');
+                   return $this->EnviarMensajeError(new AlertaImagen(), $this->mensajeErrorUpload(UPLOAD_ERR_CANT_WRITE), Yii::$app->request->referrer, true);
                 
                 $model->save();
                 $orden = $orden + 1;//No está del todo implementado.     
  
              }
              
-           $this->FijarImagenEnAlerta($a_id);
+           $this->FijarImagenEnAlerta($alerta_id);
              
              $url = Url::previous();
              
@@ -658,6 +663,14 @@ class AlertaImagenesController extends Controller
        
        $modelo_pre = AlertaImagen::find()->tomarImagenesDesdeAlerta($alerta_id)->one(); 
        
+        if(!isset($modelo_pre))
+        {
+            $modelo_alerta->imagen_id =  NULL;
+            $modelo_alerta->imagen_revisada =  0;
+            $modelo_alerta->save();
+            return;
+        }
+
        $modelo_alerta->imagen_id =  $modelo_pre->imagen_id;
        $modelo_alerta->imagen_revisada =  $modelo_pre->imagen_revisada;
        $modelo_alerta->save();
