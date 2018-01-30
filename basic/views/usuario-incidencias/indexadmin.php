@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Volver'), ['index'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'avisar a un usuario'), ['elegirusuario'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'Avisar a un usuario'), ['elegirusuario'], ['class' => 'btn btn-success']) ?>
 		<?= Html::a(Yii::t('app', 'Notificar'), ['createnotificacion'], ['class' => 'btn btn-success']) ?>
 
     </p>

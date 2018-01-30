@@ -9,7 +9,6 @@ use yii\helpers\Html;
 if(isset($tipodenuncia)){
 	$this->title = Yii::t('app', 'Denunciar '.$tipodenuncia);
 }
-
 if(isset($nombre)){
 	$this->title = Yii::t('app', 'Enviar mensaje a '.$nombre);
 }
@@ -22,7 +21,7 @@ if(isset($notificacion)){
 if(isset($aviso)){
 	$this->title = Yii::t('app', 'Escriba el aviso');
 }
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Volver'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Incidencias'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

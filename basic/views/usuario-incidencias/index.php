@@ -8,6 +8,8 @@ de 'Incidencias, como administrador' que le llevara a la vista 'indexadmin'.
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsuarioIncidenciaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -32,19 +34,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+				'class' => 'yii\grid\SerialColumn',
+			],
 
-            'id',
-            'crea_fecha',
-            'clase_incidencia_id',
+            //'id',
+            //'crea_fecha',
+			'clase_incidencia_id',
             'texto:ntext',
             'destino_usuario_id',
              'origen_usuario_id',
            //  'alerta_id',
            //  'comentario_id',
-             'fecha_lectura',
-             'fecha_borrado',
-             'fecha_aceptado',
+            // 'fecha_lectura',
+            // 'fecha_borrado',
+            // 'fecha_aceptado',
 
             ['class' => 'yii\grid\ActionColumn',
 			'template' => '  {view}',
