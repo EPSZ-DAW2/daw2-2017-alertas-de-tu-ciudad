@@ -170,6 +170,9 @@ class AlertaComentariosController extends Controller
             if($bloqueoEstadoActual == 0
                 && $model->bloqueado != 0
                 && 0 == strcmp($model->bloqueo_notas,"0")){
+                //Se fija la fecha/hora en la que se aha realizado el bloqueo
+                $model->bloqueo_fecha = $dateTimeNow;
+                //Fija en el texto de comentario notas que está bloqueado por defecto
                 $model->bloqueo_notas = "bloqueado";
                 $model->save();
 
