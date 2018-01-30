@@ -7,7 +7,6 @@ use yii\helpers\Html;
 
 </div>
 <div class="comments ">
-
     <div class="photo">
         <div class="avatar" style="background-image:url('<?= Yii::$app->request->baseUrl ?>/img/dummy.jpg')";>
         </div>
@@ -40,11 +39,25 @@ use yii\helpers\Html;
             <?php if(!empty($usuario)){ ?>
                 <ul class="comment-actions">
 
-                    <?php if(!$dataComentario->bloqueado) {?>
+                    <?php
+                    //Si el comentario no está bloqueado permitimos responder
+                    if(!$dataComentario->bloqueado) {?>
                         <a href="?idComentarioPadre=<?=$dataComentario->id?>&id=<?=$dataComentario->alerta_id?>#Comentar">
                             <li class="complain"><span class="glyphicon glyphicon-share-alt"></span> Responder </li>
                         </a>
-                    <?php }else{?>
+                    <?php }
+                    //Si no si el que ha creado el comentario es el usuario registrado le permitimos su modificacion,
+                    // A los administradores y moderadores les permitimos modificar cualquiera
+                    else if($dataComentario->crea_usuario_id == $usuario->id
+                        || $usuario->rol =='M'
+                        || $usuario->rol == 'A'){
+                    ?>
+                        <a href="?idComentarioPadre=<?=$dataComentario->id?>&id=<?=$dataComentario->alerta_id?>#Comentar">
+                            <li class="complain"><span class="glyphicon glyphicon-pencil"></span> Modificar </li>
+                        </a>
+                    <?php
+                    }
+                    else{?>
                         <li class="complain redFont">
                             <span class="glyphicon glyphicon-ban-circle"></span> Bloqueado
                         </li>
