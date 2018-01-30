@@ -13,6 +13,7 @@ use yii\helpers\FileHelper;
 use app\components\ControlAcceso;
 use yii\helpers\Url;
 use yii\data\Pagination;
+use yii\db\Query;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -142,6 +143,13 @@ class AlertaImagenesController extends Controller
             case 4:
                 $dataProvider->query->andWhere('[[notas_admin]] IS NOT NULL AND [[notas_admin]] NOT IN ("")');
                 break;
+        }
+        
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+            $dataProvider->query->andWhere(['in', 'alerta_id', (new Query())->select('id')->from('alertas')
+                    ->where(['in', 'area_id', (new Query())->select('area_id')->from('usuarios_area_moderacion')
+                            ->where(['usuario_id' => Yii::$app->user->getId()])])]);
         }
 
         if($vis == 1)
