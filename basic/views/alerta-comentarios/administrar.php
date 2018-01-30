@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $model app\models\AlertaComentarios */
 
 $this->title = Yii::t('app', 'Administrar Hilos');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Administrar Hilos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Comentarios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="alerta-comentarios-create">
