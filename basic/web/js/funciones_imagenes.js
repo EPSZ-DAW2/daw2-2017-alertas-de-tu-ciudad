@@ -119,7 +119,6 @@ function barra_herramientas_imagenes(url_base, id_user, creador, admin, btn_add,
 		btn2.className = 'btn btn-primary btn-right';
 		btn2.innerHTML = 'Guardar orden de las imágenes';
 		btn2.setAttribute('onclick', 'guardar_orden(\''+url_base+'\', \''+token+'\');');
-		btn2.setAttribute('style', 'margin-left:45px;');
 		div_padre.appendChild(btn2);
 		}
 		
