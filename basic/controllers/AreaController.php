@@ -35,7 +35,7 @@ class AreaController extends Controller
 				],
 				[
 					'allow'=>true,
-					'actions'=>['index','view','create','update','delete'],
+					'actions'=>['index','view','create','update','delete', 'admin'],
 					'roles'=>['A','M'],
 				],
 				],
@@ -47,12 +47,12 @@ class AreaController extends Controller
      * Lists all Area models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionAdmin()
     {
         $searchModel = new AreaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('admin', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'clasesArea' => Area::$clases_area
@@ -138,5 +138,17 @@ class AreaController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionIndex() {
+        $searchModel = new AreaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'clasesArea' => Area::$clases_area,
+            'rol' => Yii::$app->user->identity->rol
+        ]);
     }
 }

@@ -6,8 +6,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Area */
 
+$rol = Yii::$app->user->identity->rol;
+
 $this->title = Yii::t('app', 'Create Area');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Areas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Áreas'), 'url' => [ ($rol != 'A') ? 'index' : 'admin']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="area-create">

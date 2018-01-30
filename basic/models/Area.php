@@ -64,7 +64,8 @@ class Area extends \yii\db\ActiveRecord
             'parentArea' => Yii::t('app', 'Área padre'),
             'parentName' => Yii::t('app', 'Nombre del área padre'),
             'childAreas' => Yii::t('app', 'Áreas hijas'),
-            'childrenNames' => Yii::t('app', 'Áreas hijas')
+            'childrenNames' => Yii::t('app', 'Áreas hijas'),
+            'totalAlertas' => Yii::t('app', 'Nº de alertas relacionadas')
         ];
     }
 
@@ -108,8 +109,12 @@ class Area extends \yii\db\ActiveRecord
     public function getAlertasNames() {
         $areas = $this->alertasRelacionadas;
         if ($areas) {
-            return join(ArrayHelper::map($areas, 'area_id', 'titulo'), ', ');
+            return join(ArrayHelper::map($areas, 'id', 'titulo'), ', ');
         }
+    }
+
+    public function getTotalAlertas() {
+        return $this->hasMany(Alerta::className(), ['area_id' => 'id'])->count();
     }
 
 }
