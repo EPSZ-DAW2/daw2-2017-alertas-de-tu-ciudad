@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'duracion_estimada',
             'direccion:ntext',
             'notas_lugar:ntext',
-            'area_id',
+            'area.nombre:text:Área',
             'detalles:ntext',
             'notas:ntext',
             'url:ntext',

@@ -47,6 +47,8 @@ class AreaSearch extends Area
 
         // add conditions that should always apply here
         $query->joinWith(['parentArea pA'], true, 'LEFT OUTER JOIN');
+        $query->joinWith(['alertasRelacionadas'])
+        ->select(['areas.*','COUNT(alertas.id) as total'])->groupBy(['areas.id']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,7 +67,12 @@ class AreaSearch extends Area
                     'asc' => ['clase_area_id' => SORT_ASC],
                     'desc' => ['clase_area_id' => SORT_DESC],
                     'default' => SORT_ASC
-                ]
+                ],
+                'totalAlertas' => [
+                    'asc' => ['total' => SORT_ASC],
+                    'desc' => ['total' => SORT_DESC],
+                    'default' => SORT_ASC
+                    ]
             ]
         ]);
 

@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AreaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,7 +10,7 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'Áreas');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="area-admin">
+<div class="area-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -30,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'claseArea', 'filter' => $clasesArea ],
             'nombre',
             'parentName',
-            'totalAlertas',
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
