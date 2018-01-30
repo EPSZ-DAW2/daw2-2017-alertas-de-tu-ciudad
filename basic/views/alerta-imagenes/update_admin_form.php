@@ -22,7 +22,9 @@ use yii\web\View;
  * El orden de la imagen prevalecerá.
  * 
  *  */
-$this->registerJSFile(Url::base(true).'/js/jquery.datetimepicker.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+if(Yii::$app->user->identity->rol === 'A')
+{
+    $this->registerJSFile(Url::base(true).'/js/jquery.datetimepicker.js',['depends' => [\yii\web\JqueryAsset::className()]]);
    $this->registerCssFile(Url::base(true).'/css/jquery.datetimepicker.css');
 
 ?>
@@ -33,7 +35,10 @@ $this->registerJSFile(Url::base(true).'/js/jquery.datetimepicker.js',['depends' 
 
     <?= $form->field($model, 'crea_fecha')->textInput(['id' => 'datetimepicker']) ?>
 
+<?php } ?>
     <?= $form->field($model, 'notas_admin')->textarea(['rows' => 6]) ?>
 
 <?php 
-$this->registerJs("jQuery('#datetimepicker').datetimepicker();", View::POS_END);?>
+if(Yii::$app->user->identity->rol === 'A')
+$this->registerJs("jQuery('#datetimepicker').datetimepicker();", View::POS_END);
+?>

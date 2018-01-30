@@ -35,6 +35,7 @@ class ListaImagenes extends Widget
 
        $admin = 0;
        $creador = 0;
+       $modelo_alerta = NULL;
        
        if(!Yii::$app->user->isGuest)
        {
@@ -46,6 +47,24 @@ class ListaImagenes extends Widget
                  if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())
                        $creador = 1;
             }
+            
+            if(Yii::$app->user->identity->rol === 'M')
+            {  
+                $resultado = (new \yii\db\Query())
+                ->select(['id'])
+                ->from('usuarios_area_moderacion')
+                ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+                ->count();
+
+                //Si el usuario tiene permisos de moderación en dicha alerta que pertenece al area x, entonces
+                //podrá hacer todas las funciones del administrador. Es decir podrá ver todas las herramientas de adminsitración.
+                if(isset($resultado) && $resultado >= 1)
+                {
+                    $admin = 1;
+                }             
+            }
+            
+            
        }
         
        if($creador || $admin)

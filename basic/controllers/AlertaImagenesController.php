@@ -89,7 +89,23 @@ class AlertaImagenesController extends Controller
          {
              $modelo_alerta= Alerta::findOne($alerta);
 
-             if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
+             if(!isset($modelo_alerta))
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! Alerta no encontrada.', Yii::$app->request->referrer, true);
+                
+             if(Yii::$app->user->identity->rol === 'M')
+             {
+               $resultado = (new \yii\db\Query())
+                ->select(['id'])
+                ->from('usuarios_area_moderacion')
+                ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+                ->count();
+
+                if(!isset($resultado) || $resultado < 1)
+                 return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en este área.', Yii::$app->request->referrer, true);
+                 
+             }
+                    
+             if($modelo_alerta->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No puedes ordenar imagenes de otra persona.', Yii::$app->request->referrer, true);
          }
         
@@ -157,11 +173,28 @@ class AlertaImagenesController extends Controller
         if(!isset(Yii::$app->user->identity->rol))
             return $this->redirect(Yii::$app->request->referrer ?: 'index');
         
-        if(Yii::$app->user->identity->rol !== 'A')
-          return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! Debes ser administrador.', Yii::$app->request->referrer, true);
-        
+        if(Yii::$app->user->identity->rol === 'N')
+          return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! Debes ser administrador o moderador.', Yii::$app->request->referrer, true);
         
          $model = $this->findModel($id);
+          $modelo_alerta= Alerta::findOne($model->alerta_id);
+         
+        if(!isset($modelo_alerta))
+              return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No se encontró la alerta.', Yii::$app->request->referrer, true);
+               
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+ 
+          $resultado = (new \yii\db\Query())
+           ->select(['id'])
+           ->from('usuarios_area_moderacion')
+           ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+           ->count();
+
+           if(!isset($resultado) || $resultado < 1)
+            return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en esta imagen.', Yii::$app->request->referrer, true);
+
+        }
         
         if(!$change)
         {
@@ -171,9 +204,7 @@ class AlertaImagenesController extends Controller
                 $model->save();
             }
         }
-        
-        $modelo_alerta= Alerta::findOne($model->alerta_id);
-        
+
         if($modelo_alerta->imagen_id == $model->imagen_id)
         {
             $modelo_alerta->imagen_revisada = 1;
@@ -201,13 +232,29 @@ class AlertaImagenesController extends Controller
        if(!isset($model))
            return $this->redirect(Yii::$app->request->referrer ?: 'index');
        
-
-        //Habría que ver si permitimos crear a un moderador, supuestamente
-        //debería tener permisos para la sección de imágenes.
-        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+        if (Yii::$app->user->identity->rol === 'N')
          {
             return $this->EnviarMensajeError(new AlertaImagen(), '¡Solo un administrador puede ver los datos datos de una imagen!', Yii::$app->request->referrer, true);
          }
+         
+        $modelo_alerta= Alerta::findOne($model->alerta_id);
+
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+         if(!isset($modelo_alerta))
+              return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No se encontró la alerta.', Yii::$app->request->referrer, true);
+               
+          $resultado = (new \yii\db\Query())
+           ->select(['id'])
+           ->from('usuarios_area_moderacion')
+           ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+           ->count();
+
+           if(!isset($resultado) || $resultado < 1)
+            return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en esta imagen.', Yii::$app->request->referrer, true);
+
+        }
+         
         
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -239,7 +286,6 @@ class AlertaImagenesController extends Controller
        else if(!isset($a_id) && Yii::$app->user->identity->rol !== 'A')
            return $this->EnviarMensajeError(new AlertaImagen(), '¡No tienes permisos para hacer esto!', Yii::$app->request->referrer, true);
            
-         //Habría que comprobar el moderador. En el caso de que tuviera permisos para las imagenes.
         if (Yii::$app->user->identity->rol === 'A')
         {
                 $privilegios = true;                    
@@ -253,7 +299,21 @@ class AlertaImagenesController extends Controller
          {
              $modelo_alerta= Alerta::findOne($a_id);
 
-             if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
+            if(Yii::$app->user->identity->rol === 'M')
+            {
+             if(!isset($modelo_alerta))
+                  return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No se encontró la alerta.', Yii::$app->request->referrer, true);
+
+              $resultado = (new \yii\db\Query())
+               ->select(['id'])
+               ->from('usuarios_area_moderacion')
+               ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+               ->count();
+
+               if(!isset($resultado) || $resultado < 1)
+                return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en esta imagen.', Yii::$app->request->referrer, true);
+            }
+             else if(!isset($modelo_alerta) || $modelo_alerta->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes agregar imágenes en la alerta de otro usuario!', Yii::$app->request->referrer, true);
          }
        
@@ -481,13 +541,30 @@ class AlertaImagenesController extends Controller
        
         $usuario_id = Yii::$app->user->getId();
 
-        //Habría que ver si permitimos crear a un moderador, supuestamente
-        //debería tener permisos para la sección de imágenes.
-        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+        if (Yii::$app->user->identity->rol === 'N')
          {
              if($model->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes modificar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
          }
+         
+                  
+        $modelo_alerta= Alerta::findOne($model->alerta_id);
+
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+         if(!isset($modelo_alerta))
+              return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No se encontró la alerta.', Yii::$app->request->referrer, true);
+               
+          $resultado = (new \yii\db\Query())
+           ->select(['id'])
+           ->from('usuarios_area_moderacion')
+           ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+           ->count();
+
+           if(!isset($resultado) || $resultado < 1)
+            return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en esta imagen.', Yii::$app->request->referrer, true);
+
+        }
          
           
        //Accederemos siempre que se intente subir una imagen desde el input.
@@ -605,11 +682,30 @@ class AlertaImagenesController extends Controller
 
         //Habría que ver si permitimos crear a un moderador, supuestamente
         //debería tener permisos para la sección de imágenes.
-        if (Yii::$app->user->identity->rol === 'N' || Yii::$app->user->identity->rol === 'M')
+        if (Yii::$app->user->identity->rol === 'N')
          {
              if($model->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡No puedes borrar imágenes que no sean tuyas!', Yii::$app->request->referrer, true);
          }
+                   
+        $modelo_alerta= Alerta::findOne($model->alerta_id);
+
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+         if(!isset($modelo_alerta))
+              return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No se encontró la alerta.', Yii::$app->request->referrer, true);
+               
+          $resultado = (new \yii\db\Query())
+           ->select(['id'])
+           ->from('usuarios_area_moderacion')
+           ->where(['usuario_id' => Yii::$app->user->getId(),'area_id' => $modelo_alerta->area_id])
+           ->count();
+
+           if(!isset($resultado) || $resultado < 1)
+            return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en esta imagen.', Yii::$app->request->referrer, true);
+
+        }
+         
 
         $ruta = $model->obtenerRutaFisica();  
         

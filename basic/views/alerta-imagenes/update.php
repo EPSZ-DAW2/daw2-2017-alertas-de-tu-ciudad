@@ -29,7 +29,7 @@ $this->title = Yii::t('app', 'Modificar Imagen');
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
       
-    <?php if(!Yii::$app->user->isGuest &&  Yii::$app->user->identity->rol === 'A'){ ?>
+    <?php if(!Yii::$app->user->isGuest &&  (Yii::$app->user->identity->rol === 'A' || Yii::$app->user->identity->rol === 'M')){ ?>
         
         
     <?= $this->render('update_admin_form', [
