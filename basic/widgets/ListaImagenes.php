@@ -87,7 +87,7 @@ class ListaImagenes extends Widget
            //Pasándole como dato la ruta de la imagen
            if($i != NULL)
            {
-            if(!Yii::$app->user->isGuest && Yii::$app->user->identity->rol === 'A')
+            if(($admin))
                 $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador");', 4);  
             else  $this->view->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador");', 4);  
             

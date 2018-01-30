@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
            //Pasándole como dato la ruta de la imagen
            if($i != NULL)
            {
-            if(Yii::$app->user->identity->rol === 'A')
+            if(Yii::$app->user->identity->rol === 'A' || Yii::$app->user->identity->rol === 'M')
                 $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.':'.$imagen->imagen_revisada.'",  "previsualizador", "no_color");', 4);  
             else  $this->registerJS('previsualizar_imagen("'.$i.'", "'.$imagen->id.'", "'.$imagen->crea_usuario_id.'",  "previsualizador", "no_color");', 4);  
             
