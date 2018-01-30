@@ -3,9 +3,10 @@
  * Parametros adicionales que tendrá el administrador a la hora de modificar 
  * las imagenes.
 **/
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
@@ -21,12 +22,18 @@ use yii\widgets\ActiveForm;
  * El orden de la imagen prevalecerá.
  * 
  *  */
+$this->registerJSFile(Url::base(true).'/js/jquery.datetimepicker.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+   $this->registerCssFile(Url::base(true).'/css/jquery.datetimepicker.css');
+
 ?>
 
     <?= $form->field($model, 'alerta_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'crea_usuario_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'crea_fecha')->textInput() ?>
+    <?= $form->field($model, 'crea_fecha')->textInput(['id' => 'datetimepicker']) ?>
 
     <?= $form->field($model, 'notas_admin')->textarea(['rows' => 6]) ?>
+
+<?php 
+$this->registerJs("jQuery('#datetimepicker').datetimepicker();", View::POS_END);?>

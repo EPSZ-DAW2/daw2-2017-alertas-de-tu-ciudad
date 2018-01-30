@@ -12,7 +12,6 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
-
 $this->title = Yii::t('app', 'Modificar Imagen');
 //$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagens'), 'url' => ['index']];
 //$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
@@ -31,9 +30,10 @@ $this->title = Yii::t('app', 'Modificar Imagen');
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
       
     <?php if(!Yii::$app->user->isGuest &&  Yii::$app->user->identity->rol === 'A'){ ?>
-    <?= $this->render('update_admin_form', [
-        'model' => $model, 'form' => $form,]) ?>
         
+        
+    <?= $this->render('update_admin_form', [
+        'model' => $model, 'form' => $form,]) ?> 
     <?php }  ?>
         
     <div  align="center">       
@@ -61,7 +61,7 @@ $this->title = Yii::t('app', 'Modificar Imagen');
     soltar_objetos(element);            
 EOT_JS
   );
-        
+
         
   ActiveForm::end(); ?>
 
