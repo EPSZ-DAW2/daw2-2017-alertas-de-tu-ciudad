@@ -55,6 +55,13 @@ class UsuarioIncidencia extends \yii\db\ActiveRecord
 	public function getClases(){
 		return ['A'=>'Aviso', 'N'=>'Notificación', 'D'=>'Denuncia', 'C'=>'Consulta', 'M'=>'Mensaje'];
 	}
+	
+	public static function getTipoIncidencia($id){
+		$a= ['A'=>'Aviso', 'N'=>'Notificación', 'D'=>'Denuncia', 'C'=>'Consulta', 'M'=>'Mensaje'];
+		return $a[$id];
+	}
+	
+	
     /**
      * @inheritdoc
      */
