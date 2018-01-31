@@ -340,6 +340,9 @@ class AlertaImagenesController extends Controller
             // de más abajo.
             $total = count($_FILES['explorar_ficheros']['name']);
                 
+            if($total > AlertaImagen::$maximo_imagenes_por_alerta)
+                return $this->EnviarMensajeError(new AlertaImagen(), "Una alerta como máximo puede tener ".AlertaImagen::$maximo_imagenes_por_alerta." imágenes." ,Yii::$app->request->referrer, true);
+    
                 
             // Realizamos un primer bucle para comprobar el estado de todas las imagenes.
             //Si alguna falla, detendremos la subida de todas ellas.
@@ -390,7 +393,18 @@ class AlertaImagenesController extends Controller
                 if(!isset($res_alerta) || $res_alerta < 1)
                     return $this->EnviarMensajeError(new AlertaImagen(), "No existe la alerta con la ID: " . $alerta_id,Yii::$app->request->referrer, true);
                  
-                 
+                   
+                $num_img_en_alerta = (new \yii\db\Query())
+                ->select(['id'])
+                ->from('alerta_imagenes')
+                ->where(['alerta_id' => $alerta_id])
+                ->count();
+                
+                if(($num_img_en_alerta + $total) > AlertaImagen::$maximo_imagenes_por_alerta)
+                return $this->EnviarMensajeError(new AlertaImagen(), "Una alerta como máximo puede tener ".AlertaImagen::$maximo_imagenes_por_alerta." imágenes, actualmente hay " . $num_img_en_alerta ,Yii::$app->request->referrer, true);
+
+                
+                
                 $fecha = date("Y-m-d H:i:s"); // La fecha actual.
 
                 $modelo_orden_ultimo = AlertaImagen::find()->tomarImagenesDesdeAlertaDESC($alerta_id)->one();

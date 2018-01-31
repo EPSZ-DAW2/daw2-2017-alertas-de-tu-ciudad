@@ -21,6 +21,7 @@ use yii\helpers\Url;
 class AlertaImagen extends \yii\db\ActiveRecord
 {
     public static $extensiones_permitidas = array("gif", "jpg", "jpeg", "png");
+    public static $maximo_imagenes_por_alerta = 20;
     private $virtual_ruta = "";
     
     /**
@@ -121,7 +122,7 @@ class AlertaImagen extends \yii\db\ActiveRecord
      * Una vez generada la ruta la guardara en una variable privada para futuras referencias.
      * @return devuelve la ruta completa de la imagen o nulo, si no se pudo localizar.
      */
-        public function obtenerRutaDisco()
+    public function obtenerRutaDisco()
     {
         $ruta = $this->obtenerRutaFisica();  
         
@@ -176,5 +177,4 @@ class AlertaImagen extends \yii\db\ActiveRecord
 
         return round($bytes, $precision) . ' ' . $units[$pow]; 
     }
-    
 }
