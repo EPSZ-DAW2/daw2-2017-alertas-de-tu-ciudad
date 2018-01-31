@@ -90,7 +90,7 @@ use yii\helpers\Html;
     $bocadillo = "\".bocadillo".$dataComentario->id."\"";
     $this->registerJs( <<< EOT_JS
         var flag = 0; //flag para evitar que se hagan varios appends a la vez
-        $($identificadorComentario).hover(function(){
+        $($identificadorComentario).click(function(){
             //Si esta a 0 permitimos la peticion ajax
             if(flag == 0){
                
@@ -108,13 +108,17 @@ use yii\helpers\Html;
                     }
                 });
             }
-                    
-        },function(){
-                  
-                   $(".bubble").remove();   //quitamos esa clase 
+            else{
+                $(".bubble").remove();   //quitamos esa clase 
                    flag = 0;        //reiniciamos la flag
-                  
+            }
+                    
         });
+        
+                  
+                   
+                  
+       
 
 EOT_JS
     );

@@ -136,7 +136,9 @@ class AlertaComentariosController extends Controller
         }
     }
 
-
+    /*
+     * Función que muestra la adminsistración de los hilos
+     */
     public function actionAdministrar()
     {
         $searchModel = new AlertaComentariosSearch();
@@ -420,7 +422,7 @@ class AlertaComentariosController extends Controller
         if($id != 0) {
             if (($model = AlertaComentarios::findOne($id)) !== null) {
                 echo '<div class="bubble">';
-
+                echo '<h4 class="AjaxIdpadre">#'.$id.'</h4>';
                 echo($model->texto);
 
 

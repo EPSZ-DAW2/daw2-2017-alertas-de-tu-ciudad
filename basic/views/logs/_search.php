@@ -1,5 +1,5 @@
 <?php
-
+use app\models\Logs;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -15,19 +15,19 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'crea_fecha') ?>
+    <?= $form->field($model, 'crea_fecha')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'clase_log_id') ?>
+    <?= $form->field($model, 'clase_log_id')->dropDownList(Logs::getListaClases())->label("seleccione un tipo de log para filtrar"); ?>
 
-    <?= $form->field($model, 'modulo') ?>
+    <?= $form->field($model, 'modulo')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'texto') ?>
+    <?= $form->field($model, 'texto')->hiddenInput()->label(false) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Filtrar', ['class' => 'btn btn-primary']) ?>
+        
     </div>
 
     <?php ActiveForm::end(); ?>

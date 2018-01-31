@@ -6,7 +6,9 @@ p.comment-text {
 	padding-top: 2rem;
     line-height: 1.7rem;
     min-width:100rem;
+    max-width: 100rem;
    	width: 100%;
+    overflow-wrap: break-word;
 }
 .comment-name > h1{
 	float:left;
@@ -42,7 +44,7 @@ p.comment-text {
 	font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
     color: #555f77;
     padding: 1rem;
-
+    max-width: 105rem;
     margin:1rem;
     background-color: #fff;
     display: table-cell;
@@ -177,11 +179,15 @@ li.complain.yellowFont{
     background: linear-gradient(top, #dedede 0%, #ffffff 100%);
   	margin: 1rem;
     min-width: 300px;
+
     padding: 40px;
-    text-align: center;
+    padding-top: 10px;
+    text-align: justify;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px ;
     border-radius: 20px;
+    overflow-wrap: break-word;
+    max-width: 100rem;
 }
 
 .bubble:after {
@@ -191,11 +197,15 @@ li.complain.yellowFont{
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     bottom: -10px;
-    right:4.4rem;
+    right:4rem;
     border-width: 10px;
     border-style: solid;
     border-color: transparent #FFF #FFF transparent;
 }
 #alertacomentarios-texto{
 	width:99%;
+}
+.AjaxIdpadre{
+    font-weight: 500;
+    text-align: left;
 }
