@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Area;
 use app\models\AreaSearch;
+use app\models\UsuarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +36,7 @@ class AreaController extends Controller
 				],
 				[
 					'allow'=>true,
-					'actions'=>['index','view','create','update','delete', 'admin'],
+					'actions'=>['index','view','create','update','delete', 'admin', 'moderator'],
 					'roles'=>['A','M'],
 				],
 				],
@@ -145,6 +146,20 @@ class AreaController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'clasesArea' => Area::$clases_area,
+            'rol' => Yii::$app->user->identity->rol
+        ]);
+    }
+
+    /* Show areas for moderator */
+    public function actionModerator() {
+        $searchModel = new UsuarioSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where('rol = \'M\'');
+
+        return $this->render('moderator', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'clasesArea' => Area::$clases_area,
