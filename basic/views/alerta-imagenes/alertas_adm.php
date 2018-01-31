@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         foreach ($models as $alerta_model) 
         {
           ?>  
-        <a style="text-decoration: none; color: black;" href="<?php echo Url::base(true);?>/alertas/imagenes?id=<?php echo $alerta_model->id;?>">
+        <a style="text-decoration: none; color: black;" href="<?php echo Url::base(true);?>/alertas/imagenes?id=<?php echo $alerta_model->id;?>&url=<?php echo Url::current()?>">
         <div class = "previsualizador_alerta" style="padding-top: 15px; height: 200px; min-width: 567px; box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23); float: left; position: relative; display: inline-block; margin-right:3px; margin-bottom: 10px; ">
             <div id="imagen_<?php echo $alerta_model->id;?>" style="float:left; position: absolute;"></div>
             <div class="parte_derecha" style="float:right; position: absolute; margin-left: 285px;" >
@@ -54,8 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
         
 ?>
-    
-     <?php Url::remember(); ?>
     
 
 </div>
