@@ -10,13 +10,14 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'Áreas');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="area-index">
+<div class="area-admin">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Area'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Crear área'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Administrar áreas por usuario'), ['moderator'], ['class' => 'btn btn-success']) ?>
     </p>
     <? Pjax::begin(); ?>
     <?= GridView::widget([

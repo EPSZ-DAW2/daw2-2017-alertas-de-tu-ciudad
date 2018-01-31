@@ -11,14 +11,9 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'Áreas');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="area-admin">
+<div class="area-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Area'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <? Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            ['attribute' => 'id', 'visible' => $rol != 'N'],
             ['attribute' => 'claseArea', 'filter' => $clasesArea ],
             'nombre',
             'parentName',
