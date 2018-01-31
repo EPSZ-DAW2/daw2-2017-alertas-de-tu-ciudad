@@ -14,6 +14,7 @@ use app\components\ControlAcceso;
 use app\models\Categorias;
 use app\models\CategoriasSearch;
 use yii\data\ActiveDataProvider;
+use \app\models\AlertaImagen;
 
 
 /**
@@ -180,9 +181,13 @@ class AlertasController extends Controller
      */
     public function actionDelete($id)
     {
+        // Al eliminar una alerta, también se eliminarán todas las imágenes asociadas a la misma.
+        AlertaImagen::eliminarTodas($id);
+        // -------------------------------------------------------------------------------------
+        
         $this->findModel($id)->delete();
 		
-		$us=Yii::$app->user->identity->id; //solo pueden Borrar alertas nuevas usuarios registrados
+	$us=Yii::$app->user->identity->id; //solo pueden Borrar alertas nuevas usuarios registrados
 
 
         return $this->redirect(['index']);

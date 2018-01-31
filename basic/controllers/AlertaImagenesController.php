@@ -738,49 +738,7 @@ class AlertaImagenesController extends Controller
 
         }
          
-
-        $ruta = $model->obtenerRutaFisica();  
-        
-        //En el caso de por cualquier razón no existe la imagen relacionada.
-        //Entonces se borra solo el registro de la DB.
-        if($ruta == NULL)
-        {
-           $this->findModel($id)->delete();
-           return $this->redirect(Yii::$app->request->referrer ?: 'index');
-        }
-        
-        $divisiones = explode("/", $ruta);
-        $c = count($divisiones);
-        
-        $ruta_relativa = "\uploads"; 
-        
-        //Obtiene la ruta relativa.
-        for($itr = $c-5; $itr <= $c-1; $itr++)
-            $ruta_relativa .= '\\'.$divisiones[$itr];
-     
-        //Transforma la ruta relativa en una completa.
-        $ruta_relativa = getcwd().$ruta_relativa;
-        
-        //Borra la imagen.
-        unlink($ruta_relativa);
-             
-        //Obtiene la base del directorio, es decir, la ruta anterior.
-        $dir = dirname($ruta_relativa);
-
-        //Va reduciendo la ruta hasta llegar a Uploads.
-        //Borra todos los directorios de carpetas hasta Uploads, siempre
-        //y cuando estas no tengan ningún archivo.
-        while(basename($dir) != "Uploads")
-        {
-            if(!$this->directorio_vacio($dir))
-                break;
-            
-            FileHelper::removeDirectory($dir);
-            $dir = dirname($dir);
-        }
-        
-        //Borra el registro de la base de datos.
-        $this->findModel($id)->delete();
+        $model->borrar();
         
         $this->FijarImagenEnAlerta($alerta_id);
         

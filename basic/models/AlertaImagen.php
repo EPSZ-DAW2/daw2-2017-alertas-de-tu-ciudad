@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\FileHelper;
 /**
  * This is the model class for table "alerta_imagenes".
  *
@@ -22,6 +23,7 @@ class AlertaImagen extends \yii\db\ActiveRecord
 {
     public static $extensiones_permitidas = array("gif", "jpg", "jpeg", "png");
     public static $maximo_imagenes_por_alerta = 20;
+    
     private $virtual_ruta = "";
     
     /**
@@ -150,6 +152,66 @@ class AlertaImagen extends \yii\db\ActiveRecord
        // return realpath($ruta_relativa);
     }
     
+    public function borrar()
+    {
+       $ruta = $this->obtenerRutaFisica();  
+        
+        //En el caso de por cualquier razón no existe la imagen relacionada.
+        //Entonces se borra solo el registro de la DB.
+        if($ruta == NULL)
+        {
+           $this->delete();
+           return;
+        }
+        
+        $divisiones = explode("/", $ruta);
+        $c = count($divisiones);
+        
+        $ruta_relativa = "\uploads"; 
+        
+        //Obtiene la ruta relativa.
+        for($itr = $c-5; $itr <= $c-1; $itr++)
+            $ruta_relativa .= '\\'.$divisiones[$itr];
+     
+        //Transforma la ruta relativa en una completa.
+        $ruta_relativa = getcwd().$ruta_relativa;
+        
+        //Borra la imagen.
+        unlink($ruta_relativa);
+             
+        //Obtiene la base del directorio, es decir, la ruta anterior.
+        $dir = dirname($ruta_relativa);
+
+        //Va reduciendo la ruta hasta llegar a Uploads.
+        //Borra todos los directorios de carpetas hasta Uploads, siempre
+        //y cuando estas no tengan ningún archivo.
+        while(basename($dir) != "Uploads")
+        {
+            if(!$this->directorio_vacio($dir))
+                break;
+            
+            FileHelper::removeDirectory($dir);
+            $dir = dirname($dir);
+        }
+        
+        //Borra el registro de la base de datos.
+        $this->delete();
+    }
+    
+    function directorio_vacio($dir) 
+    {
+        if (!is_readable($dir)) return NULL;
+
+            $handle = opendir($dir);
+             while (false !== ($entry = readdir($handle))) 
+              {
+                if ($entry != "." && $entry != "..") 
+                    return false;
+
+              }
+        return true;
+    }
+
     /**
      * @inheritdoc
      * @return AlertaImagenQuery the active query used by this AR class.
@@ -177,4 +239,16 @@ class AlertaImagen extends \yii\db\ActiveRecord
 
         return round($bytes, $precision) . ' ' . $units[$pow]; 
     }
+    
+    
+    public static function eliminarTodas($idAlerta) 
+    { 
+       $imagenes = AlertaImagen::find()->tomarImagenesDesdeAlerta($idAlerta)->all(); 
+       
+       foreach ($imagenes as $imagen)
+       {
+           $imagen->borrar();
+       } 
+    }
+    
 }
