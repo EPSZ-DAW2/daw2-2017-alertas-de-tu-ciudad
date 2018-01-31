@@ -54,14 +54,15 @@ class UsuarioIncidenciasController extends Controller
                                 'roles' => ['A','M'],
                             ],
                             // everything else is denied
+					
                         ],
              ], 
-            'verbs' => [
+           /* 'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],*/
 			
         ];
     }
@@ -314,21 +315,16 @@ class UsuarioIncidenciasController extends Controller
 		$model->clase_incidencia_id='M';
 		$model->origen_usuario_id=Yii::$app->user->identity->id;
 		$model->destino_usuario_id=$id;
-		
+		//echo Yii::$app->user->identity->id;
+		//echo $id;
 			
         if ($model->load(Yii::$app->request->post())) {
 			
 		
-			if($bien){
+			
 				$model->save();
-				 return $this->redirect(['view', 'id' => $model->id]);
-			}else{
-				return $this->render('createincidencia', [
-                'model' => $model,
-				'nombre' => $destinatario->nick,
-				'error' => 'No se puede mandar el mensaje',
-            ]);
-			}
+				return $this->redirect(['index']);
+			
            
         } else {
 			
@@ -492,20 +488,24 @@ class UsuarioIncidenciasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) ) {
-			$aceptar=Yii::$app->request->post('aceptar');
+		$aceptar=Yii::$app->request->post('aceptar');
+		$cambio=false;
 			if($aceptar){
 				$model->destino_usuario_id=Yii::$app->user->identity->id;
 				$model->fecha_aceptado=date("Y-m-d H:i:s");
+				$cambio = true;
 			}	
 			$borrar=Yii::$app->request->post('borrar');
 			if($borrar && $model->fecha_borrado==null){
 				$model->fecha_borrado=date("Y-m-d H:i:s");
+				$cambio = true;
 			}
 			if($borrar==false && $model->fecha_borrado!=null){
 				$model->fecha_borrado=null;
+				$cambio = true;
 			}
+			
+        if ($cambio == true) {
 			$model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -521,9 +521,43 @@ class UsuarioIncidenciasController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->findModel($id)->delete();
+      //  $this->findModel($id)->delete();
+		
+		$diasLimiteLeidos = Configuraciones::findOne('dias_incidencias_leidas');
+		$diasLimiteBorrados = Configuraciones::findOne('dias_incidencias_borradas');		
+
+		//echo $diasLimiteLeidos['valor'];
+		
+		if($diasLimiteLeidos != null){
+			$diasL = $diasLimiteLeidos['valor'];
+			
+			$fecha = date('Y-m-d H:i:s');
+			$fechavieja = strtotime ( '-'.$diasL.' day' , strtotime ( $fecha ) ) ;
+			$fechavieja = date ( 'Y-m-d H:i:s' , $fechavieja );
+			$lista = UsuarioIncidencia::find()->where("fecha_lectura < '".$fechavieja."' and fecha_borrado IS NULL" )->all();
+			
+			foreach($lista as $incidencia){
+				$incidencia->fecha_borrado=$fecha;
+				$incidencia->save();
+			}
+		}
+		
+		
+		if($diasLimiteBorrados != null){
+			
+			$diasB = $diasLimiteBorrados['valor'];
+			$fecha = date('Y-m-d H:i:s');
+			$fechavieja = strtotime ( '-'.$diasB.' day' , strtotime ( $fecha ) ) ;
+			$fechavieja = date ( 'Y-m-d H:i:s' , $fechavieja );
+			$lista = UsuarioIncidencia::find()->where("fecha_borrado < '".$fechavieja."'")->all();
+			
+			foreach($lista as $incidencia){
+				$incidencia->delete();
+
+			}
+		}
 
         return $this->redirect(['index']);
     }
