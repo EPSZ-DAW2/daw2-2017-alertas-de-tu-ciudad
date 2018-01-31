@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
         $posible_parents = $model::find()->where(['<', 'clase_area_id', $model->clase_area_id])->all();
     }
     ?>
-    <?= $form->field($model, 'area_id')->dropDownList(ArrayHelper::map($posible_parents, 'id', 'nombre', 'claseArea')) ?>
+    <?= $form->field($model, 'area_id')->dropDownList(ArrayHelper::map($posible_parents, 'id', 'nombre', 'claseArea'), ['prompt' => 'Selecciona un área padre']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

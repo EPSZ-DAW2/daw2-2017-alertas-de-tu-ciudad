@@ -47,6 +47,11 @@ class Area extends \yii\db\ActiveRecord
             [['area_id'], 'integer'],
             [['clase_area_id'], 'integer', 'max' => 10],
             [['nombre'], 'string', 'max' => 50],
+            ['clase_area_id', function($attribute, $params, $validator) {
+                $parent = $this->parentArea;
+                if ($parent && ($parent->clase_area_id > $this->$attribute))
+                    $this->addError($attribute, 'El tipo de área no puede ser mayor que el del área padre');
+            }],
         ];
     }
 
