@@ -14,6 +14,7 @@ use app\components\ControlAcceso;
 use yii\helpers\Url;
 use yii\data\Pagination;
 use yii\db\Query;
+use app\models\AlertaSearch;
 
 /**
  * AlertaImagenesController implements the CRUD actions for AlertaImagen model.
@@ -36,7 +37,7 @@ class AlertaImagenesController extends Controller
             
             'access' => [
             'class' => ControlAcceso::className(),
-            'only' => ['index','view','create','update','delete','revisar','imagenrevisar','ordenar'],
+            'only' => ['index','view','create','update','delete','revisar','imagenrevisar','ordenar','alertasimgadmin'],
             'rules' =>[ 
                 [
                 'allow'=>true,
@@ -45,7 +46,7 @@ class AlertaImagenesController extends Controller
                 ],
                 [
                 'allow'=>true,
-                'actions'=>['index','view','create','update','delete','revisar', 'imagenrevisar', 'ordenar'],
+                'actions'=>['index','view','create','update','delete','revisar', 'imagenrevisar', 'ordenar','alertasimgadmin'],
                 'roles'=>['A','M'],
                 ],
             ],
@@ -171,6 +172,37 @@ class AlertaImagenesController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    
+      public function actionAlertasimgadmin()
+    {
+        if(Yii::$app->user->isGuest)
+        return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        if(!isset(Yii::$app->user->identity->rol))
+            return $this->redirect(Yii::$app->request->referrer ?: 'index');
+        
+        $searchModel = new AlertaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        
+        if(Yii::$app->user->identity->rol === 'M')
+        {
+            $dataProvider->query->andWhere(['in', 'area_id', (new Query())->select('area_id')
+                    ->from('usuarios_area_moderacion')
+                    ->where(['usuario_id' => Yii::$app->user->getId()])]);
+        }
+           
+        $countQuery = clone $dataProvider->query;
+            $pages = new Pagination(['totalCount' => $countQuery->count()]);
+            $models = $dataProvider->query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();   
+          
+            return $this->render('alertas_adm', [
+                 'models' => $models,
+                 'pages' => $pages,
+            ]);
     }
 
     public function actionImagenrevisar($id, $change = false)
@@ -745,23 +777,7 @@ class AlertaImagenesController extends Controller
         return $this->redirect(Yii::$app->request->referrer ?: 'index');
       //  return $this->redirect(['index']);
     }
-    
-    function directorio_vacio($dir) 
-    {
-        if (!is_readable($dir)) return NULL;
 
-            $handle = opendir($dir);
-             while (false !== ($entry = readdir($handle))) 
-              {
-                if ($entry != "." && $entry != "..") 
-                    return false;
-
-              }
-        return true;
-    }
-
-    
-    
     private function FijarImagenEnAlerta($alerta_id)
     {
        $modelo_alerta= Alerta::findOne($alerta_id);
