@@ -50,7 +50,7 @@ AppAsset::register($this);
             //Acceso a usuarios
             ['label' => Yii::t('app','Users'), 'url' => ['/usuarios']],
             //Acceso a los comentarios de las alertas
-            ['label' => 'Comentarios', 'url' => ['/alerta-comentarios']],
+            ['label' => 'Comentarios', 'url' => ['/alerta-comentarios'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
             //Index Imagenes listas.
             ['label' => Yii::t('app', 'Imágenes'), 'url' => ['/alerta-imagenes'], 'visible'=>(!Yii::$app->user->isGuest and (Yii::$app->user->identity->rol=='A' or Yii::$app->user->identity->rol=='M'))],

@@ -65,17 +65,11 @@ class AlertaComentariosController extends Controller
     public function actionIndex()
     {
         $searchModel = new AlertaComentariosSearch();//Datos para el Gridview de la vista inicial de la tabla
-        $searchModel2 = new AlertaComentariosSearch();//Datos ordenados por fecha de modificación, para mostrar los comentarios en orden
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $idAlerta = "";
-        $dataProvider2 = $searchModel2->ordenarComentariosFechaDesc($idAlerta); //Creamos otro data provider para mostrar los datos ordenados por su fehca
-
         //Renderizado de la vista index con los parámetros necesarios
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'dataProvider2' => $dataProvider2,
-            'idAlerta' => $idAlerta
         ]);
     }
 
@@ -86,6 +80,18 @@ class AlertaComentariosController extends Controller
      */
     public function actionView($id)
     {
+        $usuario = new Usuarios();
+        $usuario = $usuario::findOne($_SESSION['__id']);
+        $comentario = new AlertaComentarios();
+        $comentario = $comentario::findOne($id);
+        $alerta = new Alerta();
+        $alerta = $alerta::findOne($comentario->alerta_id);
+
+        //Vamos acontrolar que el moderador solo pueda ver los comentarios de su zona
+        if( $usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) !=0){
+            throw new  \yii\web\HttpException(401, 'EL moderador no tiene acceso para comentarios de esa zona');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -156,6 +162,16 @@ class AlertaComentariosController extends Controller
         $usuario = new Usuarios();
         $usuario=$usuario::findOne($_SESSION["__id"]);
 
+        $comentario = new AlertaComentarios();
+        $comentario = $comentario::findOne($id);
+        $alerta = new Alerta();
+        $alerta = $alerta::findOne($comentario->alerta_id);
+
+        //Vamos acontrolar que el moderador solo pueda actaulizar los comentarios de su zona
+        if( $usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) !=0){
+            throw new  \yii\web\HttpException(401, 'EL moderador no tiene acceso para comentarios de esa zona');
+        }
+
         $model = $this->findModel($id); //Se encuentra el modelo a través de su id
         //Actualizar fecha de modificacion
         //Establecemos la zona horaria para obtener la hora y la fecha
@@ -218,6 +234,18 @@ class AlertaComentariosController extends Controller
      */
     public function actionDelete($id)
     {
+        $usuario = new Usuarios();
+        $usuario = $usuario::findOne($_SESSION['__id']);
+        $comentario = new AlertaComentarios();
+        $comentario = $comentario::findOne($id);
+        $alerta = new Alerta();
+        $alerta = $alerta::findOne($comentario->alerta_id);
+
+        //Vamos acontrolar que el moderador solo pueda actaulizar los comentarios de su zona
+        if( $usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) !=0){
+            throw new  \yii\web\HttpException(401, 'EL moderador no tiene acceso para comentarios de esa zona');
+        }
+
         $this->findModel($id)->delete(); //Se encuentra el id que se le pasa por parámetro y se elimina
 
         return $this->redirect(['index']);
@@ -246,6 +274,16 @@ class AlertaComentariosController extends Controller
      */
     public function actionComentar($idComentarioPadre,$idAlerta,$redireccion)
     {
+        //Evitar comentar en un comentario que este bloqueado o cerrado
+        if($idComentarioPadre != 0) {
+            //Obtenemos los atributos del comentario padre para saber si esta cerrado  o bloqueado
+            $comentarioPadre = new AlertaComentarios();
+            $comentarioPadre = $comentarioPadre::findOne($idComentarioPadre);
+
+            if ($comentarioPadre->bloqueado != 0 || $comentarioPadre->cerrado == 1) {
+                throw new \yii\web\HttpException(401, 'No puedes comentar un mensaje bloqueado o cerrado');
+            }
+        }
 
         $nuevoComentario = new AlertaComentarios(); //Se crea un nuevo modelo comentario
         $nuevoComentario->load(Yii::$app->request->post()); //Se le carga la información que le llega por post(texto)
@@ -253,10 +291,10 @@ class AlertaComentariosController extends Controller
         $nuevoComentario->alerta_id = $idAlerta; //Se obtiene de la variable que indique en que alerta estamos
         //INFORMACION QUE SE OBTIENE DE SESION
         //Si no está vacia la variable de sesion entonces
-        if(!empty($_SESSION["__id"])) {
-            $nuevoComentario->crea_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion el id del crea usuario
-            $nuevoComentario->modi_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion el id del modiusuario
-        }
+
+        $nuevoComentario->crea_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion el id del crea usuario
+        $nuevoComentario->modi_usuario_id = $_SESSION["__id"]; //Se obtiene de sesion el id del modiusuario
+
         //Establecemos la zona horaria para obtener la hora y la fecha
         date_default_timezone_set('Europe/Amsterdam');
         //Obtenemos la hora y fecha actual
@@ -291,7 +329,15 @@ class AlertaComentariosController extends Controller
 
         $usuario = new Usuarios();
         $usuario = $usuario::findOne($_SESSION["__id"]);
+        $modelComentario = new AlertaComentarios();
+        $modelComentario = $modelComentario::findOne($id);
 
+        $alerta = new Alerta();
+        $alerta = $alerta::findOne($modelComentario->alerta_id);
+        //Vamos acontrolar que el moderador solo pueda gestionar los comentarios de su zona
+        if( $usuario->rol =='M' && strcmp($usuario->area_id ,$alerta->area_id) !=0){
+            throw new  \yii\web\HttpException(401, 'EL moderador no tiene acceso para comentarios de esa zona');
+        }
 
         $modeloPadre = $this->findModel($id); //obtenemos el modelo del padre a través de su id
 
@@ -405,6 +451,10 @@ class AlertaComentariosController extends Controller
 
             return $this->render("modificarComentarioForm",["model"=>$modelComentario]);
         }
+        //Cuando intenten modificar un comentario que no es el suyo
+        else{
+            throw new \yii\web\HttpException(401, 'No tienes permisos para modificar ese comentario');
+        }
 
     }
     /*
@@ -437,6 +487,5 @@ class AlertaComentariosController extends Controller
             ]);
         }
     }
-
 
 }
