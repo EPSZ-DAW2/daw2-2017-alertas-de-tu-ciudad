@@ -48,7 +48,7 @@ AppAsset::register($this);
             //Acceso a Incidencias
             ['label' => 'Incidencias', 'url' => ['/usuario-incidencias']],
             //Acceso a usuarios
-            ['label' => Yii::t('app','Users'), 'url' => ['/usuarios']],
+            ['label' => Yii::t('app','Users'), 'url' => ['/usuarios'], 'visible' => !(Yii::$app->user->isGuest)],			
             //Acceso a los comentarios de las alertas
             ['label' => 'Comentarios', 'url' => ['/alerta-comentarios'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
