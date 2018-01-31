@@ -34,7 +34,7 @@ class AlertasController extends Controller
                 'only' => ['view','create','update','delete','finalizar','ficha', 'bloquear','denunciar','imagenes','categorias'.'areas'],
                 'rules' => [
                     [
-                        'actions' => ['create','update','delete','finalizar','view','bloquear','ficha','denunciar'],
+                        'actions' => ['create','update','view','ficha','denunciar'],
                         'allow' => true,
                         'roles' => ['A','M','N'],
                     ],
@@ -44,9 +44,9 @@ class AlertasController extends Controller
                         'roles' => ['A','M','N','?'],
                     ],
 					[
-                        'actions' => ['imagenes','categorias','areas'],
+                        'actions' => ['imagenes','categorias','areas','delete','finalizar','bloquear'],
                         'allow' => true,
-                        'roles' => ['A'],
+                        'roles' => ['A','M'], //permisos moderador y administrador
                     ],
                     
                 ],
@@ -188,7 +188,7 @@ class AlertasController extends Controller
         $this->findModel($id)->delete();
 		
 	$us=Yii::$app->user->identity->id; //solo pueden Borrar alertas nuevas usuarios registrados
-
+		// || $model->crea_usuario_id==Yii::$app->user->identity->id )
 
         return $this->redirect(['index']);
     }
@@ -306,7 +306,7 @@ class AlertasController extends Controller
     {
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 
-		if(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A')
+		if(!Yii::$app->user->isGuest and (Yii::$app->user->identity->rol=='A' || Yii::$app->user->identity->rol=='M'))
 		{
 		$query=Categorias::find()->where(['id'=>$id]);
                 $searchModel = new CategoriasSearch();
@@ -338,7 +338,7 @@ class AlertasController extends Controller
 		
 		$us=Yii::$app->user->identity->id; //solo pueden Finalizar alertas nuevas usuarios registrados
 	
-		if(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A')
+		if(!Yii::$app->user->isGuest and (Yii::$app->user->identity->rol=='A' || Yii::$app->user->identity->rol=='M'))
 		{
 			$model = $this->findModel($area_id);
 		
@@ -346,7 +346,7 @@ class AlertasController extends Controller
             return $this->redirect(['view', 'id'=>$model->id]);
         } else {
 			$model->save();
-           return $this->redirect(['area/view', 'id'=>$id]);
+           return $this->redirect(['area/view', 'id'=>$area_id]);
 
 			}
 		}else{
