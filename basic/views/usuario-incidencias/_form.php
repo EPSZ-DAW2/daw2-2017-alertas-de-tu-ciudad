@@ -15,7 +15,7 @@ $destinatario = (Yii::$app->user->identity->id == $model->destino_usuario_id);
 
 <div class="usuario-incidencia-form">
 
-    <?php $form = ActiveForm::begin(['action' => 'usuario-incidencias/createmenseje', 'id' => '".$model->destino_usuario_id."', 'method' => 'post',]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'crea_fecha')->textInput(['disabled'=>true])->label('Fecha de creación') ?>
 
@@ -42,11 +42,7 @@ $destinatario = (Yii::$app->user->identity->id == $model->destino_usuario_id);
 		echo Html::checkbox('aceptar', false, ['label' => 'Acepto la gestión de la incidencia']);
 		
 	}else{
-		echo $form->field($model, 'fecha_aceptado')->textInput(['disabled'=>true]);
-	} 
-
-	?>
-		
+		echo $form->field($model, 'fecha_aceptado')->textInput(['disabled'=>true]);} ?>
 	
 	
     <div class="form-group">
