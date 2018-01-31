@@ -130,33 +130,32 @@ class AlertaComentariosSearch extends AlertaComentarios
     /*
      * Función que obtiene un data provider con los comentarios raiz o padres de los demás
      */
-    public function obtenerComentariosPadres()
+    public function obtenerComentariosPadres($params)
     {
 
-            $usuario = new Usuarios();//Crea un modelo con la información del usuario
-            $usuario=$usuario::findOne($_SESSION["__id"]);
-            //Caso de moderador de zona
-            if(($usuario->rol) == 'M'){
+        $usuario = new Usuarios();//Crea un modelo con la información del usuario
+        $usuario=$usuario::findOne($_SESSION["__id"]);
+        //Caso de moderador de zona
+        if(($usuario->rol) == 'M'){
 
-                //En caso de que el usaurio sea moderador se le aplica el filtro para que solo vea alertas de su zona.
-                /*
-                SELECT * FROM alerta_comentarios
-                    INNER JOIN alertas ON alerta_comentarios.alerta_id = alertas.id
-                    INNER JOIN usuarios  ON alertas.area_id = usuarios.area_id WHERE usuarios.id = 1
-                */
-                $query = AlertaComentarios::find()
-                    ->leftJoin('alertas','alerta_comentarios.alerta_id = alertas.id')
-                    ->leftJoin('usuarios','alertas.area_id = usuarios.area_id')
-                    ->where('usuarios.id = '. $usuario->id)
-                    //Añadimos esta condicion para solo mostrar los hilos abiertos
-                    ->andFilterWhere(['comentario_id' => 0]);
-            }
-            //Caso que sea adminsitrador general
-            else{
-                $query = AlertaComentarios::find()
-                    ->andFilterWhere(['comentario_id' => 0]);
-            }
-
+            //En caso de que el usaurio sea moderador se le aplica el filtro para que solo vea alertas de su zona.
+            /*
+            SELECT * FROM alerta_comentarios
+                INNER JOIN alertas ON alerta_comentarios.alerta_id = alertas.id
+                INNER JOIN usuarios  ON alertas.area_id = usuarios.area_id WHERE usuarios.id = 1
+            */
+            $query = AlertaComentarios::find()
+                ->leftJoin('alertas','alerta_comentarios.alerta_id = alertas.id')
+                ->leftJoin('usuarios','alertas.area_id = usuarios.area_id')
+                ->where('usuarios.id = '. $usuario->id)
+                //Añadimos esta condicion para solo mostrar los hilos abiertos
+                ->andFilterWhere(['comentario_id' => 0]);
+        }
+        //Caso que sea adminsitrador general
+        else{
+            $query = AlertaComentarios::find()
+                ->andFilterWhere(['comentario_id' => 0]);
+        }
 
 
         //Creamos el data provider para obtener los comentarios padres ordenados por fecha
@@ -171,6 +170,7 @@ class AlertaComentariosSearch extends AlertaComentarios
                 ]
             ]
         ]);
+        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -178,6 +178,27 @@ class AlertaComentariosSearch extends AlertaComentarios
 
             return $dataProvider;
         }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'alerta_id' => $this->alerta_id,
+            'crea_usuario_id' => $this->crea_usuario_id,
+            'crea_fecha' => $this->crea_fecha,
+            'modi_usuario_id' => $this->modi_usuario_id,
+            'modi_fecha' => $this->modi_fecha,
+            'comentario_id' => $this->comentario_id,
+            'cerrado' => $this->cerrado,
+            'num_denuncias' => $this->num_denuncias,
+            'fecha_denuncia1' => $this->fecha_denuncia1,
+            'bloqueado' => $this->bloqueado,
+            'bloqueo_usuario_id' => $this->bloqueo_usuario_id,
+            'bloqueo_fecha' => $this->bloqueo_fecha,
+        ]);
+
+        $query->andFilterWhere(['like', 'texto', $this->texto])
+            ->andFilterWhere(['like', 'bloqueo_notas', $this->bloqueo_notas]);
+
         return $dataProvider;
     }
 

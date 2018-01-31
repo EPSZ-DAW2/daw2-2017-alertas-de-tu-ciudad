@@ -105,16 +105,18 @@ class AlertaEtiquetasController extends Controller
      */
     public function actionAnadir($id)
     {
-        $model = new AlertaEtiquetas();
-		  $modelo = new Alerta();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['alertas/view', 'id' => $id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+		$model = new AlertaEtiquetas();
+		$modelo = new Alerta();
+		$model->alerta_id=$id;
+		
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['alertas/view', 'id' => $id]);
+		} else {
+			return $this->render('anadir', [
+				 'model' => $model,
+				 'id' => $id,
+			]);
+		}
     }
 
     /**
