@@ -1,0 +1,23 @@
+USE `daw2_alertas`;
+INSERT INTO `categorias` (`id`, `nombre`, `descripcion`, `categoria_id`) VALUES
+(1, 'Evento', 'Cualquier evento', NULL),
+(2, 'Climatológica', 'Cualquier alerta climatológica', NULL),
+(3, 'Tráfico', 'Cualquier alerta de tráfico', NULL),
+(4, 'Sucesos', 'Cualquier alerta de sucesos', NULL),
+(5, 'Incidencias ciudad', 'Cualquier tipo de incidencia en ciudad', NULL),
+(6, 'Concierto', 'Evento concierto', 1),
+(7, 'Evento Deportivo', 'Cualquier evento deportivo', 1),
+(8, 'Fiesta popular', 'Evento fiesta popular', 1),
+(9, 'Fútbol', 'Evento futbolístico', 7),
+(10, 'Baloncesto', 'Evento baloncestístico', 7),
+(11, 'Tenis', 'Evento tenístico', 7),
+(12, 'Comilona', 'Evento de comida popular', 8),
+(13, 'Fiesta local', 'Fiestas locales-patronales...', 8),
+(14, 'Viento', 'Alerta de viento', 2),
+(15, 'Lluvia', 'Alerta de lluvia ', 2),
+(16, 'Atasco', 'Alerta de atasco', 3),
+(17, 'Accidente', 'Alerta de accidente', 3),
+(18, 'Radar', 'Alerta de radar', 3),
+(19, 'Robo', 'Alerta de robo', 4),
+(20, 'Desperfectos', 'Alerta de desperfectos en mobiliario, aceras...', 5),
+(21, 'Otras', 'Cualquier otro tipo no definido', NULL);
