@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\AlertaEtiquetas;
+use app\models\Alerta;
 use app\models\AlertaEtiquetasSearch;
 use app\components\ControlAcceso;
 use yii\web\Controller;
@@ -90,6 +91,25 @@ class AlertaEtiquetasController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Crea una nueva relación entre etiqueta y alerta y redirecciona al modelo de la alerta.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionAnadir($id)
+    {
+        $model = new AlertaEtiquetas();
+		  $modelo = new Alerta();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['alertas/view', 'id' => $id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

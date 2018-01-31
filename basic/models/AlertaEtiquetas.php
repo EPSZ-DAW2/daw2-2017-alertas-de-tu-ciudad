@@ -30,6 +30,7 @@ class AlertaEtiquetas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+				[['alerta_id','etiqueta_id'],'unique', 'targetAttribute' => ['alerta_id','etiqueta_id'],'message' => 'Esa Alerta ya tiene enlazada la etiqueta'],
             [['alerta_id', 'etiqueta_id'], 'required'],
             [['alerta_id', 'etiqueta_id'], 'integer'],
             [['etiqueta_id'], 'exist', 'skipOnError' => true, 'targetClass' => Etiquetas::className(), 'targetAttribute' => ['etiqueta_id' => 'id']],
