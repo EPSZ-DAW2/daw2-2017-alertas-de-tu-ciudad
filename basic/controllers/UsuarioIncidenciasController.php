@@ -78,6 +78,9 @@ class UsuarioIncidenciasController extends Controller
 	 //ojo permisos para cualquier usuario
     public function actionIndex()
     {	
+		//$model = new UsuarioIncidencia();
+		//$model = $this->all(); //Se igual al modelo toda la información de dicha incidencia 
+	
 		if(!isset(Yii::$app->user->identity->id)){
 			return $this-> redirect(['site/login']);
 		}
@@ -106,10 +109,37 @@ class UsuarioIncidenciasController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+			//'model'=>$model,
 			'admin'=> $admin,
         ]);
     }
-	//ojo permiso de admin 
+	
+	/*
+	* Función actionIndexadmin: el index al que solo podrá tener acceso el usuario Administrador
+	*							y Moderador.  Se encargará de recoger el número de paginación 
+	*							de la base de datos, 
+	*/
+	public function actionIndexadmin()
+    {
+		$paginacion=100; //valor por defecto de la paginación. 
+		$configuracion= Configuraciones::findOne("numero_lineas_pagina");
+		if($configuracion){
+			$paginacion=$configuracion->valor;
+		}
+        $searchModel = new UsuarioIncidenciaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination = ['pageSize' => $paginacion]; 
+		$u=Yii::$app->request->get('id');
+		if($u!=null){
+			$dataProvider->query->andWhere("(destino_usuario_id=$u or origen_usuario_id=$u)");
+		}
+        return $this->render('indexadmin', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+	
+		//ojo permiso de admin 
 	 public function actionIndex2($id)//Función para la revisión de incidencias desde usuarios
     {	
 		if(!isset(Yii::$app->user->identity->id)){
@@ -143,31 +173,6 @@ class UsuarioIncidenciasController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'admin'=> $admin,
-        ]);
-    }
-	
-	/*
-	* Función actionIndexadmin: el index al que solo podrá tener acceso el usuario Administrador
-	*							y Moderador.  Se encargará de recoger el número de paginación 
-	*							de la base de datos, 
-	*/
-	public function actionIndexadmin()
-    {
-		$paginacion=100; //valor por defecto de la paginación. 
-		$configuracion= Configuraciones::findOne("numero_lineas_pagina");
-		if($configuracion){
-			$paginacion=$configuracion->valor;
-		}
-        $searchModel = new UsuarioIncidenciaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination = ['pageSize' => $paginacion]; 
-		$u=Yii::$app->request->get('id');
-		if($u!=null){
-			$dataProvider->query->andWhere("(destino_usuario_id=$u or origen_usuario_id=$u)");
-		}
-        return $this->render('indexadmin', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -208,7 +213,7 @@ class UsuarioIncidenciasController extends Controller
 				return $this->redirect(['index']);
 			}else{
 				
-				if($model->fecha_lectura==null /*&& $model->destino_usuario_id==$yo*/){
+				if($model->fecha_lectura==null && $model->destino_usuario_id==$yo){
 					$model->fecha_lectura=date("Y-m-d H:i:s");
 					$model->save();
 						
@@ -321,7 +326,7 @@ class UsuarioIncidenciasController extends Controller
 				return $this->render('createincidencia', [
                 'model' => $model,
 				'nombre' => $destinatario->nick,
-				'error' => 'no se puede mandar el mensaje',
+				'error' => 'No se puede mandar el mensaje',
             ]);
 			}
            
@@ -452,6 +457,7 @@ class UsuarioIncidenciasController extends Controller
 				return $this->render('createincidencia', [
                 'model' => $model,
 				'nombreaviso' => $destinatario->nick,
+				'aviso'=>true,
 				'error' => 'no se puede mandar el mensaje',
             ]);
 			}
@@ -460,7 +466,8 @@ class UsuarioIncidenciasController extends Controller
 			
             return $this->render('createincidencia', [
                 'model' => $model,
-				'nombrenombreaviso' => $destinatario->nick,
+				'aviso'=>true,
+				'nombreaviso' => $destinatario->nick,
             ]);
         }
     }
