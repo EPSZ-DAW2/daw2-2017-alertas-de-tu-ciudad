@@ -142,7 +142,7 @@ class AlertaComentariosController extends Controller
     public function actionAdministrar()
     {
         $searchModel = new AlertaComentariosSearch();
-        $dataProvider = $searchModel->obtenerComentariosPadres("");//Obtienes sólo los datos de los cometarios Raíz
+        $dataProvider = $searchModel->obtenerComentariosPadres(Yii::$app->request->queryParams);//Obtienes sólo los datos de los cometarios Raíz
 
         //Renderiza la vista para la administración de los hilos, la cual sólo contine comentarios padre.
         return $this->render('administrar', [

@@ -52,6 +52,7 @@ AppAsset::register($this);
             //Acceso a los comentarios de las alertas
             ['label' => 'Comentarios', 'url' => ['/alerta-comentarios'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
             ['label' => Yii::t('app', 'Áreas'), 'url' => ['/area'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
+            ['label' => Yii::t('app', 'Alertas por Moderador'), 'url' => ['/area/moderator'], 'visible' => !(Yii::$app->user->isGuest || Yii::$app->user->identity->rol == 'N')],
             //Index Imagenes listas.
             ['label' => Yii::t('app', 'Imágenes'), 'url' => ['/alerta-imagenes'], 'visible'=>(!Yii::$app->user->isGuest and (Yii::$app->user->identity->rol=='A' or Yii::$app->user->identity->rol=='M'))],
             ['label' => Yii::t('app', 'Config'), 'url' => ['/configuraciones'], 'visible'=>(!Yii::$app->user->isGuest and Yii::$app->user->identity->rol=='A') ],

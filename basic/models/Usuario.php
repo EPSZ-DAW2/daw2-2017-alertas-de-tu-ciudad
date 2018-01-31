@@ -3,7 +3,9 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\Alerta;
+use app\models\Area;
+use Yii\Helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%usuarios}}".
@@ -167,5 +169,36 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return new UsuarioQuery(get_called_class());
     }
 	
-	
+
+    // para la parte de areas
+    public function getClaseArea() {
+        return $this->hasOne(Area::className(), ['id' => 'area_id']);
+    }
+
+    public function getAreaClase() {
+        $area = $this->claseArea;
+        return Area::$clases_area[$area->clase_area_id];
+    }
+
+    public function getAreaName() {
+        $area = $this->claseArea;
+        return $area->nombre;
+    }
+
+    public function getAlertasRelacionadas() {
+        return $this->hasMany(Alerta::className(), ['area_id' => 'area_id']);
+    }
+
+    public function getAlertasNames() {
+        $areas = $this->alertasRelacionadas;
+        if ($areas) {
+            return join(ArrayHelper::map($areas, 'id', 'titulo'), ', ');
+        }
+    }
+
+    public function getTotalAlertas() {
+        return $this->hasMany(Alerta::className(), ['area_id' => 'area_id'])->count();
+    }
+
+
 }
