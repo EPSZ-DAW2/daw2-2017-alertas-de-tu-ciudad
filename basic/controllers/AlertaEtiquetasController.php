@@ -23,10 +23,10 @@ class AlertaEtiquetasController extends Controller
         return [
             'access' => [
                 'class' => ControlAcceso::className(),
-                'only' => ['view','create','update','delete'],
+                'only' => ['view','create','update','delete','index','catego','alerquetas'],
                 'rules' => [
                     [
-                        'actions' => ['update','delete'],
+                        'actions' => ['update','delete','index','view'],
                         'allow' => true,
                         'roles' => ['A'],
                     ],
@@ -36,7 +36,7 @@ class AlertaEtiquetasController extends Controller
                         'roles' => ['A','M','N'],
                     ],
                     [
-                        'actions' => ['view','catego','alerquetas'],
+                        'actions' => ['catego','alerquetas'],
                         'allow' => true,
                         'roles' => ['A','M','N','?'],
                     ],

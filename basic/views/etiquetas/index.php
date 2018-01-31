@@ -23,8 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php if (!Yii::$app->user->isGuest) { ?>
         <?= Html::a('Crear Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
 		<?php }//if para que solo usuarios registrados puedan crear?>
+		
+		<?php if (isset(Yii::$app->user->identity->rol) && Yii::$app->user->identity->rol === 'A') {?>
 		  <?= Html::a(Yii::t('app', 'Etiquetas y categorias'), ['/categorias-etiquetas'], ['class' => 'btn btn-success']) ?>
 		  <?= Html::a(Yii::t('app', 'Etiquetas y alertas'), ['/alerta-etiquetas'], ['class' => 'btn btn-success']) ?>
+	<?php }//if?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
