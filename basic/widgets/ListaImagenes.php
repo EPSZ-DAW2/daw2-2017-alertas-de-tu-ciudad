@@ -41,7 +41,7 @@ class ListaImagenes extends Widget
        {
             if(Yii::$app->user->identity->rol === 'A')
                     $admin = 1;
-            else
+            else if(Yii::$app->user->identity->rol === 'N')
             {
                   $modelo_alerta= Alerta::findOne($this->id_alerta);
                  if(isset($modelo_alerta) && $modelo_alerta->crea_usuario_id == Yii::$app->user->getId())

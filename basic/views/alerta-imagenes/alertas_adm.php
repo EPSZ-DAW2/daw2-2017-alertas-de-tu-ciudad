@@ -19,6 +19,7 @@ use yii\widgets\LinkPager;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Imágenes en alertas que puedes administrar');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Alerta Imagenes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="alerta-imagen-index">

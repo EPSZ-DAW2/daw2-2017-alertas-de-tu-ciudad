@@ -99,6 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     else
     {
+                $this->registerJSFile(Url::base(true).'/js/funciones_imagenes.js');
     
     if($opv == 4){ ?>
     <?= GridView::widget([
@@ -133,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         
                         return Html::a(        
                                 '<span '.$color.'class="glyphicon glyphicon-ok"></span>', 
-                                $url);
+                                'javascript:void(0)',['onclick' => 'revisar(\''.$url.'\');']);
                 },
         ],
 ],
@@ -143,6 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); 
         ?>
     <?php } else {?>
+    
     
       <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -170,9 +172,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         if($model->imagen_revisada == 1) 
                             $color='style = "color:green;"';
                         
-                        return Html::a(        
+                          return Html::a(        
                                 '<span '.$color.'class="glyphicon glyphicon-ok"></span>', 
-                                $url);
+                                'javascript:void(0)',['onclick' => 'revisar(\''.$url.'\');']);
                 },
         ],
 ],

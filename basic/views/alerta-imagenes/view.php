@@ -5,7 +5,8 @@ use yii\widgets\DetailView;
 use app\widgets\ImagenUnica; 
 use yii\helpers\Url;
 use app\models\AlertaImagen;
-
+use app\models\Alerta; 
+use app\models\Usuario; 
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaImagen */
 
@@ -14,7 +15,23 @@ $this->title = 'Imagen con la ID: '. $model->id.', perteneciente a la alerta '. 
 //$this->params['breadcrumbs'][] = $this->title;
  $url = Url::previous();
   if(!isset($url))
-     $url= Yii::$app->request->referrer;         
+     $url= Yii::$app->request->referrer;   
+  
+  $modelo_alerta= Alerta::findOne($model->alerta_id);
+  $modelo_user_crea= Usuario::findOne($model->crea_usuario_id);
+  $modelo_user_edita= Usuario::findOne($model->modi_usuario_id);
+  
+  if(isset($modelo_alerta))
+      $titulo_alerta = $modelo_alerta->titulo;
+  else $titulo_alerta = "Sin nombre";
+  
+  if(isset($modelo_user_crea))
+    $nombre_user_crea = $modelo_user_crea->nick.' (ID: '.$model->crea_usuario_id.')';
+  else $nombre_user_crea = "No existe.";
+  
+   if(isset($modelo_user_edita))
+     $nombre_mod_crea = $modelo_user_edita->nick.' (ID: '.$model->modi_usuario_id.')';
+   else $nombre_mod_crea = "Nadie ha modificado esta imagen.";
 ?>
   <?= Html::a(Yii::t('app', 'Volver'), $url, ['class' => 'btn btn-success']) ?>
 <div class="alerta-imagen-view">
@@ -36,13 +53,22 @@ $this->title = 'Imagen con la ID: '. $model->id.', perteneciente a la alerta '. 
         'model' => $model,
         'attributes' => [
             'id',
-            'alerta_id',
+            [                    
+            'label' => 'Alerta:',
+            'value' => $titulo_alerta.' (ID: '.$model->alerta_id.')',
+            ],
             'orden',
             'imagen_id',
             'imagen_revisada',
-            'crea_usuario_id',
+            [                    
+            'label' => 'Usuario que ha subido la imagen:',
+            'value' => $nombre_user_crea,
+            ],
             'crea_fecha',
-            'modi_usuario_id',
+            [                    
+            'label' => 'Usuario que lo ha modificado:',
+            'value' => $nombre_mod_crea,
+            ],
             'modi_fecha',
             'notas_admin:ntext',
             [                    
