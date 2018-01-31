@@ -1,12 +1,10 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsuarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Usuarios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -27,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'email:email',
             //'password',
@@ -46,10 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'bloqueo_usuario_id',
             // 'bloqueo_fecha',
             // 'bloqueo_notas:ntext',
-
            [
 			'class' => 'yii\grid\ActionColumn', 
-			 'template' => ' {view} {update} {delete} {bloquear}',
+			 'template' => ' {view} {update} {delete} {bloquear} {mensaje}',
 			'buttons' => [
 				'bloquear' => function ($url) {
 					return Html::a(
@@ -60,6 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
 							'data-pjax' => '0',
 						]
 					);
+				},
+				
+				'mensaje' => function($url, $model) {     // render your custom button
+                    return Html::a(
+					'<span class="glyphicon glyphicon-envelope"></span>',
+					Yii::t('app', 'usuario-incidencias/createmensaje?id='.$model->id));
 				},
 			],
 			],
