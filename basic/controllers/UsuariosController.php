@@ -52,10 +52,11 @@ class UsuariosController extends Controller
     {
         $searchModel = new UsuarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+		$admin=(Yii::$app->user->identity->rol=='A' || Yii::$app->user->identity->rol=='M');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+			'admin'=>$admin,
         ]);
     }
 
