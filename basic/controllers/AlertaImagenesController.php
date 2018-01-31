@@ -105,9 +105,8 @@ class AlertaImagenesController extends Controller
                 if(!isset($resultado) || $resultado < 1)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No tienen permisos en este área.', Yii::$app->request->referrer, true);
                  
-             }
-                    
-             if($modelo_alerta->crea_usuario_id != $usuario_id)
+             }                 
+             else if($modelo_alerta->crea_usuario_id != $usuario_id)
                  return $this->EnviarMensajeError(new AlertaImagen(), '¡ERROR! No puedes ordenar imagenes de otra persona.', Yii::$app->request->referrer, true);
          }
         

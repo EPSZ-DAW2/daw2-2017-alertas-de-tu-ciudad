@@ -18,9 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+        <?php if(Yii::$app->user->identity->rol === 'A'){?>
         <?= Html::a(Yii::t('app', 'Agregar imágenes'), ['create'], ['class' => 'btn btn-success', 'style' => 
             'height: 70px; text-align: center; vertical-align: middle; line-height: 50px; width: 200px; font-size: 18px;']) ?>
-        
+        <?php }?>
          <?= Html::a(Yii::t('app', 'Revisar imágenes'), ['revisar'], ['class' => 'btn btn-success', 'style' => 
             'height: 70px; text-align: center; vertical-align: middle; line-height: 50px; width: 200px; font-size: 18px;']) ?>  
          

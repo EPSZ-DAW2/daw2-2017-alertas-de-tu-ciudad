@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <div id="contenedor_alertas" style="float:left;">
+    <div id="contenedor_alertas">
         
         <?php   
  
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ?>  
         <a style="text-decoration: none; color: black;" href="<?php echo Url::base(true);?>/alertas/imagenes?id=<?php echo $alerta_model->id;?>&url=<?php echo Url::current()?>">
         <div class = "previsualizador_alerta" style="padding-top: 15px; height: 200px; min-width: 567px; box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23); float: left; position: relative; display: inline-block; margin-right:3px; margin-bottom: 10px; ">
-            <div id="imagen_<?php echo $alerta_model->id;?>" style="float:left; position: absolute;"></div>
+            <div id="imagen_<?php echo $alerta_model->id;?>" style="float:left; position: absolute;"><div style="position:absolute; width:254px; height:164px; background:#d5d5d5; margin-left:16px;"></div></div>
             <div class="parte_derecha" style="float:right; position: absolute; margin-left: 285px;" >
                  <div style="font-size: 22px; font-weight: bold; width: 270px; overflow: hidden; white-space: nowrap;" > <?php echo $alerta_model->titulo;?> </div>
                  <div style="font-size: 13px;  width: 270px; overflow: hidden; height:140px" > <?php echo $alerta_model->descripcion; ?> </div>
@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
         } ?>
         </div>  
+    <div style="clear: both;"></div>
 
   <?php
   echo LinkPager::widget([
