@@ -16,7 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']) ?>
+		<?php if(isset($admin) && $admin==true){
+				echo Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']);
+				}
+		?>
         <?= Html::a('Ver perfil', ['perfil'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
@@ -45,21 +48,21 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'bloqueo_notas:ntext',
 
            [
-    'class' => 'yii\grid\ActionColumn', 
-	 'template' => ' {view} {update} {delete} {bloquear}',
-    'buttons' => [
-        'bloquear' => function ($url) {
-            return Html::a(
-                '<span class="glyphicon glyphicon-ban-circle"></span>',
-                $url, 
-                [
-                    'title' => 'Bloquear',
-                    'data-pjax' => '0',
-                ]
-            );
-        },
-    ],
-	],
+			'class' => 'yii\grid\ActionColumn', 
+			 'template' => ' {view} {update} {delete} {bloquear}',
+			'buttons' => [
+				'bloquear' => function ($url) {
+					return Html::a(
+						'<span class="glyphicon glyphicon-ban-circle"></span>',
+						$url, 
+						[
+							'title' => 'Bloquear',
+							'data-pjax' => '0',
+						]
+					);
+				},
+			],
+			],
         ],
     ]); ?>
 	
