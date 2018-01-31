@@ -192,12 +192,13 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getAlertasNames() {
         $areas = $this->alertasRelacionadas;
         if ($areas) {
-            return join(ArrayHelper::map($areas, 'area_id', 'titulo'), ', ');
+            return join(ArrayHelper::map($areas, 'id', 'titulo'), ', ');
         }
     }
 
     public function getTotalAlertas() {
         return $this->hasMany(Alerta::className(), ['area_id' => 'area_id'])->count();
     }
-    	
+
+
 }

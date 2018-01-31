@@ -162,7 +162,6 @@ class AreaController extends Controller
         return $this->render('moderator', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'clasesArea' => Area::$clases_area,
             'rol' => Yii::$app->user->identity->rol
         ]);
     }
