@@ -163,7 +163,7 @@ class AreaController extends Controller
         $userAreaID = Yii::$app->user->identity->area_id;
         $dataProvider->query->where(['=','area_id', $userAreaID]);
 
-        return $this->render('//alertas/index', [
+        return $this->render('moderator', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
