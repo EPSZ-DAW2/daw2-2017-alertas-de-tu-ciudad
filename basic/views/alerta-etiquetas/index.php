@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php if (isset(Yii::$app->user->identity->rol) && Yii::$app->user->identity->rol === 'A') {$template = '{view} {update} {delete}';}
 			  else{$template='{view}';}//if para que vea los botones del grid quien debe ?>
 		<?php if (!Yii::$app->user->isGuest ) { ?>
-        <?= Html::a('Create Alerta Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Alerta Etiquetas', ['create'], ['class' => 'btn btn-success']) ?>
 		<?php }//if para que solo usuarios registrados puedan crear?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\AlertaEtiquetas */
 
-$this->title = 'Create Alerta Etiquetas';
+$this->title = 'Crear Alerta Etiquetas';
 $this->params['breadcrumbs'][] = ['label' => 'Alerta Etiquetas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
