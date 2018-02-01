@@ -9,7 +9,7 @@ use app\models\Usuario;
 /* @var $searchModel app\models\AreaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Alertas por área del moderador');
+$this->title = Yii::t('app', 'Alertas por área del moderador ('.$areaName.')');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Áreas'), 'url' =>'index'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -162,10 +162,12 @@ class AreaController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $userAreaID = Yii::$app->user->identity->area_id;
         $dataProvider->query->where(['=','area_id', $userAreaID]);
+        $areaName = Yii::$app->user->identity->areaName;
 
         return $this->render('moderator', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'areaName' => $areaName,
         ]);
     }
 }
